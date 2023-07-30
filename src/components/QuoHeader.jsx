@@ -1,0 +1,75 @@
+import SvgLogo from "./SvgLogo"
+import { View, Text, StyleSheet } from "@react-pdf/renderer"
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    fontSize: 8
+  },
+  logoContainer: {
+    width: '65%'
+  },
+  logoText: {
+    fontSize: 30,
+    fontWeight: 'extrabold'
+  },
+  info: {
+    width: '35%',
+    borderTop: 2,
+    borderBottom: 2,
+    padding: 5,
+  },
+
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+
+  },
+
+  left: {
+    width: '10%'
+  },
+  center: {
+    width: '2%'
+  },
+  right: {
+    width: '88%',
+    textAlign: 'right'
+  },
+})
+export default function QuoHeader() {
+  return (
+
+    <View style={styles.header}>
+      <View style={styles.logoContainer}>
+        <SvgLogo />
+      </View>
+      <View style={styles.info}>
+        <Text style={{textAlign: 'center'}}>Av. Argentina 538 - Lima - Lima</Text>
+        <View style={styles.row}>
+          <Text style={styles.left}>Ruc</Text>
+          <Text style={styles.center}>:</Text>
+          <Text style={styles.right}>2061055553610</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.left}>Email</Text>
+          <Text style={styles.center}>:</Text>
+          <Text style={styles.right}>ventas@tellsenales.com</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.left}>Web</Text>
+          <Text style={styles.center}>:</Text>
+          <Text style={styles.right}>tellsenales.com</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.left}>Tel</Text>
+          <Text style={styles.center}>:</Text>
+          <Text style={styles.right}>971 531 018</Text>
+        </View>
+      </View>
+    </View>
+  )
+}

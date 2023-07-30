@@ -1,31 +1,35 @@
 import { create } from "zustand";
-import quotationsJson from '../data/quotations.json'
+import { quosData} from '../data/quotations'
 
-const addQuotation = (quotations, newQuotation) => {
+function addQuotation(quotations, newQuotation) {
   return [...quotations, createQuotation(newQuotation)]
 }
 
-const createQuotation = (quotationInfo) => {
+function updateQuo(quotations, quoToUpdate) {
+  return quotations.map(quo => quo.id === quoToUpdate.id ? quoToUpdate : quo)
+}
+
+function createQuotation(quotationInfo) {
   const id = crypto.randomUUID()
 
   return {
     ...quotationInfo,
-    customerId: id
+    id
   }
 
 }
 
-// const addQuotation = (newQuotation, set) => {
-//   return set(state => {
-//     return {
-//       quotations: [...state.quotations, createQuotation(newQuotation)],
-//     }
-//   })
-// }
-
 
 export const useQuotationStore = create(set => ({
-  quotations: quotationsJson,
+  quotations: quosData,
+  openCreateQuo: false,
+  openPrintQuo: false,
+  quoToEdit: null,
+  togglePrintQuo: () => set(state => ({...state, openPrintQuo: !state.openPrintQuo})),
+  updateQuoToEdit: (quoToEdit) => set(state => ({...state, quoToEdit})),
+  closeCreateQuo: () => set(state => ({ ...state, openCreateQuo: false })),
+  toggleCreateQuo: () => set(state => ({ ...state, openCreateQuo: !state.openCreateQuo })),
+  updateQuo: (quoToUpate) => set(state => ({ ...state, quotations: updateQuo(state.quotations, quoToUpate)})) ,
   addQuotation: (newQuotation) => set(state => {
     return {
       quotations: addQuotation(state.quotations, newQuotation)

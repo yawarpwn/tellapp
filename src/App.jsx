@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import Header from './components/Header'
+import QuotationPrint from './components/QuotationPrint'
 import { CreateQuotation } from './components/CreateQuotation'
 import { useQuotationStore } from './store/quotation'
 
@@ -7,19 +7,14 @@ import { useQuotationStore } from './store/quotation'
 import ChevronDownIcon from './icons/ChevronDownIcon'
 import AddButton from './components/AddButton'
 
-import  QuotationList  from './components/QuotationList'
+import QuotationList from './components/QuotationList'
 
 function App() {
-  const quotations = useQuotationStore(state => state.quotations)
-  const [openQuote, setOpenQuote] = useState(false)
-
-  const handleClose = () => {
-    setOpenQuote(false)
+  const store = useQuotationStore()
+  const handleQuotationToggle = () => {
+    store.updateQuoToEdit(null)
+    store.toggleCreateQuo()
   }
-  const toggleQuote = () => {
-    setOpenQuote(!openQuote)
-  }
-
   return (
     <div className='min-h-screen'>
       <Header />
@@ -27,20 +22,24 @@ function App() {
         <header className='flex items-center justify-between'>
           <div>
             <h2 className='text-2xl font-bold'>Cotización</h2>
-            <p className='text-sm'>Hay un total de 20 Cotizaciones.</p>
+            <p className='text-sm'>Hay un total de {store.quotations.length} Cotizaciones.</p>
           </div>
           <div className='flex items-center gap-x-4'>
             <div className='flex gap-x-2'>
               <p>Filter by status</p>
               <ChevronDownIcon />
             </div>
-            <AddButton onClick={toggleQuote}>Agregar</AddButton>
+            <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
           </div>
         </header>
-          <QuotationList quotations={quotations} />
+        <QuotationList quotations={store.quotations} />
       </div>
-      {openQuote &&
-        <CreateQuotation onClose={handleClose} />
+      {store.openCreateQuo &&
+        <CreateQuotation />
+      }
+      {
+        store.openPrintQuo &&
+        <QuotationPrint />
       }
     </div>
   )

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   }
 })
 export default function QuoTotal({ items}) {
-  const {total, subTotal, igv} = getIgv(items.map(item => item.rate))
+  const {total, subTotal, igv} = getIgv(items)
   return (
     <View style={styles.container}>
       <View style={styles.content}>

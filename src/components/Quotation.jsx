@@ -1,36 +1,9 @@
 import { getIgv } from "../utils/numbers"
 export default function Quotation({ quotation }) {
-  const {total, subTotal, igv} = getIgv(quotation.items.map(item => item.rate))
-
-
+  const { total, subTotal, igv } = getIgv(quotation.items)
   return (
 
     <div>
-      <header className='flex justify-between'>
-        <span className='text-5xl font-extrabold'>TELL SENALES LOGO</span>
-        <div className='border-b-2 border-b-black border-t-2 border-t-black py-4'>
-          <p>Av. Argentina 538 - Int 1160 - Lima - Lima</p>
-          <p>
-            <span>RUC:</span>
-            <span>20610555536</span>
-          </p>
-
-          <p>
-            <span>EMAIL:</span>
-            <span>ventas@tellsenales.com</span>
-          </p>
-
-          <p>
-            <span>WEB:</span>
-            <span>tellsenales.com</span>
-          </p>
-          <p>
-            <span>TEL:</span>
-            <span>971 531 018</span>
-          </p>
-        </div>
-      </header>
-
       {/* INfo */}
       <div className='flex justify-between'>
         <div>
@@ -87,14 +60,14 @@ export default function Quotation({ quotation }) {
           </tr>
         </thead>
         <tbody className='border-b-black border-b-2'>
-          {quotation.items.map(({ no, desc, qty, rate, size }) => {
+          {quotation.items.map(({ id, desc, qty, rate, size }, index) => {
             return (
-              <tr key={no}>
-                <td>{no}</td>
+              <tr key={id}>
+                <td>{index + 1}</td>
                 <td>{desc}</td>
                 <td>{size}</td>
                 <td>{qty}</td>
-                <td>{rate}</td>
+                <td>{(rate / 1.18).toFixed(2)}</td>
                 <td>{(rate * qty).toFixed(2)}</td>
               </tr>
             )
@@ -156,28 +129,6 @@ export default function Quotation({ quotation }) {
           <span>15 días </span>
         </p>
       </div>
-
-      {/* <footer> */}
-      {/*   <div className='border-b-black border-t-black border-b-2 border-t-2'>&quot;SIRVASE A ABONAR EN NUESTRAS CUENTAS: TELL SENALES SOCIENDAD ANONIMA CERRADA&quot;</div> */}
-      {/*   <table className='w-full'> */}
-      {/*     <thead> */}
-      {/*       <tr> */}
-      {/*         <th>BANCO</th> */}
-      {/*         <th>MONEDA</th> */}
-      {/*         <th>CUENTA</th> */}
-      {/*         <th>CCI</th> */}
-      {/*       </tr> */}
-      {/*     </thead> */}
-      {/*     <tbody> */}
-      {/*       <tr> */}
-      {/*         <td>Banco de Crédito del Perú (BCP)</td> */}
-      {/*         <td>Soles</td> */}
-      {/*         <td>19276743336019</td> */}
-      {/*         <td>00219217674333601938</td> */}
-      {/*       </tr> */}
-      {/*     </tbody> */}
-      {/*   </table> */}
-      {/* </footer> */}
     </div>
   )
 }

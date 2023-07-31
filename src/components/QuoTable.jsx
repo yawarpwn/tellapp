@@ -70,11 +70,12 @@ export default function Table({ items }) {
         <Text style={styles.price}>P. UNIT</Text>
         <Text style={styles.total}>MONTO</Text>
       </View>
-      {items.map(({ no, desc, rate, size, qty }, index) => {
+      {items.map(({ id, desc, rate, size, qty }, index) => {
+        console.log({id, desc, rate, size, qty})
         const isOdd = index % 2 !== 0
         return (
-          <View key={no} style={{ ...styles.tableItems, backgroundColor: isOdd ? '#EEE' : '#fff' }}>
-            <Text style={styles.item}>{no}</Text>
+          <View key={id} style={{ ...styles.tableItems, backgroundColor: isOdd ? '#EEE' : '#fff' }}>
+            <Text style={styles.item}>{index + 1}</Text>
             <Text style={styles.desc}>{desc}</Text>
             <Text style={styles.size}>{size}</Text>
             <Text style={styles.amount}>{qty}</Text>

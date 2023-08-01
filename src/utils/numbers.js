@@ -2,7 +2,6 @@ export function getIgv(arraOfNumbers) {
 
   const calcTotal = arraOfNumbers.reduce((acc, curr) => {
     const result = acc += (curr.rate * curr.qty)
-    console.log({result})
     return result
   }, 0)
 

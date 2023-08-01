@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
 
 
 export default function Table({ items }) {
+  console.log({items})
   return (
     <View style={styles.tableContainer}>
       <View style={styles.tableHeader} >
@@ -71,7 +72,6 @@ export default function Table({ items }) {
         <Text style={styles.total}>MONTO</Text>
       </View>
       {items.map(({ id, desc, rate, size, qty }, index) => {
-        console.log({id, desc, rate, size, qty})
         const isOdd = index % 2 !== 0
         return (
           <View key={id} style={{ ...styles.tableItems, backgroundColor: isOdd ? '#EEE' : '#fff' }}>

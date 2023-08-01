@@ -18,18 +18,22 @@ function App() {
   return (
     <div className='min-h-screen'>
       <Header />
-      <div className='max-w-3xl px-4 mt-4 mx-auto'>
-        <header className='flex items-center justify-between'>
-          <div>
-            <h2 className='text-2xl font-bold'>Cotización</h2>
-            <p className='text-sm'>Hay un total de {store.quotations.length} Cotizaciones.</p>
-          </div>
-          <div className='flex items-center gap-x-4'>
-            <div className='flex gap-x-2'>
-              <p>Filter by status</p>
-              <ChevronDownIcon />
+      <div className='max-w-sm px-4 mt-4 mx-auto'>
+        <header className=''>
+          <div className='flex items-center justify-between mb-4'>
+            <div>
+              <h2 className='text-3xl font-extrabold'>Cotización</h2>
+              <p className='text-sm'>Hay un total de {store.quotations.length} Cotizaciones.</p>
             </div>
-            <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
+            <div className='flex items-center gap-x-4'>
+              <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
+            </div>
+          </div>
+          <div className='flex gap-x-2 justify-between'>
+            <button className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 1</button>
+            <button className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 2</button>
+            <button className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 3</button>
+            <button className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 4</button>
           </div>
         </header>
         <QuotationList quotations={store.quotations} />

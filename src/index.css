@@ -5,10 +5,10 @@
 @layer components {
 
   .quotation-input {
-    @apply border py-2 px-2 rounded-lg focus:outline-purple-500 ; 
+    @apply border py-3 px-3 rounded-lg focus:outline-purple-500 ; 
   }
   .quotation-label {
-    @apply font-light text-gray-400;
+    @apply absolute -top-3 left-1 bg-white py-1 px-2 text-xs font-light text-gray-400;
   }
 }
 

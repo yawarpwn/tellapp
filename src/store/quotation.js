@@ -6,7 +6,6 @@ function addQuotation(quotations, newQuotation) {
 }
 
 function updateQuo(quotations, quoToUpdate) {
-  console.log({quotations, quoToUpdate})
   return quotations.map(quo => quo.id === quoToUpdate.id ? quoToUpdate : quo)
 }
 

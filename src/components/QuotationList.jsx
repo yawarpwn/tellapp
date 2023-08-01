@@ -1,11 +1,12 @@
-import ChevronRightIcon from '../icons/ChevronRightIcon'
 import PrinterIcon from '../icons/PrinterIcon'
 import EditIcon from '../icons/EditIcon'
 import { useQuotationStore } from '../store/quotation'
+import { getIgv } from '../utils/numbers'
 
 function QuotationCard({ quotation }) {
   const { company, quoNumber } = quotation
   const store = useQuotationStore()
+  const { total } = getIgv(quotation.items)
 
   const handleEditQuo = (id) => {
     const quoToEdit = store.quotations.find(quo => quo.id === id)
@@ -19,20 +20,19 @@ function QuotationCard({ quotation }) {
     store.togglePrintQuo()
   }
   return (
-    <li className="px-6 py-6 bg-white text-gray-500 shadow-md rounded-lg border hover:border-purple-500 flex gap-x-4 items-center justify-between font-light">
+    <li className="px-4 py-4 bg-white text-gray-500 shadow-md rounded-lg border hover:border-purple-500 flex gap-x-2 items-center justify-between font-light">
       <div>
         <span className='text-purple-500'>#</span>
         <span className='font-semi-bold'>{quoNumber}</span>
       </div>
       <div className='flex-1'>
-        <span >
-          {company}
-        </span>
+        <p>{company}</p>
+        <div className='text-purple-500 flex justify-between'>
+          <span>Items: {quotation.items.length}</span>
+          <span>S/{total}</span>
+        </div>
       </div>
-      <div>
-        <span>Total: S/ 800.00</span>
-      </div>
-      <div className='flex items-center gap-x-2'>
+      <div className='flex flex-col justify-between items-center gap-x-2'>
         <button onClick={() => handleEditQuo(quotation.id)}>
           <EditIcon
           />
@@ -47,7 +47,7 @@ function QuotationCard({ quotation }) {
 
 export default function QuotationList({ quotations }) {
   return (
-    <ul className="mt-10 gap-y-2 flex flex-col">
+    <ul className="mt-6 gap-y-2 flex flex-col">
       {quotations.map((quotation) => {
         return (
           <QuotationCard key={quotation.id} quotation={quotation} />

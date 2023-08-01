@@ -17,6 +17,10 @@ export default function Quotation({ quotation }) {
           </p>
           <p>
             <span> Tel:</span>
+            <span>{quotation.address}</span>
+          </p>
+          <p>
+            <span> Tel:</span>
             <span>{quotation.phone}</span>
           </p>
         </div>

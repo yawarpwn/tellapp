@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-pdf/renderer": "^3.1.12",
     "framer-motion": "10.13.1",
+    "fuse.js": "^6.6.2",
     "html2canvas": "1.4.1",
     "html2pdf.js": "^0.10.1",
     "jspdf": "2.5.1",

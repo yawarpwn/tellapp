@@ -1,20 +1,20 @@
 import Header from './components/Header'
-import QuotationPrint from './components/QuotationPrint'
-import { CreateQuotation } from './components/CreateQuotation'
+import ViewPDF from './components/ViewPDF'
+import CreateQuotation from './components/CreateQuotation'
 import { useQuotationStore } from './store/quotation'
 
-//Components
-import ChevronDownIcon from './icons/ChevronDownIcon'
 import AddButton from './components/AddButton'
 
 import QuotationList from './components/QuotationList'
 
 function App() {
   const store = useQuotationStore()
+
   const handleQuotationToggle = () => {
     store.updateQuoToEdit(null)
     store.toggleCreateQuo()
   }
+
   return (
     <div className='min-h-screen'>
       <Header />
@@ -40,10 +40,6 @@ function App() {
       </div>
       {store.openCreateQuo &&
         <CreateQuotation />
-      }
-      {
-        store.openPrintQuo &&
-        <QuotationPrint />
       }
     </div>
   )

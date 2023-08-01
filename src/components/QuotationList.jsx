@@ -4,13 +4,13 @@ import { useQuotationStore } from '../store/quotation'
 import { getIgv } from '../utils/numbers'
 import PDFGenerator from './PDFGenerator';
 import { usePDF } from '@react-pdf/renderer';
+import { useEffect } from 'react';
 
 function QuotationCard({ quotation }) {
-  console.log(quotation)
   const { company, quoNumber } = quotation
   const store = useQuotationStore()
   const { total } = getIgv(quotation.items)
-  const [instance] = usePDF({ document: <PDFGenerator quotation={quotation} /> })
+  const [instance, setInstance] = usePDF({ document: <PDFGenerator quotation={quotation} /> })
 
   const handleEditQuo = (id) => {
     const quoToEdit = store.quotations.find(quo => quo.id === id)
@@ -18,8 +18,14 @@ function QuotationCard({ quotation }) {
     store.toggleCreateQuo()
   }
 
+
+  useEffect(() => {
+    setInstance(<PDFGenerator quotation={quotation} />)
+  }, [quotation])
+
   return (
-    <li className="px-4 py-4 bg-white text-gray-500 shadow-md rounded-lg border hover:border-purple-500 flex gap-x-2 items-center justify-between font-light">
+    <li
+      className="px-4 cursor-pointer py-4 bg-white text-gray-500 shadow-md rounded-lg border hover:border-purple-500 flex gap-x-2 items-center justify-between font-light">
       <div>
         <span className='text-purple-500'>#</span>
         <span className='font-semi-bold'>{quoNumber}</span>
@@ -31,10 +37,12 @@ function QuotationCard({ quotation }) {
           <span>S/{total}</span>
         </div>
       </div>
-      <div className='flex flex-col justify-between items-center gap-x-2'>
-        <button onClick={() => handleEditQuo(quotation.id)}>
-          <EditIcon
-          />
+      <div className='flex flex-col justify-between items-center gap-2'>
+        <button
+          onClick={() => handleEditQuo(quotation.id)}
+          type='button'
+        >
+          <EditIcon />
         </button>
         <a href={instance.url} download={`COT-2023-00${quotation.quoNumber}.pdf`} >
           <PrinterIcon />

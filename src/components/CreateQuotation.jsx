@@ -1,14 +1,12 @@
-import { useState } from "react"
+import { useState, memo } from "react"
 import { useQuotationStore } from "../store/quotation"
 import { falseFetch } from "../utils/false-fetch"
 import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
 import ModalCreateItem from "./ModalCreateItem"
 
-export function CreateQuotation() {
+function CreateQuotation() {
   const store = useQuotationStore()
-
-
   const getQuoNumber = () => {
     const lastQuo = store.quotations.at(-1)
     return lastQuo.quoNumber + 1
@@ -47,10 +45,6 @@ export function CreateQuotation() {
     setEditingItem(null)
   }
 
-  const handleOpenItemModal = () => {
-    store.updateQuoToEdit(null)
-    setOpenModal(true)
-  }
 
   const handleClose = () => {
     store.closeCreateQuo()
@@ -74,13 +68,12 @@ export function CreateQuotation() {
       quoNumber,
       date,
       ruc,
-      items
+      items,
+      phone
     }
     if (store.quoToEdit) {
-      console.log('quo update....')
-      store.updateQuo({ ...store.quoToEdit, company, address, quoNumber, date, ruc, items })
+      store.updateQuo({ ...store.quoToEdit, company, address, quoNumber, date, phone, ruc, items })
     } else {
-      console.log('quo create...')
       store.addQuotation(quoData)
     }
     handleClose()
@@ -104,18 +97,19 @@ export function CreateQuotation() {
 
   const handleBlur = () => {
     if (ruc.length === 11) {
-      getRuc(ruc)
-      .then(res => res.json())
-      .then(data => {
-          setCompany(data.nombre_o_razon_social)
-          setAddress(data.direccion_simple)
-        })
-      .catch(err => console.log(err))
-      // falseFetch()
-      //   .then(data => {
+      // getRuc(ruc)
+      // .then(res => res.json())
+      // .then(data => {
       //     setCompany(data.nombre_o_razon_social)
       //     setAddress(data.direccion_simple)
       //   })
+      // .catch(err => console.log(err))
+
+      falseFetch()
+        .then(data => {
+          setCompany(data.nombre_o_razon_social)
+          setAddress(data.direccion_simple)
+        })
     }
 
   }
@@ -133,7 +127,7 @@ export function CreateQuotation() {
       className="fixed z-50 top-0 left-0 right-0 bottom-0 bg-[#000005be] ">
       <div className="h-screen relative  max-w-sm bg-white p-2">
         <form className="h-full" onSubmit={handleSubmit}>
-          <div className="wrapper overflow-y-auto h-full pt-4 pb-20  border-black  ">
+          <div className="wrapper overflow-y-auto  pt-4 pb-10  border-black  ">
             {/* Child */}
             <div>
               <div className="grid grid-cols-2 gap-2">
@@ -192,7 +186,7 @@ export function CreateQuotation() {
                   </label>
                   <input
                     name="ruc"
-                    type="text"
+                    type="number"
                     onChange={event => setRuc(event.target.value)}
                     onBlur={handleBlur}
                     value={ruc}
@@ -210,7 +204,7 @@ export function CreateQuotation() {
                   <input
                     name="phone"
                     type="tel"
-                    onChange={event => setPhone(Number(event.target.value))}
+                    onChange={event => setPhone(event.target.value)}
                     maxLength={9}
                     minLength={9}
                     value={phone}
@@ -232,13 +226,12 @@ export function CreateQuotation() {
               </button>
             </div>
           </div>
-          <div className="flex justify-between py-4 absolute bottom-0 right-0 h-20 left-0 px-4 bg-white">
+          <div className="flex justify-between h-10  px-4 bg-white">
             <button type="button" onClick={handleClose} className="bg-purple-500 text-white px-4 py-2 rounded-lg">cancel</button>
             <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded-lg" >{store.quoToEdit === null ? 'Guardar' : 'Actualizar'}</button>
           </div>
         </form>
         {openModal && (
-
           <ModalCreateItem
             onClose={handleCloseItemModal}
             addProduct={addProduct}
@@ -251,3 +244,5 @@ export function CreateQuotation() {
     </aside>
   )
 }
+
+export default memo(CreateQuotation)

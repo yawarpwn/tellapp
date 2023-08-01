@@ -1,7 +1,7 @@
 export const quosData = [
   {
     id: "5df3180a09ea16dc4b95f910",
-    quoNumber: 3022,
+    quoNumber: 4000,
     company: "Proquinsa Productos Quimicos Industriales S.A",
     email: "proquinsaquimicos@mantrix.com",
     phone: "971 531 018",
@@ -12,22 +12,22 @@ export const quosData = [
       {
         id: 'afadl323',
         desc: "Senal fotoluminiscente con soporte pvc celtex 3mm",
-        qty: 5,
+        qty: 200,
         rate: 7.50,
         size: '20x30cm'
       },
       {
         id: 'afaz232',
         desc: "senal vinil con soporte pvc celtex 3mm ",
-        qty: 105,
-        rate: 10.00,
+        qty: 155,
+        rate: 5,
         size: '30x40cm'
       },
     ],
   },
   {
     id: "5df3180adfea16dc4b95f910",
-    quoNumber: 3023,
+    quoNumber: 4001,
     company: "Packing S.A.",
     email: "proquinsaquimicos@mantrix.com",
     phone: "971 531 018",
@@ -37,16 +37,16 @@ export const quosData = [
     items: [
       {
         id: 'zzswew23',
-        desc: "senal preventiva fibra de vidrio 4mm ",
-        qty: 5,
-        rate: 135.00,
+        desc: "senal preventiva con lamina reflectiva hip   soporte fibra de vidrio 4mm ",
+        qty: 10,
+        rate: 135,
         size: '60x60cm'
       },
       {
         id: 'wiu0233',
-        desc: "senal infromativa con soporte compuesto de aluminio 4mm",
+        desc: "senal infromativa con lamina reflectiva hip  soporte compuesto de aluminio 4mm",
         qty: 5,
-        rate: 170.00,
+        rate: 170,
         size: '90x30cm'
       },
     ],

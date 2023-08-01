@@ -20,10 +20,9 @@ const styles = StyleSheet.create({
 });
 
 const PDFGenerator = ({quotation}) => {
-  console.log({quotation})
   return (
-    <Document >
-      <Page size="A4" style={styles.page}>
+    <Document title={`Cotización-${quotation.quoNumber}`} >
+      <Page size='A4' style={styles.page}>
         <QuoHeader />
         <QuoCustomer quotation={quotation} />
         <QuoTable items={quotation.items} />
@@ -35,5 +34,5 @@ const PDFGenerator = ({quotation}) => {
   );
 };
 
-export default PDFGenerator;
+export default React.memo(PDFGenerator);
 

@@ -1,10 +1,12 @@
-import { useState } from "react"
+import { useState, useEffect, memo } from "react"
+import { searchProduct } from "../services/search"
 
-export default function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
+function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   const [product, setProduct] = useState(editingItem?.desc ?? '')
   const [qty, setQty] = useState(editingItem?.qty ?? '')
   const [size, setSize] = useState(editingItem?.size ?? '')
   const [price, setPrice] = useState(editingItem?.rate ?? '')
+  const [results, setResults] = useState([])
 
   const handleSubmit = (ev) => {
     ev.preventDefault()
@@ -25,6 +27,17 @@ export default function ModalCreateItem({ onClose, addProduct, onSaveEdit, editi
     onClose()
   }
 
+  useEffect(() => {
+    const resultProducts = searchProduct(product)
+    setResults(resultProducts)
+  }, [product])
+
+  const handleChange = (event) => {
+    const { value } = event.target
+    setProduct(value)
+  }
+
+
   return (
 
     <div className="fixed h-screen top-0 left-0 right-0 z-50 bg-black/80 flex items-center justify-center" onClick={event => {
@@ -33,59 +46,78 @@ export default function ModalCreateItem({ onClose, addProduct, onSaveEdit, editi
       }
       onClose()
     }}>
-      <div className="bg-white max-w-sm rounded-lg shadow-lg ">
-        <form className="p-8" onSubmit={handleSubmit}>
-          <div className="relative mb-4">
+      <div className="bg-white w-full max-w-xs rounded-lg shadow-lg ">
+        <form className="px-4 py-6 grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
+          <div className="relative col-span-2">
             <label className="quotation-label">
               producto
             </label>
             <input
               name='product'
+              type="text"
               value={product}
-              onChange={ev => setProduct(ev.target.value)}
+              onChange={handleChange}
               className="quotation-input"
               placeholder="Senal fotoluminiscente con base celtex 3mm" />
           </div>
-          <div className="relative mb-4">
+          <div className="col-span-2">
+            <h2 className="font-bold text-lg">Sugerencias:</h2>
+          </div>
+          <div className="col-span-2 max-h-80 overflow-y-auto">
+            <ul className="result flex flex-col gap-1">
+              {results.map(res => {
+                return (
+                  <li key={res.code}
+                    className="text-gray-800 bg-gray-200 hover:bg-gray-300 p-2 rounded-lg text-xs"
+                    onClick={() => setProduct(res.name)}
+                  >
+                    {res.name}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+          <div className="relative col-span-2">
             <label className="quotation-label">
               U/M
             </label>
             <input
               name='size'
+              type="text"
               className="quotation-input"
               placeholder="60x60cm"
               value={size}
               onChange={ev => setSize(ev.target.value)}
             />
           </div>
-          <div className="flex items-center  mb-4">
-            <div className="relative w-1/2">
-              <label className="quotation-label">
-                Precio
-              </label>
-              <input
-                value={price}
-                onChange={ev => setPrice(Number(ev.target.value))}
-                name='price'
-                className="quotation-input w-20"
-                placeholder="100.00" />
-            </div>
-
-            <div className="relative">
-              <label name='qty' className="quotation-label">
-                Cantidad
-              </label>
-              <input
-                className="quotation-input w-20"
-                placeholder="10"
-                value={qty}
-                onChange={ev => setQty(Number(ev.target.value))}
-              />
-            </div>
+          <div className="relative">
+            <label className="quotation-label">
+              Precio
+            </label>
+            <input
+              value={price}
+              onChange={ev => setPrice(Number(ev.target.value))}
+              name='price'
+              className="quotation-input"
+              type="number"
+              placeholder="100.00" />
           </div>
-          <div className="flex justify-between items-center">
-            <button className="border border-black px-4 py-2 rounded-lg" type="submit">+Agregar</button>
-            <button className="border border-black px-4 py-2 rounded-lg" type="button" onClick={onClose}>Cancelar</button>
+
+          <div className="relative">
+            <label name='qty' className="quotation-label">
+              Cantidad
+            </label>
+            <input
+              className="quotation-input"
+              type="number"
+              placeholder="10"
+              value={qty}
+              onChange={ev => setQty(Number(ev.target.value))}
+            />
+          </div>
+          <div className="flex justify-between items-center col-span-2">
+            <button className="border border-black hover:bg-black hover:text-white px-4 py-2 rounded-lg" type="submit">{editingItem ? 'Actualizar' : '+Agregar'}</button>
+            <button className="border border-black  hover:bg-black hover:text-white  px-4 py-2 rounded-lg" type="button" onClick={onClose}>Cancelar</button>
           </div>
         </form>
       </div>
@@ -93,3 +125,5 @@ export default function ModalCreateItem({ onClose, addProduct, onSaveEdit, editi
 
   )
 }
+
+export default memo(ModalCreateItem)

@@ -60,7 +60,10 @@ const styles = StyleSheet.create({
 
 
 export default function Table({ items }) {
-  console.log({items})
+  const roundedNumber = (number) => {
+    const rounded = Math.round((number / 1.18) * 100) / 100
+    return rounded.toFixed(2)
+  }
   return (
     <View style={styles.tableContainer}>
       <View style={styles.tableHeader} >

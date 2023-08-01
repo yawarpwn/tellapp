@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   }
 })
 export default function QuoCustomer({quotation}) {
-  const { company, ruc, phone, quoNumber, date } = quotation
+  const { company, ruc, phone, quoNumber = 0, date } = quotation
   return (
 
     <View style={styles.container}>

@@ -1,10 +1,13 @@
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { useQuotationStore } from "../store/quotation"
-import TrashIcon from '../icons/TrashIcon'
 import { falseFetch } from "../utils/false-fetch"
+import { getRuc } from "../services/sunat"
+import ItemsList from "./ItemsList"
+import ModalCreateItem from "./ModalCreateItem"
 
 export function CreateQuotation() {
   const store = useQuotationStore()
+
 
   const getQuoNumber = () => {
     const lastQuo = store.quotations.at(-1)
@@ -30,9 +33,36 @@ export function CreateQuotation() {
   const [quoNumber, setQuoNumber] = useState(store.quoToEdit?.quoNumber ?? getQuoNumber())
   const [items, setItems] = useState(store.quoToEdit?.items ?? [])
 
-  const handleClose = () => {
+  //Editing logic
+  const [editingItem, setEditingItem] = useState(null)
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleEditingItem = (item) => {
+    setOpenModal(true)
+    setEditingItem(item)
+  }
+
+  const handleCloseItemModal = () => {
+    setOpenModal(false)
+    setEditingItem(null)
+  }
+
+  const handleOpenItemModal = () => {
     store.updateQuoToEdit(null)
+    setOpenModal(true)
+  }
+
+  const handleClose = () => {
     store.closeCreateQuo()
+  }
+
+  const handleoSaveEdit = (editedProduct) => {
+    const updatedItems = items.map((item) =>
+      item.id === editingItem.id ? { ...item, ...editedProduct } : item
+    );
+    setItems(updatedItems);
+    setEditingItem(null); // Limpia el es
+
   }
 
   const handleSubmit = (event) => {
@@ -58,14 +88,11 @@ export function CreateQuotation() {
   }
 
 
-  const addProduct = () => {
+  const addProduct = (product) => {
     setItems(prev => ([
       ...prev, {
         id: crypto.randomUUID(),
-        qty: 1,
-        desc: '',
-        size: 'und',
-        rate: 10
+        ...product
       }
     ]))
   }
@@ -74,40 +101,34 @@ export function CreateQuotation() {
     setItems(items.filter((item) => item.id !== id))
   }
 
-  const handleChange = (event, index) => {
-    const type = event.target.getAttribute('type')
-    const { name, value } = event.target
-    const newItems = [...items]
-    if (type === 'number') {
-      newItems[index][name] = Number(value)
-    } else {
-      newItems[index][name] = value
-    }
-    setItems(newItems)
-  }
 
   const handleBlur = () => {
     if (ruc.length === 11) {
-      console.log('true')
-      falseFetch()
-        .then(data => {
+      getRuc(ruc)
+      .then(res => res.json())
+      .then(data => {
           setCompany(data.nombre_o_razon_social)
           setAddress(data.direccion_simple)
         })
+      .catch(err => console.log(err))
+      // falseFetch()
+      //   .then(data => {
+      //     setCompany(data.nombre_o_razon_social)
+      //     setAddress(data.direccion_simple)
+      //   })
     }
 
-    console.log(ruc.length)
-    console.log('false')
-
   }
+
 
 
   return (
     <aside
       onClick={e => {
-        if (e.target === e.currentTarget) {
-          handleClose()
+        if (e.target !== e.currentTarget) {
+          return
         }
+        handleClose()
       }}
       className="fixed z-50 top-0 left-0 right-0 bottom-0 bg-[#000005be] ">
       <div className="h-screen relative  max-w-sm bg-white p-2">
@@ -200,81 +221,32 @@ export function CreateQuotation() {
             </div>
 
 
-            {/* Item List */}
             <div className="w-full flex flex-col gap-y-6 mt-4 ">
-              <div className="flex justify-between">
-                <span>Item</span>
-                <span>Size</span>
-                <span>Precio</span>
-                <span>Qty</span>
-                <span>Total</span>
-              </div>
-              {
-                items.map((item, index) => {
-                  return (
-                    <div key={item.id} className="border-l-[4px] border-l-purple-500">
-                      <div className="pl-2">
-                        <div className="flex  items-center gap-x-4">
-                          <div className="flex flex-col relative mb-4">
-                            <input
-                              name="desc" value={item.desc}
-                              required
-                              onChange={(event) => handleChange(event, index)}
-                              className="quotation-input"
-                              placeholder="Señal fotoluminiscente con soporte pvc celtex 3mm" />
-                          </div>
-                          <div className="flex flex-col relative ">
-                            <input
-                              name="rate"
-                              value={item.rate}
-                              required
-                              step='0.5'
-                              onChange={(event) => handleChange(event, index)}
-                              type="number"
-                              className="quotation-input w-16"
-                              placeholder="20" />
-                          </div>
-                          <div className="flex flex-col  relative">
-                            <input
-                              name="qty"
-                              type="number"
-                              required
-                              onChange={(event) => handleChange(event, index)}
-                              value={item.qty}
-                              className="quotation-input w-16"
-                              placeholder="20" />
-                          </div>
-
-                          <div className="flex flex-col relative ">
-                            <input
-                              required
-                              name="size"
-                              type="text"
-                              onChange={(event) => handleChange(event, index)}
-                              value={item.size} className="quotation-input w-24"
-                              placeholder="60x60cm" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                  )
-                })
-              }
-
+              <ItemsList items={items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />
               <button
-                className=' bg-gray-200  hover:opacity-80 mx-auto py-2 items-center  justify-center rounded-xl  w-full mt-6'
-                onClick={addProduct}
-              >Agregar producto</button>
-              <div className=' flex  justify-between'>
-              </div>
+                type="button"
+                className=' bg-gray-200 hover:opacity-80 mx-auto py-2 items-center  justify-center rounded-xl  w-full mt-6'
+                onClick={() => setOpenModal(!openModal)}
+              >
+                + Agregar producto
+              </button>
             </div>
           </div>
           <div className="flex justify-between py-4 absolute bottom-0 right-0 h-20 left-0 px-4 bg-white">
-            <button onClick={handleClose} className="bg-purple-500 text-white px-4 py-2 rounded-lg">cancel</button>
+            <button type="button" onClick={handleClose} className="bg-purple-500 text-white px-4 py-2 rounded-lg">cancel</button>
             <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded-lg" >{store.quoToEdit === null ? 'Guardar' : 'Actualizar'}</button>
           </div>
         </form>
+        {openModal && (
+
+          <ModalCreateItem
+            onClose={handleCloseItemModal}
+            addProduct={addProduct}
+            editingItem={editingItem}
+            onSaveEdit={handleoSaveEdit}
+          />
+        )
+        }
       </div>
     </aside>
   )

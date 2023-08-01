@@ -2,11 +2,15 @@ import PrinterIcon from '../icons/PrinterIcon'
 import EditIcon from '../icons/EditIcon'
 import { useQuotationStore } from '../store/quotation'
 import { getIgv } from '../utils/numbers'
+import PDFGenerator from './PDFGenerator';
+import { usePDF } from '@react-pdf/renderer';
 
 function QuotationCard({ quotation }) {
+  console.log(quotation)
   const { company, quoNumber } = quotation
   const store = useQuotationStore()
   const { total } = getIgv(quotation.items)
+  const [instance] = usePDF({ document: <PDFGenerator quotation={quotation} /> })
 
   const handleEditQuo = (id) => {
     const quoToEdit = store.quotations.find(quo => quo.id === id)
@@ -14,11 +18,6 @@ function QuotationCard({ quotation }) {
     store.toggleCreateQuo()
   }
 
-  const handlePrintQuo = (id) => {
-    const quoToEdit = store.quotations.find(quo => quo.id === id)
-    store.updateQuoToEdit(quoToEdit)
-    store.togglePrintQuo()
-  }
   return (
     <li className="px-4 py-4 bg-white text-gray-500 shadow-md rounded-lg border hover:border-purple-500 flex gap-x-2 items-center justify-between font-light">
       <div>
@@ -37,9 +36,9 @@ function QuotationCard({ quotation }) {
           <EditIcon
           />
         </button>
-        <button onClick={() => handlePrintQuo(quotation.id)}>
+        <a href={instance.url} download={`COT-2023-00${quotation.quoNumber}.pdf`} >
           <PrinterIcon />
-        </button>
+        </a>
       </div>
     </li>
   )

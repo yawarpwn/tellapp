@@ -1,6 +1,5 @@
 import { useState, memo } from "react"
 import { useQuotationStore } from "../store/quotation"
-import { falseFetch } from "../utils/false-fetch"
 import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
 import ModalCreateItem from "./ModalCreateItem"
@@ -54,9 +53,10 @@ function CreateQuotation() {
     store.closeCreateQuo()
   }
 
-  const handleoSaveEdit = (editedProduct) => {
+  const handleSaveEdit = (editedProduct) => {
+    console.log('handleSaveEdit', editedProduct)
     const updatedItems = items.map((item) =>
-      item.id === editingItem.id ? { ...item, ...editedProduct } : item
+      item._id === editingItem._id ? { ...item, ...editedProduct } : item
     );
     setItems(updatedItems);
     setEditingItem(null); // Limpia el es
@@ -96,7 +96,7 @@ function CreateQuotation() {
   }
 
   const removeProduct = (id) => {
-    setItems(items.filter((item) => item.id !== id))
+    setItems(items.filter((item) => item._id !== id))
   }
 
 
@@ -254,7 +254,7 @@ function CreateQuotation() {
             onClose={handleCloseItemModal}
             addProduct={addProduct}
             editingItem={editingItem}
-            onSaveEdit={handleoSaveEdit}
+            onSaveEdit={handleSaveEdit}
           />
         )
         }

@@ -2,7 +2,7 @@ import EditIcon from "../icons/EditIcon"
 import TrashIcon from "../icons/TrashIcon"
 import { getIgv } from "../utils/numbers"
 export default function ItemsList({ items, onRemove, onOpen }) {
-  console.log({items})
+  console.log('items list')
   const { total } = getIgv(items)
   return (
     <>
@@ -32,6 +32,7 @@ export default function ItemsList({ items, onRemove, onOpen }) {
           </thead>
           <tbody>
             {items.map(item => {
+              console.log('item', item)
               return (
                 <tr key={item._id ?? item.id} className="border-b border-gray-200 ">
                   <td scope="row" className="px-4 py-2 text-gray-900 whitespace-nowrap bg-gray-50 ">
@@ -56,7 +57,7 @@ export default function ItemsList({ items, onRemove, onOpen }) {
                       <button type="button" aria-label="edit button" onClick={() => onOpen(item)}>
                         <EditIcon />
                       </button>
-                      <button type='button' aria-label="close modal button" onClick={() => onRemove(item.id)}>
+                      <button type='button' aria-label="close modal button" onClick={() => onRemove(item._id)}>
                         <TrashIcon />
                       </button>
                     </div>

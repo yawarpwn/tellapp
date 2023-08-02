@@ -2,19 +2,19 @@ import { useState, useEffect, memo } from "react"
 import { searchProduct } from "../services/search"
 
 function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
-  const [product, setProduct] = useState(editingItem?.desc ?? '')
+  const [desc, setDesc] = useState(editingItem?.desc ?? '')
   const [qty, setQty] = useState(editingItem?.qty ?? '')
   const [size, setSize] = useState(editingItem?.size ?? '')
-  const [price, setPrice] = useState(editingItem?.rate ?? '')
+  const [rate, setRate] = useState(editingItem?.rate ?? '')
   const [results, setResults] = useState([])
 
   const handleSubmit = (ev) => {
     ev.preventDefault()
     const item = {
-      desc: product,
+      desc: desc,
       qty,
       size,
-      rate: price
+      rate: rate
     }
 
     if (editingItem) {
@@ -28,13 +28,13 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   }
 
   useEffect(() => {
-    const resultProducts = searchProduct(product)
+    const resultProducts = searchProduct(desc)
     setResults(resultProducts)
-  }, [product])
+  }, [desc])
 
   const handleChange = (event) => {
     const { value } = event.target
-    setProduct(value)
+    setDesc(value)
   }
 
 
@@ -55,7 +55,7 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
             <input
               name='product'
               type="text"
-              value={product}
+              value={desc}
               onChange={handleChange}
               className="quotation-input"
               placeholder="Senal fotoluminiscente con base celtex 3mm" />
@@ -69,7 +69,7 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
                 return (
                   <li key={res.code}
                     className="text-gray-800 bg-gray-200 hover:bg-gray-300 p-2 rounded-lg text-xs"
-                    onClick={() => setProduct(res.name)}
+                    onClick={() => setDesc(res.name)}
                   >
                     {res.name}
                   </li>
@@ -109,16 +109,22 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               Precio
             </label>
             <input
-              value={price}
-              onChange={ev => setPrice(Number(ev.target.value))}
+              value={rate}
+              onChange={ev => setRate(Number(ev.target.value))}
               name='price'
               className="quotation-input"
               type="number"
               placeholder="100.00" />
           </div>
           <div className="flex justify-between items-center col-span-2">
-            <button className="border border-black hover:bg-black hover:text-white px-4 py-2 rounded-lg" type="submit">{editingItem ? 'Actualizar' : '+Agregar'}</button>
-            <button className="border border-black  hover:bg-black hover:text-white  px-4 py-2 rounded-lg" type="button" onClick={onClose}>Cancelar</button>
+            <button 
+              className="border border-black hover:bg-black hover:text-white px-4 py-2 rounded-lg" 
+              type="submit">{editingItem ? 'Actualizar' : '+Agregar'}
+            </button>
+            <button 
+              className="border border-black  hover:bg-black hover:text-white  px-4 py-2 rounded-lg" 
+              type="button" 
+              onClick={onClose}>Cancelar</button>
           </div>
         </form>
       </div>

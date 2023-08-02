@@ -3,6 +3,7 @@ import CreateQuotation from './components/CreateQuotation'
 import { useQuotationStore } from './store/quotation'
 import AddButton from './components/AddButton'
 import QuotationList from './components/QuotationList'
+import { useEffect } from 'react'
 
 function App() {
   const store = useQuotationStore()
@@ -11,6 +12,10 @@ function App() {
     store.updateQuoToEdit(null)
     store.toggleCreateQuo()
   }
+
+  useEffect(() => {
+    store.fetch()
+  }, [])
 
 
   return (
@@ -28,10 +33,10 @@ function App() {
             </div>
           </div>
           <div className='flex gap-x-2 justify-between'>
-            <button className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 1</button>
-            <button className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 2</button>
-            <button className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 3</button>
-            <button className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 4</button>
+            <button type='buton' className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 1</button>
+            <button type='button' className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 2</button>
+            <button type='button' className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 3</button>
+            <button type='button' className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 4</button>
           </div>
         </header>
         <QuotationList quotations={store.quotations} />

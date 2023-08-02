@@ -22,10 +22,12 @@ function createQuotation(quotationInfo) {
 
 }
 
-const q = await  getQuotations()
-
 export const useQuotationStore = create(set => ({
-  quotations: q,
+  quotations: [],
+  fetch: async () => {
+    const qs = await getQuotations()
+    set({quotations: qs})
+  },
   openCreateQuo: false,
   openPrintQuo: false,
   quoToEdit: null,

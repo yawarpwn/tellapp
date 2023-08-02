@@ -8,6 +8,7 @@ export const quosData = [
     address: "922 Campus Road, Drytown, Wisconsin, 1986",
     date: "2019-09-12",
     ruc: '20610555538',
+    deadline: 5,
     items: [
       {
         id: 'afadl323',
@@ -34,6 +35,7 @@ export const quosData = [
     address: "922 Campus Road, Drytown, Wisconsin, 1986",
     date: "2019-09-12",
     ruc: '20100020008',
+    deadLine: 2,
     items: [
       {
         id: 'zzswew23',

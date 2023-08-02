@@ -8,7 +8,10 @@ import ModalCreateItem from "./ModalCreateItem"
 function CreateQuotation() {
   const store = useQuotationStore()
   const getQuoNumber = () => {
-    const lastQuo = store.quotations.at(-1)
+    if (store.quotations.length <= 0) {
+      return 4000
+    }
+    const lastQuo = store?.quotations.at(-1)
     return lastQuo.quoNumber + 1
   }
 
@@ -29,6 +32,7 @@ function CreateQuotation() {
   const [ruc, setRuc] = useState(store.quoToEdit?.ruc ?? '')
   const [address, setAddress] = useState(store.quoToEdit?.address ?? '')
   const [quoNumber, setQuoNumber] = useState(store.quoToEdit?.quoNumber ?? getQuoNumber())
+  const [deadline, setDeadline] = useState(store.quoToEdit?.deadline ?? 1)
   const [items, setItems] = useState(store.quoToEdit?.items ?? [])
 
   //Editing logic
@@ -69,10 +73,11 @@ function CreateQuotation() {
       date,
       ruc,
       items,
-      phone
+      phone,
+      deadline
     }
     if (store.quoToEdit) {
-      store.updateQuo({ ...store.quoToEdit, company, address, quoNumber, date, phone, ruc, items })
+      store.updateQuo({ ...store.quoToEdit, company, address, quoNumber, date, phone, ruc, items, deadline })
     } else {
       store.addQuotation(quoData)
     }
@@ -84,7 +89,7 @@ function CreateQuotation() {
   const addProduct = (product) => {
     setItems(prev => ([
       ...prev, {
-        id: crypto.randomUUID(),
+        _id: crypto.randomUUID(),
         ...product
       }
     ]))
@@ -97,19 +102,19 @@ function CreateQuotation() {
 
   const handleBlur = () => {
     if (ruc.length === 11) {
-      // getRuc(ruc)
-      // .then(res => res.json())
-      // .then(data => {
-      //     setCompany(data.nombre_o_razon_social)
-      //     setAddress(data.direccion_simple)
-      //   })
-      // .catch(err => console.log(err))
-
-      falseFetch()
+      getRuc(ruc)
+        .then(res => res.json())
         .then(data => {
           setCompany(data.nombre_o_razon_social)
           setAddress(data.direccion_simple)
         })
+        .catch(err => console.log(err))
+
+      // falseFetch()
+      //   .then(data => {
+      //     setCompany(data.nombre_o_razon_social)
+      //     setAddress(data.direccion_simple)
+      //   })
     }
 
   }
@@ -129,8 +134,9 @@ function CreateQuotation() {
         <form className="h-full" onSubmit={handleSubmit}>
           <div className="wrapper overflow-y-auto  pt-4 pb-10  border-black  ">
             {/* Child */}
-            <div>
-              <div className="grid grid-cols-2 gap-2">
+            <div className="mb-4">
+
+              <div className="grid grid-cols-3 gap-2">
                 <div className="flex flex-col relative col-span-1">
                   <label className="quotation-label">
                     Cotizacion No:
@@ -141,6 +147,18 @@ function CreateQuotation() {
                     value={quoNumber}
                     className="quotation-input"
                     placeholder="3099" />
+                </div>
+
+                <div className="flex flex-col relative col-span-1">
+                  <label className="quotation-label">
+                    Tiempo:
+                  </label>
+                  <input name="quoNumber"
+                    type="number"
+                    onChange={event => setDeadline(Number(event.target.value))}
+                    value={deadline}
+                    className="quotation-input"
+                    placeholder="5" />
                 </div>
 
                 <div className="flex flex-col relative col-span-1">
@@ -166,7 +184,7 @@ function CreateQuotation() {
                   <input
                     name="company"
                     value={company}
-                    disabled
+                    onChange={ev => setCompany(ev.target.value)}
                     className="quotation-input"
                     placeholder="Proquinsa Quimicos Industriales S.A.C." />
                 </div>

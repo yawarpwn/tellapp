@@ -23,14 +23,14 @@ const styles = StyleSheet.create({
     width: '75%'
   }
 })
-export default function QuoTerms() {
+export default function QuoTerms({ deadline}) {
   return (
     <View style={styles.container}>
       <View style={{width: '70%'}}>
         <Text style={{ fontWeight: '600', fontSize: 9 }}>TÉRMINOS Y CONDICIONES</Text>
         <View style={styles.row}>
           <Text style={styles.left}>TIEMPO DE ENTREGA</Text>
-          <Text style={styles.right}>: 5 día(s) útil, una vez recepcionada la Orden de Compra</Text>
+          <Text style={styles.right}>: {deadline} día(s) útil, una vez recepcionada la Orden de Compra</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.left}>FORMA DE PAGO</Text>

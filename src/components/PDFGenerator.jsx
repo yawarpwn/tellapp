@@ -27,7 +27,7 @@ const PDFGenerator = ({quotation}) => {
         <QuoCustomer quotation={quotation} />
         <QuoTable items={quotation.items} />
         <QuoTotal items={quotation.items}  />
-        <QuoTerms />
+        <QuoTerms deadline={quotation.deadline} />
         <QuoBAnkInfo />
       </Page>
     </Document>

@@ -2,16 +2,17 @@ import { View, Text, StyleSheet } from '@react-pdf/renderer'
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
+    fontSize: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
   rowLeft: {
-    width: '70%',
+    width: '80%',
   },
 
   rowRight: {
-    width: '30%',
+    width: '20%',
   },
   row: {
     display: 'flex',
@@ -21,27 +22,27 @@ const styles = StyleSheet.create({
 
   },
   left: {
-    width: '10%'
+    width: '12%'
   },
   center: {
-    width: '2%'
+    width: '1%'
   },
   right: {
-    width: '88%'
+    width: '87%'
   },
   l: {
-    width: '38%'
+    width: '50%'
   }, 
   c: {
-    width: '4%'
+    width: '1%'
   }, 
   r: {
-    width: '58%',
+    width: '49%',
     textAlign: 'right'
   }
 })
 export default function QuoCustomer({quotation}) {
-  const { company, ruc, phone, quoNumber = 0, date } = quotation
+  const { company, ruc, phone, quoNumber, date, address } = quotation
   return (
 
     <View style={styles.container}>
@@ -55,6 +56,11 @@ export default function QuoCustomer({quotation}) {
           <Text style={styles.left}>Ruc</Text>
           <Text style={styles.center}>:</Text>
           <Text style={styles.right}>{ruc}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.left}>Dirección</Text>
+          <Text style={styles.center}>:</Text>
+          <Text style={styles.right}>{address}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.left}>Tel</Text>

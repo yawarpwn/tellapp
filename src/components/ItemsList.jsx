@@ -2,6 +2,7 @@ import EditIcon from "../icons/EditIcon"
 import TrashIcon from "../icons/TrashIcon"
 import { getIgv } from "../utils/numbers"
 export default function ItemsList({ items, onRemove, onOpen }) {
+  console.log({items})
   const { total } = getIgv(items)
   return (
     <>
@@ -32,7 +33,7 @@ export default function ItemsList({ items, onRemove, onOpen }) {
           <tbody>
             {items.map(item => {
               return (
-                <tr key={item.id} className="border-b border-gray-200 ">
+                <tr key={item._id ?? item.id} className="border-b border-gray-200 ">
                   <td scope="row" className="px-4 py-2 text-gray-900 whitespace-nowrap bg-gray-50 ">
                     <p className="max-w-[300px] truncate">
                       {item.desc}

@@ -1,10 +1,7 @@
 import Header from './components/Header'
-import ViewPDF from './components/ViewPDF'
 import CreateQuotation from './components/CreateQuotation'
 import { useQuotationStore } from './store/quotation'
-
 import AddButton from './components/AddButton'
-
 import QuotationList from './components/QuotationList'
 
 function App() {
@@ -14,6 +11,7 @@ function App() {
     store.updateQuoToEdit(null)
     store.toggleCreateQuo()
   }
+
 
   return (
     <div className='min-h-screen'>
@@ -38,6 +36,7 @@ function App() {
         </header>
         <QuotationList quotations={store.quotations} />
       </div>
+      {/* <ViewPDF /> */}
       {store.openCreateQuo &&
         <CreateQuotation />
       }

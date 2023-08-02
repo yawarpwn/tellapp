@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 24,
-    fontSize: 8
+    fontSize: 7
   },
 
   tableHeader: {
@@ -74,10 +74,10 @@ export default function Table({ items }) {
         <Text style={styles.price}>P. UNIT</Text>
         <Text style={styles.total}>MONTO</Text>
       </View>
-      {items.map(({ id, desc, rate, size, qty }, index) => {
+      {items.map(({ _id, id, desc, rate, size, qty }, index) => {
         const isOdd = index % 2 !== 0
         return (
-          <View key={id} style={{ ...styles.tableItems, backgroundColor: isOdd ? '#EEE' : '#fff' }}>
+          <View key={_id ?? id} style={{ ...styles.tableItems, backgroundColor: isOdd ? '#EEE' : '#fff' }}>
             <Text style={styles.item}>{index + 1}</Text>
             <Text style={styles.desc}>{desc}</Text>
             <Text style={styles.size}>{size}</Text>

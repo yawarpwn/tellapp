@@ -90,18 +90,6 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               onChange={ev => setSize(ev.target.value)}
             />
           </div>
-          <div className="relative">
-            <label className="quotation-label">
-              Precio
-            </label>
-            <input
-              value={price}
-              onChange={ev => setPrice(Number(ev.target.value))}
-              name='price'
-              className="quotation-input"
-              type="number"
-              placeholder="100.00" />
-          </div>
 
           <div className="relative">
             <label name='qty' className="quotation-label">
@@ -114,6 +102,19 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               value={qty}
               onChange={ev => setQty(Number(ev.target.value))}
             />
+          </div>
+
+          <div className="relative">
+            <label className="quotation-label">
+              Precio
+            </label>
+            <input
+              value={price}
+              onChange={ev => setPrice(Number(ev.target.value))}
+              name='price'
+              className="quotation-input"
+              type="number"
+              placeholder="100.00" />
           </div>
           <div className="flex justify-between items-center col-span-2">
             <button className="border border-black hover:bg-black hover:text-white px-4 py-2 rounded-lg" type="submit">{editingItem ? 'Actualizar' : '+Agregar'}</button>

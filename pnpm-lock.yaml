@@ -16,6 +16,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-supabase:
+    specifier: ^0.2.0
+    version: 0.2.0(@supabase/supabase-js@2.31.0)(react@18.2.0)
   zustand:
     specifier: 4.3.9
     version: 4.3.9(react@18.2.0)
@@ -2245,6 +2248,16 @@ packages:
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+
+  /react-supabase@0.2.0(@supabase/supabase-js@2.31.0)(react@18.2.0):
+    resolution: {integrity: sha512-dlAOhkFaWr8ZqHUkWflGvDpFUT69DbWE7+LxmH/a56ma/qS1EinsIKcxskPcPlaWO70QI7hxu9y8imp8qxDCLw==}
+    peerDependencies:
+      '@supabase/supabase-js': ^1.11.6
+      react: ^17.0.0
+    dependencies:
+      '@supabase/supabase-js': 2.31.0
+      react: 18.2.0
+    dev: false
 
   /react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}

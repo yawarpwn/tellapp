@@ -16,7 +16,7 @@ export default function ViewPDF() {
         desc: "Senal fotoluminiscente con soporte pvc celtex 3mm",
         qty: 200,
         rate: 7.50,
-        size: '20x30cm'
+        size: '120x230cm'
       },
       {
         id: 'afaz232',

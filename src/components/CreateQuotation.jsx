@@ -1,16 +1,15 @@
 import { useState, memo } from "react"
-import { useQuotationStore } from "../store/quotation"
 import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
 import ModalCreateItem from "./ModalCreateItem"
+import { updateQuotation, createQuotation } from "../services/supabase"
 
-function CreateQuotation() {
-  const store = useQuotationStore()
+function CreateQuotation({ quotations, quoToEdit, onClose }) {
   const getQuoNumber = () => {
-    if (store.quotations.length <= 0) {
+    if (quotations.length <= 0) {
       return 4000
     }
-    const lastQuo = store?.quotations.at(-1)
+    const lastQuo = quotations.at(-1)
     return lastQuo.quoNumber + 1
   }
 
@@ -24,15 +23,26 @@ function CreateQuotation() {
     return formatedDate
   }
 
+  const formatDate = (date) => {
+    const currentDate = new Date(date)
+    const year = currentDate.getFullYear()
+    let month = currentDate.getMonth() + 1
+    let day = currentDate.getDate()
 
-  const [company, setCompany] = useState(store.quoToEdit?.company ?? '')
-  const [phone, setPhone] = useState(store.quoToEdit?.phone ?? '')
-  const [date, setDate] = useState(store.quoToEdit?.date ?? getCurrentDay())
-  const [ruc, setRuc] = useState(store.quoToEdit?.ruc ?? '')
-  const [address, setAddress] = useState(store.quoToEdit?.address ?? '')
-  const [quoNumber, setQuoNumber] = useState(store.quoToEdit?.quoNumber ?? getQuoNumber())
-  const [deadline, setDeadline] = useState(store.quoToEdit?.deadline ?? 1)
-  const [items, setItems] = useState(store.quoToEdit?.items ?? [])
+    const formatedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+    return formatedDate
+  }
+
+  console.log(getCurrentDay())
+
+  const [company, setCompany] = useState(quoToEdit?.company ?? '')
+  const [phone, setPhone] = useState(quoToEdit?.phone ?? '')
+  const [date, setDate] = useState(formatDate(quoToEdit?.date) ?? '')
+  const [ruc, setRuc] = useState(quoToEdit?.ruc ?? '')
+  const [address, setAddress] = useState(quoToEdit?.address ?? '')
+  const [quoNumber, setQuoNumber] = useState(quoToEdit?.quoNumber ?? getQuoNumber())
+  const [deadline, setDeadline] = useState(quoToEdit?.deadline ?? 1)
+  const [items, setItems] = useState(quoToEdit?.items ?? [])
 
   //Editing logic
   const [editingItem, setEditingItem] = useState(null)
@@ -50,13 +60,12 @@ function CreateQuotation() {
 
 
   const handleClose = () => {
-    store.closeCreateQuo()
+    onClose()
   }
 
   const handleSaveEdit = (editedProduct) => {
-    console.log('handleSaveEdit', editedProduct)
     const updatedItems = items.map((item) =>
-      item._id === editingItem._id ? { ...item, ...editedProduct } : item
+      item.id === editingItem.id ? { ...item, ...editedProduct } : item
     );
     setItems(updatedItems);
     setEditingItem(null); // Limpia el es
@@ -72,14 +81,15 @@ function CreateQuotation() {
       quoNumber,
       date,
       ruc,
-      items,
       phone,
-      deadline
+      deadline,
+      items,
     }
-    if (store.quoToEdit) {
-      store.updateQuo({ ...store.quoToEdit, company, address, quoNumber, date, phone, ruc, items, deadline })
+    if (quoToEdit) {
+      updateQuotation({ company, address, quoNumber, date, phone, ruc, items, deadline }, quoToEdit.id)
     } else {
-      store.addQuotation(quoData)
+      createQuotation(quoData)
+      // addQuotation(quoData)
     }
     handleClose()
 
@@ -89,14 +99,14 @@ function CreateQuotation() {
   const addProduct = (product) => {
     setItems(prev => ([
       ...prev, {
-        _id: crypto.randomUUID(),
+        id: crypto.randomUUID(),
         ...product
       }
     ]))
   }
 
   const removeProduct = (id) => {
-    setItems(items.filter((item) => item._id !== id))
+    setItems(items.filter((item) => item.id !== id))
   }
 
 
@@ -132,7 +142,7 @@ function CreateQuotation() {
       className="fixed z-50 top-0 left-0 right-0 bottom-0 bg-[#000005be] ">
       <div className="h-screen relative  max-w-sm bg-white p-2">
         <form className="h-full" onSubmit={handleSubmit}>
-          <div className="wrapper overflow-y-auto  pt-4 pb-10  border-black  ">
+          <div className="wrapper overflow-y-auto h-[90%]  pt-4 pb-10 ">
             {/* Child */}
             <div className="mb-4">
 
@@ -168,6 +178,7 @@ function CreateQuotation() {
                   <input
                     name="date"
                     type="date"
+                    required
                     onChange={event => setDate(event.target.value)}
                     value={date}
                     className="quotation-input"
@@ -235,18 +246,18 @@ function CreateQuotation() {
 
             <div className="w-full flex flex-col gap-y-6 mt-4 ">
               <ItemsList items={items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />
-              <button
-                type="button"
-                className=' bg-gray-200 hover:opacity-80 mx-auto py-2 items-center  justify-center rounded-xl  w-full mt-6'
-                onClick={() => setOpenModal(!openModal)}
-              >
-                + Agregar producto
-              </button>
             </div>
           </div>
-          <div className="flex justify-between h-10  px-4 bg-white">
+          <div className="absolute bottom-0 left-0 w-full flex justify-between h-16 p-2 bg-white">
             <button type="button" onClick={handleClose} className="bg-purple-500 text-white px-4 py-2 rounded-lg">cancel</button>
-            <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded-lg" >{store.quoToEdit === null ? 'Guardar' : 'Actualizar'}</button>
+            <button
+              type="button"
+              className=' bg-gray-200 hover:opacity-80 px-4 py-2 items-center  justify-center rounded-lg'
+              onClick={() => setOpenModal(!openModal)}
+            >
+              + Agregar
+            </button>
+            <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded-lg" >{quoToEdit === null ? 'Guardar' : 'Actualizar'}</button>
           </div>
         </form>
         {openModal && (

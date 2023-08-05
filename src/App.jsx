@@ -3,19 +3,44 @@ import CreateQuotation from './components/CreateQuotation'
 import { useQuotationStore } from './store/quotation'
 import AddButton from './components/AddButton'
 import QuotationList from './components/QuotationList'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useRealtime } from './hooks/useRealtime'
+
 
 function App() {
   const store = useQuotationStore()
+  const { data, fetching, error } = useRealtime()
+
+  useEffect(() => {
+    if (data) {
+      store.setQuotations(data)
+    }
+  }, [data])
+
+
+  const [viewOpen, setViewOpen] = useState(false)
 
   const handleQuotationToggle = () => {
     store.updateQuoToEdit(null)
     store.toggleCreateQuo()
   }
 
-  useEffect(() => {
-    store.fetch()
-  }, [])
+
+  const openView = () => {
+    setViewOpen(true)
+  }
+
+  const closeView = () => {
+    setViewOpen(false)
+  }
+
+  if (fetching) {
+    return 'CArgando....'
+  }
+
+  if (error) {
+    return 'errro'
+  }
 
 
   return (
@@ -39,12 +64,12 @@ function App() {
             <button type='button' className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 4</button>
           </div>
         </header>
-        <QuotationList quotations={store.quotations} />
+        <QuotationList onOpenView={openView} onCloseView={closeView} quotations={store.quotations} />
       </div>
-      {/* <ViewPDF /> */}
       {store.openCreateQuo &&
-        <CreateQuotation />
+        <CreateQuotation quotations={store.quotations} quoToEdit={store.quoToEdit} onClose={store.closeCreateQuo} />
       }
+
     </div>
   )
 }

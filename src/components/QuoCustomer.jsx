@@ -73,12 +73,12 @@ export default function QuoCustomer({quotation}) {
         <View style={styles.row}>
           <Text style={styles.l}>Cotización</Text>
           <Text style={styles.c}>:</Text>
-          <Text style={styles.r}>{quoNumber}</Text>
+          <Text style={styles.r}>00{quoNumber}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.l}>Fecha</Text>
           <Text style={styles.c}>:</Text>
-          <Text style={styles.r}>{Intl.DateTimeFormat('en-US').format(new Date(date))}</Text>
+          <Text style={styles.r}>{Intl.DateTimeFormat('es-ES').format(new Date(date))}</Text>
         </View>
 
       </View>

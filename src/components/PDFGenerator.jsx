@@ -11,9 +11,9 @@ const styles = StyleSheet.create({
   page: {
     fontFamily: 'Helvetica',
     fontSize: 9,
-    paddingTop: 30,
-    paddingLeft: 60,
-    paddingRight: 60,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
     lineHeight: 1.5,
     flexDirection: 'column'
   },
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 const PDFGenerator = ({quotation}) => {
   return (
     <Document title={`Cotización-${quotation.quoNumber}`} >
-      <Page size='A4' style={styles.page}>
+      <Page size='a4' style={styles.page}>
         <QuoHeader />
         <QuoCustomer quotation={quotation} />
         <QuoTable items={quotation.items} />

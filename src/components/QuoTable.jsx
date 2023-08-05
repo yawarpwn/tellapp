@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
   },
 
   desc: {
-    width: '66%',
+    width: '63%',
     textAlign: 'left'
   },
 
   size: {
-    width: '7%',
+    width: '10%',
     textAlign: 'center'
   },
 
@@ -82,8 +82,8 @@ export default function Table({ items }) {
             <Text style={styles.desc}>{desc}</Text>
             <Text style={styles.size}>{size}</Text>
             <Text style={styles.amount}>{qty}</Text>
-            <Text style={styles.price}>{(rate).toFixed(2)}</Text>
-            <Text style={styles.total}>{(rate * qty).toFixed(2)}</Text>
+            <Text style={styles.price}>{(rate /1.18).toFixed(4)}</Text>
+            <Text style={styles.total}>{((rate * qty) /1.18).toFixed(2)}</Text>
           </View>
         )
       })}

@@ -8,7 +8,10 @@ const styles = StyleSheet.create({
     fontSize: 8
   },
   logoContainer: {
-    width: '65%'
+    width: '65%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 5
   },
   logoText: {
     fontSize: 30,
@@ -45,10 +48,14 @@ export default function QuoHeader() {
 
     <View style={styles.header}>
       <View style={styles.logoContainer}>
-        <SvgLogo />
+        <View >
+          <SvgLogo />
+        </View>
+        <View >
+          <Text style={{ textAlign: 'left', marginLeft: 50 }}>Av. Argentina 538 - Lima - Lima</Text>
+        </View>
       </View>
       <View style={styles.info}>
-        <Text style={{textAlign: 'center'}}>Av. Argentina 538 - Lima - Lima</Text>
         <View style={styles.row}>
           <Text style={styles.left}>Ruc</Text>
           <Text style={styles.center}>:</Text>

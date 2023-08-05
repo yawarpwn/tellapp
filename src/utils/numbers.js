@@ -1,4 +1,5 @@
-export function getIgv(arraOfNumbers) {
+export function getIgv(arraOfNumbers = [{
+}]) {
 
   const calcTotal = arraOfNumbers.reduce((acc, curr) => {
     const result = acc += (curr.rate * curr.qty)
@@ -8,6 +9,14 @@ export function getIgv(arraOfNumbers) {
   const total = calcTotal.toFixed(2)
   const subTotal = (total / 1.18).toFixed(2)
   const igv = (subTotal * 0.18).toFixed(2)
+
+  if(!arraOfNumbers) {
+    return {
+      total: 0,
+      subTotal: 0,
+      igv: 0
+    }
+  }
 
   return {
     total,

@@ -5,6 +5,27 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRudmhzbmNzZ2ZrYXFoc3BwcHF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTA5MTg0ODksImV4cCI6MjAwNjQ5NDQ4OX0.fZBY9uT0N4sKiG9qplto1KdJarxDsQy4hgMFHv9WHMk",
 );
 
+function mapQuos(quos) {
+    return quos.map(quo => ({
+    quoNumber: quo.quo_number,
+    address: quo.address,
+    company: quo.company,
+    date: quo.date,
+    deadline: quo.deadline,
+    email: quo.email,
+    id: quo.id,
+    phone: quo.phone,
+    items: quo.quotation_items.map(item => ({
+      id: item.id,
+      desc: item.description,
+      rate: item.price,
+      size: item.unit_size,
+      qty: item.qty
+    }))
+  }))
+
+}
+
 export async function deleteRow({ table, id }) {
   try {
     const { error } = await supabase
@@ -20,6 +41,7 @@ export async function deleteRow({ table, id }) {
 }
 
 async function insertRows({ rows, table }) {
+  console.log({rows, table})
   const { data, error } = await supabase
     .from(table)
     .insert(rows)
@@ -61,71 +83,21 @@ export async function getTableContent(table) {
 }
 
 export const deleteQuotation = (id) => deleteRow({ id, table: "cotizaciones" });
-export const updateQuotation = (quoToUpdate, id) => {
-  const {
-    quoNumber,
-    address,
-    company,
-    date,
-    deadline,
-    email,
-    phone,
-    items
-  } = quoToUpdate
-
-  const quoMappedToInsert = {
-    quo_number: quoNumber,
-    address,
-    company,
-    date,
-    deadline,
-    email,
-    phone,
-    quotation_items: items.map(item => ({
-      description: item.desc,
-      id: item.id,
-      price: item.rate,
-      qty: item.qty,
-      unit_size: item.size
-    }))
-  }
-
-  updateRow({ id, table: "cotizaciones", rowToUpdate: quoMappedToInsert })
-  .then(r => console.log('actualizado', r))
-  .catch(err => console.log('err', err))
-}
-export const createQuotation = (quoToCreate) => {
-    const {
-    quoNumber,
-    address,
-    company,
-    date,
-    deadline,
-    email,
-    phone,
-    items
-  } = quoToCreate 
-
-  const quoMapped = {
-    quo_number: quoNumber,
-    address,
-    company,
-    date,
-    deadline,
-    email,
-    phone,
-    quotation_items: items.map(item => ({
-      description: item.desc,
-      id: item.id,
-      price: item.rate,
-      qty: item.qty,
-      unit_size: item.size
-    }))
-  }
-  insertRows({ rows: quoMapped, table: "cotizaciones" });
-}
-export const client = supabase;
+export const updateQuotation = (quoToUpdate, id) => updateRow({ id, table: "cotizaciones", rowToUpdate: quoToUpdate})
+export const createQuotation = (quoToCreate) => insertRows({ rows: quoToCreate, table: "cotizaciones" });
 export const getQuotations = () =>  getTableContent("cotizaciones")
+export const client = supabase;
 
-export const getCotizaciones = () => getTableContent("cotizaciones");
+// const row ={
+//     "company": "probando",
+//     "address": "",
+//     "quo_number": 5000,
+//     "date": "2023-08-09",
+//     "ruc": "",
+//     "phone": "",
+//     "deadline": 1,
+//     "quotations_items": []
+// }
+
+// insertRows({rows: row, table: 'cotizaciones'})
 

@@ -1,28 +1,77 @@
 import Header from './components/Header'
 import CreateQuotation from './components/CreateQuotation'
-import { useQuotationStore } from './store/quotation'
 import AddButton from './components/AddButton'
 import QuotationList from './components/QuotationList'
 import { useEffect, useState } from 'react'
-import { useRealtime } from './hooks/useRealtime'
+import { getQuotations, client } from './services/supabase'
 
 
 function App() {
-  const store = useQuotationStore()
-  const { data, fetching, error } = useRealtime()
+  const [viewOpen, setViewOpen] = useState(false)
+  const [quotations, setQuotations] = useState([])
+  const [quoToEdit, setQuoToEdit] = useState(null)
+  const [openCreateQuo, setOpenCreateQuo] = useState(false)
 
   useEffect(() => {
-    if (data) {
-      store.setQuotations(data)
+    getQuotations()
+      .then(data => {
+        const sortData = [...data].sort((a, b) => b.quo_number - a.quo_number)
+        setQuotations(sortData)
+      })
+  }, [])
+
+
+  const TYPE = {
+    insert: "INSERT",
+    update: "UPDATE",
+    delete: "DELETE",
+  };
+
+  const handleSubscription = (payload) => {
+    if (payload.eventType === TYPE.insert) {
+      setQuotations((prev) => [...prev, payload.new]);
     }
-  }, [data])
+
+    if (payload.eventType === TYPE.update) {
+      setQuotations((prev) =>
+        prev.map((item) => item.id === payload.new.id ? payload.new : item)
+      );
+    }
+
+    if (payload.eventType === TYPE.delete) {
+      setQuotations((prev) =>
+        prev.filter((item) => item.id !== payload.old.id)
+      );
+    }
+  };
+
+  useEffect(() => {
+    const quotations = client.channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "cotizaciones" },
+        (payload) => handleSubscription(payload),
+      )
+      .subscribe();
+
+    return () => {
+      quotations.unsubscribe();
+    };
+  }, []);
 
 
-  const [viewOpen, setViewOpen] = useState(false)
+  const closeCreateQuo = () => {
+    setOpenCreateQuo(false)
+  }
 
   const handleQuotationToggle = () => {
-    store.updateQuoToEdit(null)
-    store.toggleCreateQuo()
+    setQuoToEdit(null)
+    setOpenCreateQuo(true)
+  }
+
+  const handleupdateQuo = (quoToEdit) => {
+    setQuoToEdit(quoToEdit)
+    setOpenCreateQuo(true)
   }
 
 
@@ -34,14 +83,6 @@ function App() {
     setViewOpen(false)
   }
 
-  if (fetching) {
-    return 'CArgando....'
-  }
-
-  if (error) {
-    return 'errro'
-  }
-
 
   return (
     <div className='min-h-screen'>
@@ -51,7 +92,7 @@ function App() {
           <div className='flex items-center justify-between mb-4'>
             <div>
               <h2 className='text-3xl font-extrabold'>Cotización</h2>
-              <p className='text-sm'>Hay un total de {store.quotations.length} Cotizaciones.</p>
+              <p className='text-sm'>Hay un total de {quotations.length} Cotizaciones.</p>
             </div>
             <div className='flex items-center gap-x-4'>
               <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
@@ -64,10 +105,15 @@ function App() {
             <button type='button' className='px-4 py-2 rounded-lg border text-purple-500 border-purple-500 '>filter 4</button>
           </div>
         </header>
-        <QuotationList onOpenView={openView} onCloseView={closeView} quotations={store.quotations} />
+        <QuotationList 
+          onOpenView={openView} 
+          onCloseView={closeView} 
+          quotations={quotations} 
+          updateQuo={handleupdateQuo}
+        />
       </div>
-      {store.openCreateQuo &&
-        <CreateQuotation quotations={store.quotations} quoToEdit={store.quoToEdit} onClose={store.closeCreateQuo} />
+      {openCreateQuo &&
+        <CreateQuotation quotations={quotations} quoToEdit={quoToEdit} onClose={closeCreateQuo} />
       }
 
     </div>

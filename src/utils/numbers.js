@@ -1,8 +1,14 @@
-export function getIgv(arraOfNumbers = [{
-}]) {
+export function getIgv(items) {
+  if(!items) {
+    return {
+    total :  0,
+    subTotal: 0,
+    igv: 0 
+    }
+  }
 
-  const calcTotal = arraOfNumbers.reduce((acc, curr) => {
-    const result = acc += (curr.rate * curr.qty)
+  const calcTotal = items.reduce((acc, curr) => {
+    const result = acc += (curr.price * curr.qty)
     return result
   }, 0)
 
@@ -10,7 +16,7 @@ export function getIgv(arraOfNumbers = [{
   const subTotal = (total / 1.18).toFixed(2)
   const igv = (subTotal * 0.18).toFixed(2)
 
-  if(!arraOfNumbers) {
+  if (items === []) {
     return {
       total: 0,
       subTotal: 0,
@@ -20,7 +26,7 @@ export function getIgv(arraOfNumbers = [{
 
   return {
     total,
-    subTotal,
+    subTotal ,
     igv
   }
 }

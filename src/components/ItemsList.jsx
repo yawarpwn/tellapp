@@ -35,20 +35,20 @@ export default function ItemsList({ items, onRemove, onOpen }) {
                 <tr key={item.id} className="border-b border-gray-200 ">
                   <td scope="row" className="px-4 py-2 text-gray-900 whitespace-nowrap bg-gray-50 ">
                     <p className="max-w-[300px] truncate">
-                      {item.desc}
+                      {item.description}
                     </p>
                   </td>
                   <td className="px-4 py-2">
-                    {item.size}
+                    {item.unit_size}
                   </td>
                   <td className="px-4 py-2 bg-gray-50 ">
-                    {(item.rate).toFixed(2)}
+                    {(item.price).toFixed(2)}
                   </td>
                   <td className="px-4 text-center py-2 bg-gray-50 ">
                     {item.qty}
                   </td>
                   <td className="px-4 py-2">
-                    {(item.qty * item.rate).toFixed(2)}
+                    {(item.qty * item.price).toFixed(2)}
                   </td>
                   <td>
                     <div className="flex gap-x-2 items-center">
@@ -79,3 +79,4 @@ export default function ItemsList({ items, onRemove, onOpen }) {
 
   )
 }
+

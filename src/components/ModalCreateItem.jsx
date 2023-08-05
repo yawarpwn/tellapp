@@ -2,19 +2,19 @@ import { useState, useEffect, memo } from "react"
 import { searchProduct } from "../services/search"
 
 function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
-  const [desc, setDesc] = useState(editingItem?.desc ?? '')
-  const [qty, setQty] = useState(editingItem?.qty ?? '')
+  const [desc, setDesc] = useState(editingItem?.description ?? '')
+  const [qty, setQty] = useState(editingItem?.qty ?? 0)
   const [size, setSize] = useState(editingItem?.size ?? '')
-  const [rate, setRate] = useState(editingItem?.rate ?? '')
+  const [rate, setRate] = useState(editingItem?.price ?? 0)
   const [results, setResults] = useState([])
 
   const handleSubmit = (ev) => {
     ev.preventDefault()
     const item = {
-      desc: desc,
+      description: desc,
       qty,
-      size,
-      rate: rate
+      unit_size: size,
+      price: rate
     }
 
     if (editingItem) {

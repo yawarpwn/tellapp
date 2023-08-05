@@ -9,11 +9,12 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     if (quotations.length <= 0) {
       return 4000
     }
-    const lastQuo = quotations.at(-1)
-    return lastQuo.quoNumber + 1
+
+    const numbers = quotations.map(quo => quo.quo_number)
+    return Math.max(...numbers) + 1
   }
 
-  const getCurrentDay = () => {
+  const getCurrentDate = () => {
     const currentDate = new Date()
     const year = currentDate.getFullYear()
     let month = currentDate.getMonth() + 1
@@ -32,17 +33,17 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     const formatedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
     return formatedDate
   }
-
-  console.log(getCurrentDay())
-
-  const [company, setCompany] = useState(quoToEdit?.company ?? '')
+  const initialDate = quoToEdit?.date ? formatDate(quoToEdit.date) : getCurrentDate();
+  const [company, setCompany] = useState(quoToEdit?.company || 'DESCONOCIDO')
   const [phone, setPhone] = useState(quoToEdit?.phone ?? '')
-  const [date, setDate] = useState(formatDate(quoToEdit?.date) ?? '')
+  const [date, setDate] = useState(initialDate)
   const [ruc, setRuc] = useState(quoToEdit?.ruc ?? '')
   const [address, setAddress] = useState(quoToEdit?.address ?? '')
-  const [quoNumber, setQuoNumber] = useState(quoToEdit?.quoNumber ?? getQuoNumber())
+  const [quoNumber, setQuoNumber] = useState(quoToEdit?.quo_number ?? getQuoNumber())
   const [deadline, setDeadline] = useState(quoToEdit?.deadline ?? 1)
-  const [items, setItems] = useState(quoToEdit?.items ?? [])
+  const [items, setItems] = useState(quoToEdit?.quotation_items ?? [])
+
+  console.log({ date })
 
   //Editing logic
   const [editingItem, setEditingItem] = useState(null)
@@ -72,27 +73,34 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
 
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     const quoData = {
       company,
       address,
-      quoNumber,
+      quo_number: quoNumber,
       date,
       ruc,
       phone,
       deadline,
-      items,
+      quotation_items: items,
     }
     if (quoToEdit) {
-      updateQuotation({ company, address, quoNumber, date, phone, ruc, items, deadline }, quoToEdit.id)
+      const quo = {
+        company,
+        address,
+        quo_number: quoNumber,
+        phone,
+        deadline,
+        quotation_items: items
+      }
+      await updateQuotation(quo, quoToEdit.id)
+      handleClose()
     } else {
-      createQuotation(quoData)
-      // addQuotation(quoData)
+      await createQuotation(quoData)
+      handleClose()
     }
-    handleClose()
-
   }
 
 
@@ -153,6 +161,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                   </label>
                   <input name="quoNumber"
                     type="number"
+                    required
                     onChange={event => setQuoNumber(Number(event.target.value))}
                     value={quoNumber}
                     className="quotation-input"

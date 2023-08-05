@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
 
 const PDFGenerator = ({quotation}) => {
   return (
-    <Document title={`Cotización-${quotation.quoNumber}`} >
+    <Document title={`Cotización-${quotation.quo_number}`} >
       <Page size='a4' style={styles.page}>
         <QuoHeader />
         <QuoCustomer quotation={quotation} />
-        <QuoTable items={quotation.items} />
-        <QuoTotal items={quotation.items}  />
+        <QuoTable items={quotation.quotation_items} />
+        <QuoTotal items={quotation.quotation_items}  />
         <QuoTerms deadline={quotation.deadline} />
         <QuoBAnkInfo />
       </Page>

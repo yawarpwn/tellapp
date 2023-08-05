@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   },
   rowLeft: {
     width: '80%',
+    paddingRight: '80px'
   },
 
   rowRight: {
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   }
 })
 export default function QuoCustomer({quotation}) {
-  const { company, ruc, phone, quoNumber, date, address } = quotation
+  const { company, ruc, phone, quo_number: quoNumber, date, address } = quotation
   return (
 
     <View style={styles.container}>
@@ -50,7 +51,7 @@ export default function QuoCustomer({quotation}) {
         <View style={styles.row}>
           <Text style={styles.left}>Cliente</Text>
           <Text style={styles.center}>:</Text>
-          <Text style={styles.right}>{company}</Text>
+          <Text style={{...styles.right}}>{company}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.left}>Ruc</Text>
@@ -60,7 +61,7 @@ export default function QuoCustomer({quotation}) {
         <View style={styles.row}>
           <Text style={styles.left}>Dirección</Text>
           <Text style={styles.center}>:</Text>
-          <Text style={styles.right}>{address}</Text>
+          <Text style={{...styles.right, fontSize:7}}>{address}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.left}>Tel</Text>

@@ -1,9 +1,10 @@
 import EditIcon from '../icons/EditIcon'
 import LoadingIcon from '../icons/LoadingIcon'
+import PrinterIcon from '../icons/PrinterIcon';
 import { getIgv } from '../utils/numbers'
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense, useState } from 'react';
 
-const LazyDownloadPDF = lazy(() => import ('./DownLoadPDF'))
+const LazyDownloadPDF = lazy(() => import('./DownLoadPDF'))
 
 export default function QuotationRow({
   quotation,
@@ -12,6 +13,8 @@ export default function QuotationRow({
 }) {
   const { company, quo_number: quoNumber } = quotation
   const { total } = getIgv(quotation.quotation_items)
+  const [isPDFGenerated, setIsPDFGenerated] = useState(false)
+
 
   return (
     <tr
@@ -33,8 +36,8 @@ export default function QuotationRow({
         >
           <EditIcon />
         </button>
-        <Suspense fallback={<LoadingIcon />}>
-          <LazyDownloadPDF quotation={quotation} />
+        <Suspense fallback={'Cargando'}>
+            <LazyDownloadPDF quotation={quotation} />
         </Suspense>
         {/* <a href={instance.url} download={`COT-2023-00${quotation.quo_number}.pdf`} > */}
         {/*   <PrinterIcon /> */}

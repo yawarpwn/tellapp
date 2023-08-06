@@ -150,7 +150,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
       }}
       className="fixed z-50 top-0 left-0 right-0 bottom-0 bg-[#000005be] ">
       <div className="h-screen relative  max-w-sm bg-white p-2">
-        <form className="h-full" onSubmit={handleSubmit}>
+        <form className="h-full  relative" onSubmit={handleSubmit}>
           <div className="wrapper overflow-y-auto h-[90%]  pt-4 pb-10 ">
             {/* Child */}
             <div className="mb-4">
@@ -259,7 +259,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
               <ItemsList items={items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 w-full flex justify-between h-16 p-2 bg-white">
+          <div className="absolute  bottom-2 left-0 w-full flex justify-between h-16 p-2 bg-white">
             <button type="button" onClick={handleClose} className="bg-purple-500 text-white px-4 py-2 rounded-lg">cancel</button>
             <button
               type="button"

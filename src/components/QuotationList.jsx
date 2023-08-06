@@ -1,6 +1,11 @@
 import QuotationRow from "./QuotationRow"
 
-export default function QuotationList({ quotations, onOpenView, onCloseView, updateQuo }) {
+export default function QuotationList({ 
+  quotations, 
+  onOpenView, 
+  onCloseView, 
+  updateQuo 
+}) {
   const hasQuos = quotations && quotations.length > 0
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

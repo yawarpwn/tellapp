@@ -3,6 +3,8 @@ import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
 import ModalCreateItem from "./ModalCreateItem"
 import { updateQuotation, createQuotation } from "../services/supabase"
+import { useRef } from "react"
+import { useEffect } from "react"
 
 function CreateQuotation({ quotations, quoToEdit, onClose }) {
   const getQuoNumber = () => {
@@ -43,7 +45,8 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
   const [deadline, setDeadline] = useState(quoToEdit?.deadline ?? 1)
   const [items, setItems] = useState(quoToEdit?.quotation_items ?? [])
 
-  console.log({ date })
+  const  inputRucRef = useRef(null)
+
 
   //Editing logic
   const [editingItem, setEditingItem] = useState(null)
@@ -127,15 +130,13 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
           setAddress(data.direccion_simple)
         })
         .catch(err => console.log(err))
-
-      // falseFetch()
-      //   .then(data => {
-      //     setCompany(data.nombre_o_razon_social)
-      //     setAddress(data.direccion_simple)
-      //   })
     }
 
   }
+
+  useEffect(() => {
+    inputRucRef.current.focus()
+  }, [])
 
 
 
@@ -224,6 +225,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                   </label>
                   <input
                     name="ruc"
+                    ref={inputRucRef}
                     type="number"
                     onChange={event => setRuc(event.target.value)}
                     onBlur={handleBlur}

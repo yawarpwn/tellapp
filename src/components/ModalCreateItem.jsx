@@ -1,5 +1,6 @@
-import { useState, useEffect, memo } from "react"
+import { useState, useEffect, memo, useRef } from "react"
 import { searchProduct } from "../services/search"
+import { getProducts } from "../services/supabase"
 
 function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   const [desc, setDesc] = useState(editingItem?.description ?? '')
@@ -7,6 +8,9 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   const [size, setSize] = useState(editingItem?.size ?? '')
   const [rate, setRate] = useState(editingItem?.price ?? 0)
   const [results, setResults] = useState([])
+  const cacheResult = useRef([])
+  const qtyInput = useRef(null)
+  const descriptionInput = useRef(null)
 
   const handleSubmit = (ev) => {
     ev.preventDefault()
@@ -28,8 +32,19 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   }
 
   useEffect(() => {
-    const resultProducts = searchProduct(desc)
-    setResults(resultProducts)
+    descriptionInput.current.focus()
+
+    if (cacheResult.current.length === 0) {
+      getProducts()
+        .then(data => {
+          cacheResult.current = data
+          const resultProducts = searchProduct(desc, data)
+          setResults(resultProducts)
+        })
+    } else {
+      const resultProducts = searchProduct(desc, cacheResult.current);
+      setResults(resultProducts);
+    }
   }, [desc])
 
   const handleChange = (event) => {
@@ -53,6 +68,7 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               producto
             </label>
             <input
+              ref={descriptionInput}
               name='product'
               type="text"
               value={desc}
@@ -65,13 +81,19 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
           </div>
           <div className="col-span-2 max-h-80 overflow-y-auto">
             <ul className="result flex flex-col gap-1">
-              {results.map(res => {
+              {results.map(({description, id, unit_size, price}) => {
                 return (
-                  <li key={res.code}
+                  <li key={id}
                     className="text-gray-800 bg-gray-200 hover:bg-gray-300 p-2 rounded-lg text-xs"
-                    onClick={() => setDesc(res.name)}
+                    onClick={() => {
+                      setDesc(description)
+                      setRate(price)
+                      setSize(unit_size)
+                      setQty(1)
+                      qtyInput.current.focus()
+                    }}
                   >
-                    {res.name}
+                    {description}
                   </li>
                 )
               })}
@@ -96,6 +118,7 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               Cantidad
             </label>
             <input
+              ref={qtyInput}
               className="quotation-input"
               type="number"
               placeholder="10"
@@ -117,13 +140,13 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               placeholder="100.00" />
           </div>
           <div className="flex justify-between items-center col-span-2">
-            <button 
-              className="border border-black hover:bg-black hover:text-white px-4 py-2 rounded-lg" 
+            <button
+              className="border border-black hover:bg-black hover:text-white px-4 py-2 rounded-lg"
               type="submit">{editingItem ? 'Actualizar' : '+Agregar'}
             </button>
-            <button 
-              className="border border-black  hover:bg-black hover:text-white  px-4 py-2 rounded-lg" 
-              type="button" 
+            <button
+              className="border border-black  hover:bg-black hover:text-white  px-4 py-2 rounded-lg"
+              type="button"
               onClick={onClose}>Cancelar</button>
           </div>
         </form>

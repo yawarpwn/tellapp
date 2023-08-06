@@ -5,26 +5,6 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRudmhzbmNzZ2ZrYXFoc3BwcHF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTA5MTg0ODksImV4cCI6MjAwNjQ5NDQ4OX0.fZBY9uT0N4sKiG9qplto1KdJarxDsQy4hgMFHv9WHMk",
 );
 
-function mapQuos(quos) {
-    return quos.map(quo => ({
-    quoNumber: quo.quo_number,
-    address: quo.address,
-    company: quo.company,
-    date: quo.date,
-    deadline: quo.deadline,
-    email: quo.email,
-    id: quo.id,
-    phone: quo.phone,
-    items: quo.quotation_items.map(item => ({
-      id: item.id,
-      desc: item.description,
-      rate: item.price,
-      size: item.unit_size,
-      qty: item.qty
-    }))
-  }))
-
-}
 
 export async function deleteRow({ table, id }) {
   try {
@@ -86,6 +66,10 @@ export const deleteQuotation = (id) => deleteRow({ id, table: "cotizaciones" });
 export const updateQuotation = (quoToUpdate, id) => updateRow({ id, table: "cotizaciones", rowToUpdate: quoToUpdate})
 export const createQuotation = (quoToCreate) => insertRows({ rows: quoToCreate, table: "cotizaciones" });
 export const getQuotations = () =>  getTableContent("cotizaciones")
+export const getProducts = () => {
+  console.log('fetch')
+  return getTableContent("products")
+}
 export const client = supabase;
 
 // const row ={
@@ -100,4 +84,5 @@ export const client = supabase;
 // }
 
 // insertRows({rows: row, table: 'cotizaciones'})
+// console.log(await getTableContent('products'))
 

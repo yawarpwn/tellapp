@@ -1,27 +1,17 @@
-import PrinterIcon from '../icons/PrinterIcon'
 import EditIcon from '../icons/EditIcon'
+import LoadingIcon from '../icons/LoadingIcon'
 import { getIgv } from '../utils/numbers'
-import PDFGenerator from './PDFGenerator';
-import { usePDF } from '@react-pdf/renderer';
-import { useEffect } from 'react';
-import { deleteQuotation } from '../services/supabase';
+import { useEffect, lazy, Suspense } from 'react';
+
+const LazyDownloadPDF = lazy(() => import ('./DownLoadPDF'))
 
 export default function QuotationRow({
   quotation,
   index,
-  onOpenView,
-  onCloseView,
   updateQuo
 }) {
   const { company, quo_number: quoNumber } = quotation
   const { total } = getIgv(quotation.quotation_items)
-  const [instance, setInstance] = usePDF({ document: <PDFGenerator quotation={quotation} /> })
-
-
-
-  useEffect(() => {
-    setInstance(<PDFGenerator quotation={quotation} />)
-  }, [])
 
   return (
     <tr
@@ -43,15 +33,12 @@ export default function QuotationRow({
         >
           <EditIcon />
         </button>
-        {/* <button type='button' onClick={() => deleteQuotation(quotation.id)}> */}
-        {/*   DEL */}
-        {/* </button> */}
-        {/* <button type='button' onClick={onOpenView}> */}
-        {/*   <EyeIcon /> */}
-        {/* </button> */}
-        <a href={instance.url} download={`COT-2023-00${quotation.quo_number}.pdf`} >
-          <PrinterIcon />
-        </a>
+        <Suspense fallback={<LoadingIcon />}>
+          <LazyDownloadPDF quotation={quotation} />
+        </Suspense>
+        {/* <a href={instance.url} download={`COT-2023-00${quotation.quo_number}.pdf`} > */}
+        {/*   <PrinterIcon /> */}
+        {/* </a> */}
       </td>
     </tr>
   )

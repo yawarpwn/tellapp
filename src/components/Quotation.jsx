@@ -64,7 +64,7 @@ export default function Quotation({ quotation }) {
           </tr>
         </thead>
         <tbody className='border-b-black border-b-2'>
-          {quotation.items.map(({ id, desc, qty, rate, size }, index) => {
+          {(quotation.items ?? []).map(({ id, desc, qty, rate, size }, index) => {
             return (
               <tr key={id}>
                 <td>{index + 1}</td>

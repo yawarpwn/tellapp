@@ -36,7 +36,7 @@ export default function QuotationRow({
         >
           <EditIcon />
         </button>
-        <Suspense fallback={'Cargando'}>
+        <Suspense fallback={'Cargando...'}>
             <LazyDownloadPDF quotation={quotation} />
         </Suspense>
         {/* <a href={instance.url} download={`COT-2023-00${quotation.quo_number}.pdf`} > */}

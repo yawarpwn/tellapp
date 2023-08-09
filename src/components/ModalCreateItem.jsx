@@ -5,7 +5,7 @@ import { getProducts } from "../services/supabase"
 function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   const [desc, setDesc] = useState(editingItem?.description ?? '')
   const [qty, setQty] = useState(editingItem?.qty ?? 0)
-  const [size, setSize] = useState(editingItem?.size ?? '')
+  const [size, setSize] = useState(editingItem?.unit_size ?? '')
   const [rate, setRate] = useState(editingItem?.price ?? 0)
   const [results, setResults] = useState([])
   const cacheResult = useRef([])

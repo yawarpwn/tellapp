@@ -36,7 +36,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     return formatedDate
   }
   const initialDate = quoToEdit?.date ? formatDate(quoToEdit.date) : getCurrentDate();
-  const [company, setCompany] = useState(quoToEdit?.company || 'DESCONOCIDO')
+  const [company, setCompany] = useState(quoToEdit?.company || 'SIN RUC PROPORCIONADO')
   const [phone, setPhone] = useState(quoToEdit?.phone ?? '')
   const [date, setDate] = useState(initialDate)
   const [ruc, setRuc] = useState(quoToEdit?.ruc ?? '')
@@ -45,7 +45,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
   const [deadline, setDeadline] = useState(quoToEdit?.deadline ?? 1)
   const [items, setItems] = useState(quoToEdit?.quotation_items ?? [])
 
-  const  inputRucRef = useRef(null)
+  const inputRucRef = useRef(null)
 
 
   //Editing logic
@@ -72,7 +72,8 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
       item.id === editingItem.id ? { ...item, ...editedProduct } : item
     );
     setItems(updatedItems);
-    setEditingItem(null); // Limpia el es
+    // Limpia el el modal de items
+    setEditingItem(null); 
 
   }
 
@@ -124,12 +125,10 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
   const handleBlur = () => {
     if (ruc.length === 11) {
       getRuc(ruc)
-        .then(res => res.json())
         .then(data => {
-          setCompany(data.nombre_o_razon_social)
-          setAddress(data.direccion_simple)
+          setCompany(data.razonSocial)
+          setAddress(data.direccion)
         })
-        .catch(err => console.log(err))
     }
 
   }
@@ -148,10 +147,10 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
         }
         handleClose()
       }}
-      className="fixed z-50 top-0 left-0 right-0 bottom-0 bg-[#000005be] ">
-      <div className="h-screen relative  max-w-sm bg-white p-2">
-        <form className="h-full  relative" onSubmit={handleSubmit}>
-          <div className="wrapper overflow-y-auto h-[90%]  pt-4 pb-10 ">
+      className="fixed z-50 top-0 left-0 right-0 flex items-center justify-center bottom-0 bg-[#000005be] p-2 ">
+      <div className="relative w-full h-[calc(100%-1rem)] bg-white max-w-2xl  rounded-lg">
+        <form className="relative" onSubmit={handleSubmit}>
+          <div className="wrapper overflow-y-auto p-4 ">
             {/* Child */}
             <div className="mb-4">
 
@@ -204,6 +203,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                   <label className="quotation-label">Nombre o Razón social: </label>
                   <input
                     name="company"
+                    required
                     value={company}
                     onChange={ev => setCompany(ev.target.value)}
                     className="quotation-input"
@@ -224,8 +224,8 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                     Ruc:
                   </label>
                   <input
-                    name="ruc"
                     ref={inputRucRef}
+                    name="ruc"
                     type="number"
                     onChange={event => setRuc(event.target.value)}
                     onBlur={handleBlur}
@@ -257,18 +257,19 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
 
             <div className="w-full flex flex-col gap-y-6 mt-4 ">
               <ItemsList items={items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />
+              <div className="bottom-2 left-0 w-full flex justify-between h-16 p-2 bg-white">
+                <button type="button" onClick={handleClose} className="bg-purple-500 text-white px-4 py-2 rounded-lg">cancel</button>
+                <button
+                  type="button"
+                  className=' bg-gray-200 hover:opacity-80 px-4 py-2 items-center  justify-center rounded-lg'
+                  onClick={() => setOpenModal(!openModal)}
+                >
+                  + Agregar
+                </button>
+                <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded-lg" >{quoToEdit === null ? 'Guardar' : 'Actualizar'}</button>
+              </div>
             </div>
-          </div>
-          <div className="absolute  bottom-2 left-0 w-full flex justify-between h-16 p-2 bg-white">
-            <button type="button" onClick={handleClose} className="bg-purple-500 text-white px-4 py-2 rounded-lg">cancel</button>
-            <button
-              type="button"
-              className=' bg-gray-200 hover:opacity-80 px-4 py-2 items-center  justify-center rounded-lg'
-              onClick={() => setOpenModal(!openModal)}
-            >
-              + Agregar
-            </button>
-            <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded-lg" >{quoToEdit === null ? 'Guardar' : 'Actualizar'}</button>
+
           </div>
         </form>
         {openModal && (

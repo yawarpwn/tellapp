@@ -21,7 +21,7 @@ export async function deleteRow({ table, id }) {
 }
 
 async function insertRows({ rows, table }) {
-  console.log({rows, table})
+  console.log({ rows, table })
   const { data, error } = await supabase
     .from(table)
     .insert(rows)
@@ -49,23 +49,30 @@ export async function updateRow({ rowToUpdate, table, id }) {
 }
 
 export async function getTableContent(table) {
-  try {
+  if (table === 'cotizaciones') {
     const { data, error } = await supabase
       .from(table)
-      .select("*");
+      .select("*")
+      .order('quo_number', { ascending: false })
     if (error) {
       throw new Error("[SupabaseError:] " + error.message);
     }
     return data;
-  } catch (err) {
-    console.error(err);
   }
+
+  const { data, error } = await supabase
+    .from(table)
+    .select("*")
+  if (error) {
+    throw new Error("[SupabaseError:] " + error.message);
+  }
+  return data;
 }
 
 export const deleteQuotation = (id) => deleteRow({ id, table: "cotizaciones" });
-export const updateQuotation = (quoToUpdate, id) => updateRow({ id, table: "cotizaciones", rowToUpdate: quoToUpdate})
+export const updateQuotation = (quoToUpdate, id) => updateRow({ id, table: "cotizaciones", rowToUpdate: quoToUpdate })
 export const createQuotation = (quoToCreate) => insertRows({ rows: quoToCreate, table: "cotizaciones" });
-export const getQuotations = () =>  getTableContent("cotizaciones")
+export const getQuotations = () => getTableContent("cotizaciones")
 export const getProducts = () => {
   console.log('fetch')
   return getTableContent("products")

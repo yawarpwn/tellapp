@@ -60,10 +60,11 @@ const styles = StyleSheet.create({
 
 
 export default function Table({ items }) {
-  const roundedNumber = (number) => {
-    const rounded = Math.round((number / 1.18) * 100) / 100
-    return rounded.toFixed(2)
+  if(!items) {
+    return null
   }
+
+  const hasItems = items.length > 0
   return (
     <View style={styles.tableContainer}>
       <View style={styles.tableHeader} >
@@ -74,7 +75,7 @@ export default function Table({ items }) {
         <Text style={styles.price}>P. UNIT</Text>
         <Text style={styles.total}>MONTO</Text>
       </View>
-      {items.map(({ id,  description, price, unit_size, qty }, index) => {
+      {hasItems && items.map(({ id,  description, price, unit_size, qty }, index) => {
         const isOdd = index % 2 !== 0
         return (
           <View key={id} style={{ ...styles.tableItems, backgroundColor: isOdd ? '#EEE' : '#fff' }}>

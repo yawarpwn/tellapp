@@ -7,6 +7,10 @@ import ShareIcon from '../icons/ShareIcon'
 export default function DownloadPDF({ quotation }) {
   const [instance, setInstance] = usePDF()
 
+  // useEffect(() => {
+  //   setInstance(<PDFGenerator quotation={quotation} />)
+  // }, [quotation])
+
   useEffect(() => {
     setInstance(<PDFGenerator quotation={quotation} />)
   }, [quotation])

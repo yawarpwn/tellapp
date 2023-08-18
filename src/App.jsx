@@ -18,12 +18,11 @@ function App() {
   const hasFilterValue = Boolean(filterValue)
 
   const filteredQuotations = useMemo(() => {
-    if(hasFilterValue) {
+    if (hasFilterValue) {
       return quotations.filter(x => x.company.toLowerCase().includes(filterValue.toLowerCase()))
-    } else {
-      return quotations
-    } 
-  }, [filterValue])
+    }
+    return quotations 
+  }, [filterValue, quotations])
 
   const onSearchValue = (event) => {
     setFilterValue(event.target.value)
@@ -105,7 +104,7 @@ function App() {
 
 
   return (
-    <div className='max-w-lg px-2 mx-auto w-full'>
+    <div className='max-w-lg px-2 mx-auto w-full bg-[hsl(var(--theme-background))] text-[hsl(var(--theme-foreground))]'>
       <Header />
       <main>
         <div className='flex flex-col gap-4 w-full relative'>

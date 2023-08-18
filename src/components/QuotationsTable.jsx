@@ -12,8 +12,8 @@ export default function QuotationList({
     <table
       aria-multiselectable='true'
       tabIndex={-1}
-      className="w-full min-w-full h-auto table-auto text-zinc-200 ">
-      <thead className="sticky top-0 left-0 z-10 bg-black" role='rowgroup'>
+      className="w-full min-w-full h-auto table-auto ">
+      <thead className="sticky top-0 left-0 z-10 bg-foreground-100" role='rowgroup'>
         <tr role="row" className="outline-none">
           <th scope="col" className="table-th">
             No

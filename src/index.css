@@ -3,29 +3,180 @@
 @tailwind utilities;
 
 @layer components {
-
-  .quotation-input {
-    @apply border py-3 px-3 rounded-lg focus:outline-purple-500 w-full ; 
-  }
-  .quotation-label {
-    @apply absolute -top-3 left-1 bg-white py-1 px-2 text-xs font-light text-gray-400;
-  }
-
   .table-th {
-  @apply px-3 h-10 text-xs text-zinc-500 border-b text-left ;
+  @apply px-3 h-10 text-xs  border-b text-left;
   }
 
   .table-td {
   @apply px-2 py-1 align-middle relative whitespace-normal text-xs ;
   }
+  .pattern-bg {
+    background-color: var(--theme-background);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='var(--pattern)' fill-opacity='0.1' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
 
 }
 
+
 @layer base {
-  body {
-    background: #000;
-    color: #fff;
+ :root  {
+  color-scheme: light;
+    --theme-background: 0 0% 100%;
+    --theme-foreground-50: 0 0% 98%;
+    --theme-foreground-100: 240 5% 96%;
+    --theme-foreground-200: 240 6% 90%;
+    --theme-foreground-300: 240 5% 84%;
+    --theme-foreground-400: 240 5% 65%;
+    --theme-foreground-500: 240 4% 46%;
+    --theme-foreground-600: 240 5% 34%;
+    --theme-foreground-700: 240 5% 26%;
+    --theme-foreground-800: 240 4% 16%;
+    --theme-foreground-900: 240 6% 10%;
+    --theme-foreground: 202 24% 9%;
+    --theme-primary-50: 213 92% 95%;
+    --theme-primary-100: 212 92% 90%;
+    --theme-primary-200: 212 92% 79%;
+    --theme-primary-300: 212 92% 69%;
+    --theme-primary-400: 212 92% 58%;
+    --theme-primary-500: 212 100% 47%;
+    --theme-primary-600: 212 100% 38%;
+    --theme-primary-700: 212 100% 29%;
+    --theme-primary-800: 212 100% 19%;
+    --theme-primary-900: 212 100% 10%;
+    --theme-primary-foreground: 0 0% 100%;
+    --theme-primary: 212 100% 47%;
+    --theme-secondary-50: 270 62% 95%;
+    --theme-secondary-100: 270 59% 89%;
+    --theme-secondary-200: 270 59% 79%;
+    --theme-secondary-300: 270 59% 68%;
+    --theme-secondary-400: 270 59% 58%;
+    --theme-secondary-500: 270 67% 47%;
+    --theme-secondary-600: 270 67% 38%;
+    --theme-secondary-700: 270 67% 28%;
+    --theme-secondary-800: 270 67% 19%;
+    --theme-secondary-900: 270 67% 9%;
+    --theme-secondary-foreground: 0 0% 100%;
+    --theme-secondary: 270 67% 47%;
+    --theme-success-50: 147 64% 95%;
+    --theme-success-100: 146 61% 89%;
+    --theme-success-200: 146 62% 77%;
+    --theme-success-300: 146 63% 66%;
+    --theme-success-400: 146 62% 55%;
+    --theme-success-500: 146 79% 44%;
+    --theme-success-600: 146 80% 35%;
+    --theme-success-700: 146 79% 26%;
+    --theme-success-800: 146 80% 17%;
+    --theme-success-900: 146 78% 9%;
+    --theme-success-foreground: 0 0% 0%;
+    --theme-success: 146 79% 44%;
+    --theme-warning-50: 55 92% 95%;
+    --theme-warning-100: 37 91% 91%;
+    --theme-warning-200: 37 91% 82%;
+    --theme-warning-300: 37 91% 73%;
+    --theme-warning-400: 37 91% 64%;
+    --theme-warning-500: 37 91% 55%;
+    --theme-warning-600: 37 74% 44%;
+    --theme-warning-700: 37 74% 33%;
+    --theme-warning-800: 37 75% 22%;
+    --theme-warning-900: 37 75% 11%;
+    --theme-warning-foreground: 0 0% 0%;
+    --theme-warning: 37 91% 55%;
+    --theme-danger-50: 339 92% 95%;
+    --theme-danger-100: 340 92% 90%;
+    --theme-danger-200: 339 90% 80%;
+    --theme-danger-300: 339 91% 71%;
+    --theme-danger-400: 339 90% 61%;
+    --theme-danger-500: 339 90% 51%;
+    --theme-danger-600: 339 87% 41%;
+    --theme-danger-700: 339 86% 31%;
+    --theme-danger-800: 339 87% 20%;
+    --theme-danger-900: 340 85% 10%;
+    --theme-danger-foreground: 0 0% 100%;
+    --theme-danger: 339 90% 51%;
+}
+
+   .dark {
+    color-scheme: dark;
+    --theme-background: 0 0% 0%;
+    --theme-foreground-50: 240 6% 10%;
+    --theme-foreground-100: 240 4% 16%;
+    --theme-foreground-200: 240 5% 26%;
+    --theme-foreground-300: 240 5% 34%;
+    --theme-foreground-400: 240 4% 46%;
+    --theme-foreground-500: 240 5% 65%;
+    --theme-foreground-600: 240 5% 84%;
+    --theme-foreground-700: 240 6% 90%;
+    --theme-foreground-800: 240 5% 96%;
+    --theme-foreground-900: 0 0% 98%;
+    --theme-foreground: 210 6% 93%;
+    --theme-primary-50: 212 100% 10%;
+    --theme-primary-100: 212 100% 19%;
+    --theme-primary-200: 212 100% 29%;
+    --theme-primary-300: 212 100% 38%;
+    --theme-primary-400: 212 100% 47%;
+    --theme-primary-500: 212 92% 58%;
+    --theme-primary-600: 212 92% 69%;
+    --theme-primary-700: 212 92% 79%;
+    --theme-primary-800: 212 92% 90%;
+    --theme-primary-900: 213 92% 95%;
+    --theme-primary-foreground: 0 0% 100%;
+    --theme-primary: 212 100% 47%;
+    --theme-secondary-50: 270 67% 9%;
+    --theme-secondary-100: 270 67% 19%;
+    --theme-secondary-200: 270 67% 28%;
+    --theme-secondary-300: 270 67% 38%;
+    --theme-secondary-400: 270 67% 47%;
+    --theme-secondary-500: 270 59% 58%;
+    --theme-secondary-600: 270 59% 68%;
+    --theme-secondary-700: 270 59% 79%;
+    --theme-secondary-800: 270 59% 89%;
+    --theme-secondary-900: 270 62% 95%;
+    --theme-secondary-foreground: 0 0% 100%;
+    --theme-secondary: 270 59% 58%;
+    --theme-success-50: 146 78% 9%;
+    --theme-success-100: 146 80% 17%;
+    --theme-success-200: 146 79% 26%;
+    --theme-success-300: 146 80% 35%;
+    --theme-success-400: 146 79% 44%;
+    --theme-success-500: 146 62% 55%;
+    --theme-success-600: 146 63% 66%;
+    --theme-success-700: 146 62% 77%;
+    --theme-success-800: 146 61% 89%;
+    --theme-success-900: 147 64% 95%;
+    --theme-success-foreground: 0 0% 0%;
+    --theme-success: 146 79% 44%;
+    --theme-warning-50: 37 75% 11%;
+    --theme-warning-100: 37 75% 22%;
+    --theme-warning-200: 37 74% 33%;
+    --theme-warning-300: 37 74% 44%;
+    --theme-warning-400: 37 91% 55%;
+    --theme-warning-500: 37 91% 64%;
+    --theme-warning-600: 37 91% 73%;
+    --theme-warning-700: 37 91% 82%;
+    --theme-warning-800: 37 91% 91%;
+    --theme-warning-900: 55 92% 95%;
+    --theme-warning-foreground: 0 0% 0%;
+    --theme-warning: 37 91% 55%;
+    --theme-danger-50: 340 85% 10%;
+    --theme-danger-100: 339 87% 20%;
+    --theme-danger-200: 339 86% 31%;
+    --theme-danger-300: 339 87% 41%;
+    --theme-danger-400: 339 90% 51%;
+    --theme-danger-500: 339 90% 61%;
+    --theme-danger-600: 339 91% 71%;
+    --theme-danger-700: 339 90% 80%;
+    --theme-danger-800: 340 92% 90%;
+    --theme-danger-900: 339 92% 95%;
+    --theme-danger-foreground: 0 0% 100%;
+    --theme-danger: 339 90% 51%;
   }
+  body {
+    color: hsl(var(--theme-foreground));
+    background: hsl(var(--theme-background));
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='var(--pattern)' fill-opacity='0.1' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+
+  }
+
 }
 
 

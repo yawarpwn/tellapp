@@ -17,7 +17,7 @@ export default function QuotationRow({
 
   return (
     <tr
-      className={`${index % 2 ? 'bg-zinc-950' : ''}`}>
+      className={`${index % 2 ? 'bg-foreground-50' : ''}`}>
       <td className='px-3 font-normal whitespace-normal py-2 text-sm'>
         <span className='text-purple-500'>#</span>
         <span className='font-semi-bold'>{quoNumber}</span>
@@ -27,7 +27,7 @@ export default function QuotationRow({
           <p className=''>
             {company}
           </p>
-          <p className='text-zinc-600'>
+          <p className='text-foreground-600'>
             {ruc}
           </p>
         </div>

@@ -1,4 +1,4 @@
-import { useState, memo, useEffect } from "react"
+import { useState, useEffect } from "react"
 import Button from '../atoms/Button'
 import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
@@ -157,13 +157,13 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
         }
       }}
       className="fixed z-50 top-0 left-0 right-0 flex items-center justify-center bottom-0 bg-[#000005be] p-2 ">
-      <section className="m-1 shadow-lg bg-zinc-900 relative w-full h-[calc(100%-1rem)]  text-zinc-500 max-w-2xl  rounded-lg">
+      <section className="m-1 shadow-lg bg-foreground-100 relative w-full h-[calc(100%-1rem)]  text-foreground-900 max-w-2xl  rounded-lg">
         <form className="relative" onSubmit={handleSubmit}>
           <div className="wrapper overflow-y-auto p-4 ">
             {/* Child */}
             <button
               onClick={handleClose}
-              className="absolute top-1 rounded-full p-2 appearance-none right-1 hover:bg-zinc-900">
+              className="absolute top-1 rounded-full p-2 appearance-none right-1 hover:bg-foreground-200">
               <XIcon />
             </button>
             <header className="flex flex-initial font-bold">

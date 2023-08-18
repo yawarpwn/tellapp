@@ -6,8 +6,8 @@ export default function ItemsList({ items, onRemove, onOpen }) {
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full h-auto text-sm text-left text-zinc-500 ">
-          <thead className="text-xs text-zinc-700 uppercase ">
+        <table className="w-full h-auto text-sm text-left  ">
+          <thead className="text-xs  uppercase ">
             <tr>
               <th scope="col" className="table-th">
                 Producto
@@ -32,7 +32,7 @@ export default function ItemsList({ items, onRemove, onOpen }) {
           <tbody>
             {items.map((item, index) => {
               return (
-                <tr key={item.id} className={`${index % 2 ? 'bg-zinc-800' : ''}`}>
+                <tr key={item.id} className={`${index % 2 ? 'bg-foreground-200' : ''}`}>
                   <td scope="row" className="table-td">
                     <p className="max-w-[300px] truncate">
                       {item.description}

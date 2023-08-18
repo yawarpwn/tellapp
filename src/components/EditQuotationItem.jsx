@@ -64,11 +64,11 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
           onClose()
         }
       }}>
-      <div className="relative bg-zinc-900 m-1  text-zinc-500 w-full max-w-lg rounded-lg shadow-lg ">
+      <div className="relative bg-foreground-100 m-1  text-zinc-500 w-full max-w-lg rounded-lg shadow-lg ">
         <form className="p-4 flex flex-col gap-4" onSubmit={handleSubmit}>
           <button
             onClick={onClose}
-            className="absolute top-1 right-1 hover:bg-black p-2 rounded-full "
+            className="absolute top-1 right-1 hover:bg-foreground-200 p-2 rounded-full "
             type="button">
             <XIcon />
           </button>
@@ -91,7 +91,7 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               {results.map(({ description, id, unit_size, price }) => {
                 return (
                   <li key={id}
-                    className="text-zinc-300 bg-zinc-800 hover:bg-zinc-900 cursor-pointer p-2 rounded-lg text-xs"
+                    className="text-foreground-900 bg-foreground-200 hover:bg-foreground-300 cursor-pointer p-2 rounded-lg text-xs"
                     onClick={() => {
                       setDesc(description)
                       setRate(price)

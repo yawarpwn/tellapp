@@ -1,7 +1,7 @@
 export default function Button({ children, color = 'primary', ...props }) {
   const COLORS = {
     primary: 'bg-blue-500',
-    secondary: 'border',
+    secondary: 'border border-foreground-500 text-foreground-900',
     danger: 'bg-red-500'
   }
   return (

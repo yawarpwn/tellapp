@@ -6,4 +6,6 @@ export { default as VerticalDotsIcon } from './VerticalDotsIcon'
 export { default as PlusIcon } from './PlusIcon'
 export { default as DeleteIcon } from './DeleteIcon'
 export { default as XIcon } from './XIcon'
+export { default as MoonIcon } from './MoonIcon'
+export { default as SunIcon } from './SunIcon'
 

@@ -1,6 +1,6 @@
 import Header from './components/Header'
 import InputSearch from './components/InputSearch'
-import CreateQuotation from './components/CreateQuotation'
+import EditModal from './components/EditModal'
 import AddButton from './components/AddButton'
 import QuotationsTable from './components/QuotationsTable'
 import { useEffect, useState, useRef } from 'react'
@@ -136,7 +136,7 @@ function App() {
       </main>
       {openCreateQuo &&
         createPortal(
-          <CreateQuotation quotations={quotations} quoToEdit={quoToEdit} onClose={closeCreateQuo} />,
+          <EditModal quotations={quotations} quoToEdit={quoToEdit} onClose={closeCreateQuo} />,
           document.body
         )
       }

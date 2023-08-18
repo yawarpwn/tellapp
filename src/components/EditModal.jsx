@@ -2,7 +2,7 @@ import { useState, memo } from "react"
 import Button from '../atoms/Button'
 import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
-import ModalCreateItem from "./ModalCreateItem"
+import EditQuotationItem from "./EditQuotationItem"
 import { updateQuotation, createQuotation } from "../services/supabase"
 import { useRef } from "react"
 import { useEffect } from "react"
@@ -159,14 +159,14 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
               className="absolute top-1 rounded-full p-2 appearance-none right-1 hover:bg-zinc-900">
               <XIcon />
             </button>
-            <header className="flex px-6 py-4 flex-initial font-bold">
+            <header className="flex flex-initial font-bold">
               <h2>
                 Crear
               </h2>
             </header>
 
             {/* Child */}
-            <div className="flex w-full flex-col gap-3 px-6 py-2">
+            <div className="flex w-full flex-col gap-3">
               <div className="grid grid-cols-3 gap-2">
                 <Input
                   label='No'
@@ -255,7 +255,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
           </div>
         </form>
         {openModal && (
-          <ModalCreateItem
+          <EditQuotationItem
             onClose={handleCloseItemModal}
             addProduct={addProduct}
             editingItem={editingItem}

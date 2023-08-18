@@ -5,7 +5,7 @@ export default function ItemsList({ items, onRemove, onOpen }) {
   const { total } = getIgv(items)
   return (
     <>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-6 py-2">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full h-auto text-sm text-left text-zinc-500 ">
           <thead className="text-xs text-zinc-700 uppercase ">
             <tr>

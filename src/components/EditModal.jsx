@@ -1,11 +1,10 @@
-import { useState, memo } from "react"
+import { useState, memo, useEffect } from "react"
 import Button from '../atoms/Button'
 import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
 import EditQuotationItem from "./EditQuotationItem"
 import { updateQuotation, createQuotation } from "../services/supabase"
 import { useRef } from "react"
-import { useEffect } from "react"
 import Input from "../atoms/Input"
 import { XIcon } from "../icons"
 
@@ -140,6 +139,14 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     inputRucRef.current.focus()
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflowY = 'hidden'
+
+    return () => {
+      document.body.style.overflowY = 'auto'
+    }
+  }, [])
+
 
 
   return (
@@ -268,4 +275,4 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
   )
 }
 
-export default memo(CreateQuotation)
+export default CreateQuotation

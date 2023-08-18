@@ -17,17 +17,17 @@ export default function QuotationRow({
 
   return (
     <tr
-      className={`hover:bg-zinc-900`}>
+      className={`${index % 2 ? 'bg-zinc-950' : ''}`}>
       <td className='px-3 font-normal whitespace-normal py-2 text-sm'>
         <span className='text-purple-500'>#</span>
         <span className='font-semi-bold'>{quoNumber}</span>
       </td>
       <td className='table-td'>
         <div className='flex flex-col'>
-          <p className='text-sm font-bold'>
+          <p className=''>
             {company}
           </p>
-          <p className='text-sm text-zinc-600'>
+          <p className='text-zinc-600'>
             {ruc}
           </p>
         </div>

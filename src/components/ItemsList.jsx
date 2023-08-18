@@ -30,9 +30,9 @@ export default function ItemsList({ items, onRemove, onOpen }) {
             </tr>
           </thead>
           <tbody>
-            {items.map(item => {
+            {items.map((item, index) => {
               return (
-                <tr key={item.id} className="border-b border-gray-200 ">
+                <tr key={item.id} className={`${index % 2 ? 'bg-zinc-800' : ''}`}>
                   <td scope="row" className="table-td">
                     <p className="max-w-[300px] truncate">
                       {item.description}

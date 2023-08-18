@@ -3,13 +3,13 @@ import PlusIcon from '../icons/PlusIcon'
 export default function AddButton({ children, ...props }) {
   return (
     <button
-      type='button'
-      className='bg-purple-500 hover:bg-purple-400 px-4 py-2 flex items-center rounded-lg text-white' {...props}
+      className='z-0 px-3 py-4 h-8 rounded-lg inline-flex items-center gap-2 bg-white text-black'
+      type="button "
+      {...props}
     >
-      <PlusIcon />
-      <span className='font-semibold'>
-        {children}
-      </span>
+      Nuevo
+      <PlusIcon size={28} />
     </button>
+
   )
 }

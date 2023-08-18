@@ -1,7 +1,8 @@
 import Header from './components/Header'
+import InputSearch from './components/InputSearch'
 import CreateQuotation from './components/CreateQuotation'
 import AddButton from './components/AddButton'
-import QuotationList from './components/QuotationList'
+import QuotationsTable from './components/QuotationsTable'
 import { useEffect, useState, useRef } from 'react'
 import { getQuotations, client } from './services/supabase'
 import { createPortal } from 'react-dom'
@@ -10,16 +11,16 @@ function App() {
   const [viewOpen, setViewOpen] = useState(false)
   const [quotations, setQuotations] = useState([])
   const [quoToEdit, setQuoToEdit] = useState(null)
-  const [openCreateQuo, setOpenCreateQuo] = useState(false)
+  const [openCreateQuo, setOpenCreateQuo] = useState(true)
   const isMounted = useRef(false)
 
   useEffect(() => {
-    if(openCreateQuo) {
+    if (openCreateQuo) {
       document.body.style.overflowY = 'hidden'
     } else {
       document.body.style.overflowY = 'auto'
     }
-    
+
   }, [openCreateQuo])
 
   useEffect(() => {
@@ -104,27 +105,35 @@ function App() {
   }
 
   return (
-    <div className='min-h-screen'>
+    <div className='max-w-lg mx-auto w-full'>
       <Header />
-      <div className='max-w-sm px-4 mt-4 mx-auto'>
-        <header className=''>
-          <div className='flex items-center justify-between mb-4'>
-            <div>
-              <h2 className='text-3xl font-extrabold'>Cotización</h2>
-              <p className='text-sm'>Hay un total de {quotations.length} Cotizaciones.</p>
-            </div>
-            <div className='flex items-center gap-x-4'>
-              <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
-            </div>
+      <main>
+        <div className='flex flex-col gap-4 w-full relative'>
+          <header className='flex justify-between items-end gap-3'>
+            <InputSearch />
+            <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
+          </header>
+          <div className='flex justify-between items-center'>
+            <span className='text-xs text-zinc-500'>
+              Hay 60 cotizaciones
+            </span>
+            <label className='flex text-zinc-500 text-xs'>
+              Filas por pagina:
+              <select className='bg-transparent outline-none'>
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+              </select>
+            </label>
           </div>
-        </header>
-        <QuotationList
-          onOpenView={openView}
-          onCloseView={closeView}
-          quotations={quotations}
-          updateQuo={handleupdateQuo}
-        />
-      </div>
+          <QuotationsTable
+            onOpenView={openView}
+            onCloseView={closeView}
+            quotations={quotations}
+            updateQuo={handleupdateQuo}
+          />
+        </div>
+      </main>
       {openCreateQuo &&
         createPortal(
           <CreateQuotation quotations={quotations} quoToEdit={quoToEdit} onClose={closeCreateQuo} />,

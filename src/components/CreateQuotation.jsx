@@ -1,10 +1,13 @@
 import { useState, memo } from "react"
+import Button from '../atoms/Button'
 import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
 import ModalCreateItem from "./ModalCreateItem"
 import { updateQuotation, createQuotation } from "../services/supabase"
 import { useRef } from "react"
 import { useEffect } from "react"
+import Input from "../atoms/Input"
+import { XIcon } from "../icons"
 
 function CreateQuotation({ quotations, quoToEdit, onClose }) {
   const getQuoNumber = () => {
@@ -73,7 +76,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     );
     setItems(updatedItems);
     // Limpia el el modal de items
-    setEditingItem(null); 
+    setEditingItem(null);
 
   }
 
@@ -141,134 +144,113 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
 
   return (
     <aside
-      onClick={e => {
-        if (e.target !== e.currentTarget) {
-          return
+      onMouseDown={e => {
+        if (e.target === e.currentTarget) {
+          handleClose()
         }
-        handleClose()
       }}
       className="fixed z-50 top-0 left-0 right-0 flex items-center justify-center bottom-0 bg-[#000005be] p-2 ">
-      <div className="relative w-full h-[calc(100%-1rem)] bg-white max-w-2xl  rounded-lg">
+      <section className="m-1 shadow-lg bg-zinc-900 relative w-full h-[calc(100%-1rem)]  text-zinc-500 max-w-2xl  rounded-lg">
         <form className="relative" onSubmit={handleSubmit}>
           <div className="wrapper overflow-y-auto p-4 ">
             {/* Child */}
-            <div className="mb-4">
-
-              <div className="grid grid-cols-3 gap-2">
-                <div className="flex flex-col relative col-span-1">
-                  <label className="quotation-label">
-                    Cotizacion No:
-                  </label>
-                  <input name="quoNumber"
-                    type="number"
-                    required
-                    onChange={event => setQuoNumber(Number(event.target.value))}
-                    value={quoNumber}
-                    className="quotation-input"
-                    placeholder="3099" />
-                </div>
-
-                <div className="flex flex-col relative col-span-1">
-                  <label className="quotation-label">
-                    Tiempo:
-                  </label>
-                  <input name="quoNumber"
-                    type="number"
-                    onChange={event => setDeadline(Number(event.target.value))}
-                    value={deadline}
-                    className="quotation-input"
-                    placeholder="5" />
-                </div>
-
-                <div className="flex flex-col relative col-span-1">
-                  <label className="quotation-label">
-                    Fecha:
-                  </label>
-                  <input
-                    name="date"
-                    type="date"
-                    required
-                    onChange={event => setDate(event.target.value)}
-                    value={date}
-                    className="quotation-input"
-                    placeholder="20/08/2023" />
-                </div>
-              </div>
-            </div>
+            <button
+              onClick={handleClose}
+              className="absolute top-1 rounded-full p-2 appearance-none right-1 hover:bg-zinc-900">
+              <XIcon />
+            </button>
+            <header className="flex px-6 py-4 flex-initial font-bold">
+              <h2>
+                Crear
+              </h2>
+            </header>
 
             {/* Child */}
-            <div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col relative col-span-2">
-                  <label className="quotation-label">Nombre o Razón social: </label>
-                  <input
-                    name="company"
-                    required
-                    value={company}
-                    onChange={ev => setCompany(ev.target.value)}
-                    className="quotation-input"
-                    placeholder="Proquinsa Quimicos Industriales S.A.C." />
-                </div>
-                <div className="flex flex-col relative col-span-2">
-                  <label className="quotation-label">Dirección: </label>
-                  <input
-                    name="address"
-                    value={address}
-                    disabled
-                    type="text"
-                    className="quotation-input"
-                    placeholder="Av. El Santuario 323 - SJL" />
-                </div>
-                <div className="flex flex-col relative col-span-1">
-                  <label className="quotation-label">
-                    Ruc:
-                  </label>
-                  <input
-                    ref={inputRucRef}
-                    name="ruc"
-                    type="number"
-                    onChange={event => setRuc(event.target.value)}
-                    onBlur={handleBlur}
-                    value={ruc}
-                    maxLength={11}
-                    minLength={11}
-                    className="quotation-input"
-                    placeholder="20610555536"
-                  />
-                </div>
+            <div className="flex w-full flex-col gap-3 px-6 py-2">
+              <div className="grid grid-cols-3 gap-2">
+                <Input
+                  label='No'
+                  name="quoNumber"
+                  type="number"
+                  required
+                  onChange={event => setQuoNumber(Number(event.target.value))}
+                  value={quoNumber}
+                  placeholder="3099" />
 
-                <div className="flex flex-col relative col-span-1">
-                  <label className="quotation-label">
-                    Tel:
-                  </label>
-                  <input
-                    name="phone"
-                    type="tel"
-                    onChange={event => setPhone(event.target.value)}
-                    maxLength={9}
-                    minLength={9}
-                    value={phone}
-                    className="quotation-input"
-                    placeholder="971 531 018" />
-                </div>
+                <Input
+                  label='Entrega'
+                  type="number"
+                  onChange={event => setDeadline(Number(event.target.value))}
+                  value={deadline}
+                  placeholder="5"
+                />
+
+                <Input
+                  label='Fecha'
+                  name="date"
+                  type="date"
+                  required
+                  onChange={event => setDate(event.target.value)}
+                  value={date}
+                  placeholder="20/08/2023" />
               </div>
-            </div>
 
+              <Input
+                name="company"
+                required
+                label={'Cliente'}
+                value={company}
+                onChange={ev => setCompany(ev.target.value)}
+                placeholder="Proquinsa Quimicos Industriales S.A.C."
+              />
 
-            <div className="w-full flex flex-col gap-y-6 mt-4 ">
-              <ItemsList items={items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />
-              <div className="bottom-2 left-0 w-full flex justify-between h-16 p-2 bg-white">
-                <button type="button" onClick={handleClose} className="bg-purple-500 text-white px-4 py-2 rounded-lg">cancel</button>
-                <button
-                  type="button"
-                  className=' bg-gray-200 hover:opacity-80 px-4 py-2 items-center  justify-center rounded-lg'
-                  onClick={() => setOpenModal(!openModal)}
-                >
-                  + Agregar
-                </button>
-                <button type="submit" className="bg-purple-500 text-white px-4 py-2 rounded-lg" >{quoToEdit === null ? 'Guardar' : 'Actualizar'}</button>
-              </div>
+              <Input
+                label='Dirección'
+                name="address"
+                value={address}
+                disabled
+                type="text"
+                placeholder="Av. El Santuario 323 - SJL"
+
+              />
+
+              <Input
+                inputRef={inputRucRef}
+                label='Ruc'
+                name="ruc"
+                type="number"
+                onChange={event => setRuc(event.target.value)}
+                onBlur={handleBlur}
+                value={ruc}
+                maxLength={11}
+                minLength={11}
+                placeholder="20610555536"
+              />
+
+              <Input
+                label='Teléfono'
+                name="phone"
+                type="tel"
+                onChange={event => setPhone(event.target.value)}
+                maxLength={9}
+                minLength={9}
+                value={phone}
+                placeholder="971 531 018"
+              />
+
             </div>
+            <ItemsList items={items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />
+            <footer className="flex gap-2 px-6 py-4 justify-between">
+              <Button color='danger' type="button" onClick={handleClose}>cancel</Button>
+              <Button
+                type="button"
+                color='secondary'
+                onClick={() => setOpenModal(!openModal)}
+              >
+                + Agregar
+              </Button>
+              <Button type="submit" >{quoToEdit === null ? 'Guardar' : 'Actualizar'}</Button>
+            </footer>
 
           </div>
         </form>
@@ -281,7 +263,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
           />
         )
         }
-      </div>
+      </section>
     </aside>
   )
 }

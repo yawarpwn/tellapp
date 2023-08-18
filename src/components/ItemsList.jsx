@@ -1,30 +1,30 @@
 import EditIcon from "../icons/EditIcon"
-import TrashIcon from "../icons/TrashIcon"
+import DeleteIcon from "../icons/DeleteIcon"
 import { getIgv } from "../utils/numbers"
 export default function ItemsList({ items, onRemove, onOpen }) {
   const { total } = getIgv(items)
   return (
     <>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 ">
-          <thead className="text-xs text-gray-700 uppercase ">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-6 py-2">
+        <table className="w-full h-auto text-sm text-left text-zinc-500 ">
+          <thead className="text-xs text-zinc-700 uppercase ">
             <tr>
-              <th scope="col" className="px-4 py-3 bg-gray-50 ">
+              <th scope="col" className="table-th">
                 Producto
               </th>
-              <th scope="col" className="px-4 py-3">
+              <th scope="col" className="table-th">
                 U/M
               </th>
-              <th scope="col" className="px-4 py-3 bg-gray-50 ">
+              <th scope="col" className="table-th">
                 P.Unit
               </th>
-              <th scope="col" className="px-4 py-3">
+              <th scope="col" className="table-th">
                 Cant
               </th>
-              <th scope="col" className="px-4 py-3">
+              <th scope="col" className="table-th">
                 Monto
               </th>
-              <th scope="col" className="px-4 py-3">
+              <th scope="col" className="table-th">
                 Action
               </th>
             </tr>
@@ -33,21 +33,21 @@ export default function ItemsList({ items, onRemove, onOpen }) {
             {items.map(item => {
               return (
                 <tr key={item.id} className="border-b border-gray-200 ">
-                  <td scope="row" className="px-4 py-2 text-gray-900 whitespace-nowrap bg-gray-50 ">
+                  <td scope="row" className="table-td">
                     <p className="max-w-[300px] truncate">
                       {item.description}
                     </p>
                   </td>
-                  <td className="px-4 py-2">
+                  <td className="table-td">
                     {item.unit_size}
                   </td>
-                  <td className="px-4 py-2 bg-gray-50 ">
+                  <td className="table-td">
                     {(item.price).toFixed(2)}
                   </td>
-                  <td className="px-4 text-center py-2 bg-gray-50 ">
+                  <td className="table-td">
                     {item.qty}
                   </td>
-                  <td className="px-4 py-2">
+                  <td className="table-td">
                     {(item.qty * item.price).toFixed(2)}
                   </td>
                   <td>
@@ -56,7 +56,7 @@ export default function ItemsList({ items, onRemove, onOpen }) {
                         <EditIcon />
                       </button>
                       <button type='button' aria-label="close modal button" onClick={() => onRemove(item.id)}>
-                        <TrashIcon />
+                        <DeleteIcon />
                       </button>
                     </div>
                   </td>

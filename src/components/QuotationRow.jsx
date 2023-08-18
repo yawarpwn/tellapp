@@ -1,8 +1,7 @@
 import EditIcon from '../icons/EditIcon'
-import LoadingIcon from '../icons/LoadingIcon'
-import PrinterIcon from '../icons/PrinterIcon';
 import { getIgv } from '../utils/numbers'
 import { useEffect, lazy, Suspense, useState } from 'react';
+import EyeIcon from '../icons/EyeIcon'
 
 const LazyDownloadPDF = lazy(() => import('./DownLoadPDF'))
 
@@ -11,34 +10,49 @@ export default function QuotationRow({
   index,
   updateQuo
 }) {
-  const { company, quo_number: quoNumber } = quotation
+  const { company, quo_number: quoNumber, ruc } = quotation
   const { total } = getIgv(quotation.quotation_items)
   const [isPDFGenerated, setIsPDFGenerated] = useState(false)
 
 
   return (
     <tr
-      className={`border-b border-gray-200 ${index % 2 ? 'bg-gray-100' : 'bg-white'}`}>
-      <td className='px-2 py-2 text-xs'>
+      className={`hover:bg-zinc-900`}>
+      <td className='px-3 font-normal whitespace-normal py-2 text-sm'>
         <span className='text-purple-500'>#</span>
         <span className='font-semi-bold'>{quoNumber}</span>
       </td>
-      <td className='px-2 py-2 text-xs'>
-        {company.slice(0, 30) + '...'}
+      <td className='table-td'>
+        <div className='flex flex-col'>
+          <p className='text-sm font-bold'>
+            {company}
+          </p>
+          <p className='text-sm text-zinc-600'>
+            {ruc}
+          </p>
+        </div>
       </td>
-      <td className='px-2 py-2'>
+      <td className='table-td'>
         {total}
       </td>
-      <td className='px-2 py-2 flex justify-between items-center gap-2'>
+      <td className='table-td'>
         <button
           onClick={() => updateQuo(quotation)}
           type='button'
         >
           <EditIcon />
         </button>
-        <Suspense fallback={'Cargando...'}>
+        {isPDFGenerated ? (
+          <Suspense fallback={'Cargando...'}>
             <LazyDownloadPDF quotation={quotation} />
-        </Suspense>
+          </Suspense>
+        ) : (
+
+          <button onClick={() => setIsPDFGenerated(true)}>
+            <EyeIcon />
+          </button>
+
+        )}
         {/* <a href={instance.url} download={`COT-2023-00${quotation.quo_number}.pdf`} > */}
         {/*   <PrinterIcon /> */}
         {/* </a> */}

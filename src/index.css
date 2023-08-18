@@ -10,6 +10,22 @@
   .quotation-label {
     @apply absolute -top-3 left-1 bg-white py-1 px-2 text-xs font-light text-gray-400;
   }
+
+  .table-th {
+  @apply px-3 h-10 text-xs text-zinc-500 border-b text-left ;
+  }
+
+  .table-td {
+  @apply px-3 py-1 align-middle relative whitespace-normal ;
+  }
+
+}
+
+@layer base {
+  body {
+    background: #000;
+    color: #fff;
+  }
 }
 
 

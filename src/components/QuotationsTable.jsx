@@ -23,8 +23,13 @@ export default function QuotationList({
             Cliente
             <ChevronDownIcon size={16} className='inline-block ml-1 mb-px' />
           </th>
+
+          <th scope="col" className="table-th">
+            <ChevronDownIcon size={16} className='inline-block ml-1 mb-px' />
+          </th>
           <th scope="col" className="table-th">
             Total
+            <ChevronDownIcon size={16} className='inline-block ml-1 mb-px' />
           </th>
           <th scope="col" className="table-th">
             Acciones

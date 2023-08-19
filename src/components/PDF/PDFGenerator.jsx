@@ -1,11 +1,11 @@
 import React from 'react'
-import QuoBAnkInfo from './QuoBankInfo';
-import QuoHeader from './QuoHeader';
-import QuoTotal from './QuoTotal';
-import QuoTable from './QuoTable'
-import QuoCustomer from './QuoCustomer'
+import QuoBAnkInfo from './BankInfo';
+import QuoHeader from './Header';
+import QuoTotal from './Total';
+import QuoTable from './Table'
+import QuoCustomer from './Customer'
 import { Document, Page,  StyleSheet } from '@react-pdf/renderer';
-import QuoTerms from './QuoTerms';
+import QuoTerms from './Terms';
 
 const styles = StyleSheet.create({
   page: {

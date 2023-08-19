@@ -4,7 +4,7 @@
 
 @layer components {
   .table-th {
-  @apply px-3 h-10 text-xs  border-b text-left;
+  @apply px-2 h-10 text-xs  border-b text-left;
   }
 
   .table-td {
@@ -32,6 +32,14 @@
     --theme-foreground-700: 240 5% 26%;
     --theme-foreground-800: 240 4% 16%;
     --theme-foreground-900: 240 6% 10%;
+    --theme-content1: 0 0% 100%;
+    --theme-content1-foreground: 202 24% 9%;
+    --theme-content2: 240 5% 96%;
+    --theme-content2-foreground: 240 4% 16%;
+    --theme-content3: 240 6% 90%;
+    --theme-content3-foreground: 240 5% 26%;
+    --theme-content4: 240 5% 84%;
+    --theme-content4-foreground: 240 5% 34%;
     --theme-foreground: 202 24% 9%;
     --theme-primary-50: 213 92% 95%;
     --theme-primary-100: 212 92% 90%;
@@ -108,6 +116,14 @@
     --theme-foreground-700: 240 6% 90%;
     --theme-foreground-800: 240 5% 96%;
     --theme-foreground-900: 0 0% 98%;
+    --theme-content1: 240 6% 10%;
+    --theme-content1-foreground: 0 0% 98%;
+    --theme-content2: 240 4% 16%;
+    --theme-content2-foreground: 240 5% 96%;
+    --theme-content3: 240 5% 26%;
+    --theme-content3-foreground: 240 6% 90%;
+    --theme-content4: 240 5% 34%;
+    --theme-content4-foreground: 240 5% 84%;
     --theme-foreground: 210 6% 93%;
     --theme-primary-50: 212 100% 10%;
     --theme-primary-100: 212 100% 19%;

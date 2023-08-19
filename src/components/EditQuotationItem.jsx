@@ -13,7 +13,6 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   const [results, setResults] = useState([])
   const cacheResult = useRef([])
   const qtyInput = useRef(null)
-  const descriptionInput = useRef(null)
 
   const handleSubmit = (ev) => {
     ev.preventDefault()
@@ -35,7 +34,6 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   }
 
   useEffect(() => {
-    descriptionInput.current.focus()
 
     if (cacheResult.current.length === 0) {
       getProducts()
@@ -76,8 +74,8 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
             {editingItem ? 'Actualizar Producto' : 'Agregar Producto'}
           </header>
           <Input
+            autoFocus
             label='Producto'
-            inputRef={descriptionInput}
             name='product'
             type="search"
             value={desc}

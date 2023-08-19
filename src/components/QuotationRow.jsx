@@ -1,16 +1,17 @@
 import EditIcon from '../icons/EditIcon'
 import { getIgv } from '../utils/numbers'
+import Chip from '../atoms/Chip'
 import { useEffect, lazy, Suspense, useState } from 'react';
 import EyeIcon from '../icons/EyeIcon'
 
-const LazyDownloadPDF = lazy(() => import('./DownLoadPDF'))
+const LazyDownloadPDF = lazy(() => import('./PDF/DownLoadPDF'))
 
 export default function QuotationRow({
   quotation,
   index,
   updateQuo
 }) {
-  const { company, quo_number: quoNumber, ruc } = quotation
+  const { company, quo_number: quoNumber, ruc, date } = quotation
   const { total } = getIgv(quotation.quotation_items)
   const [isPDFGenerated, setIsPDFGenerated] = useState(false)
 
@@ -22,15 +23,19 @@ export default function QuotationRow({
         <span className='text-purple-500'>#</span>
         <span className='font-semi-bold'>{quoNumber}</span>
       </td>
+
       <td className='table-td'>
         <div className='flex flex-col'>
           <p className=''>
             {company}
           </p>
-          <p className='text-foreground-600'>
+          <p className='text-foreground-100'>
             {ruc}
           </p>
         </div>
+      </td>
+      <td className='table-td'>
+        <Chip />
       </td>
       <td className='table-td'>
         {total}

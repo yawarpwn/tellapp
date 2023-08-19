@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { usePDF } from '@react-pdf/renderer';
 import PDFGenerator from './PDFGenerator';
-import DownloadIcon from '../icons/DownloadIcon';
-import ShareIcon from '../icons/ShareIcon'
+import DownloadIcon from '../../icons/DownloadIcon';
+import ShareIcon from '../../icons/ShareIcon'
 
 export default function DownloadPDF({ quotation }) {
   const [instance, setInstance] = usePDF()

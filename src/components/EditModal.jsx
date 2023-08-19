@@ -7,48 +7,19 @@ import { updateQuotation, createQuotation } from "../services/supabase"
 import { useRef } from "react"
 import Input from "../atoms/Input"
 import { XIcon } from "../icons"
+import { getCurrentDate, getQuoNumber, formatDate } from "../utils"
 
 function CreateQuotation({ quotations, quoToEdit, onClose }) {
-  const getQuoNumber = () => {
-    if (quotations.length <= 0) {
-      return 4000
-    }
 
-    const numbers = quotations.map(quo => quo.quo_number)
-    return Math.max(...numbers) + 1
-  }
-
-  const getCurrentDate = () => {
-    const currentDate = new Date()
-    const year = currentDate.getFullYear()
-    let month = currentDate.getMonth() + 1
-    let day = currentDate.getDate()
-
-    const formatedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-    return formatedDate
-  }
-
-  const formatDate = (date) => {
-    const currentDate = new Date(date)
-    const year = currentDate.getFullYear()
-    let month = currentDate.getMonth() + 1
-    let day = currentDate.getDate()
-
-    const formatedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-    return formatedDate
-  }
   const initialDate = quoToEdit?.date ? formatDate(quoToEdit.date) : getCurrentDate();
   const [company, setCompany] = useState(quoToEdit?.company || 'SIN RUC PROPORCIONADO')
   const [phone, setPhone] = useState(quoToEdit?.phone ?? '')
   const [date, setDate] = useState(initialDate)
   const [ruc, setRuc] = useState(quoToEdit?.ruc ?? '')
   const [address, setAddress] = useState(quoToEdit?.address ?? '')
-  const [quoNumber, setQuoNumber] = useState(quoToEdit?.quo_number ?? getQuoNumber())
+  const [quoNumber, setQuoNumber] = useState(quoToEdit?.quo_number ?? getQuoNumber(quotations))
   const [deadline, setDeadline] = useState(quoToEdit?.deadline ?? 1)
   const [items, setItems] = useState(quoToEdit?.quotation_items ?? [])
-
-  const inputRucRef = useRef(null)
-
 
   //Editing logic
   const [editingItem, setEditingItem] = useState(null)
@@ -74,7 +45,6 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
       item.id === editingItem.id ? { ...item, ...editedProduct } : item
     );
     setItems(updatedItems);
-    // Limpia el el modal de items
     setEditingItem(null);
 
   }
@@ -136,10 +106,6 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
   }
 
   useEffect(() => {
-    inputRucRef.current.focus()
-  }, [])
-
-  useEffect(() => {
     document.body.style.overflowY = 'hidden'
 
     return () => {
@@ -157,7 +123,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
         }
       }}
       className="fixed z-50 top-0 left-0 right-0 flex items-center justify-center bottom-0 bg-[#000005be] p-2 ">
-      <section className="m-1 shadow-lg bg-foreground-100 relative w-full h-[calc(100%-1rem)]  text-foreground-900 max-w-2xl  rounded-lg">
+      <section className="m-1 shadow-lg bg-content1 relative">
         <form className="relative" onSubmit={handleSubmit}>
           <div className="wrapper overflow-y-auto p-4 ">
             {/* Child */}
@@ -168,7 +134,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
             </button>
             <header className="flex flex-initial font-bold">
               <h2>
-                Crear
+                {editingItem ? 'Editar' : 'Crear'}
               </h2>
             </header>
 
@@ -222,7 +188,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
               />
 
               <Input
-                inputRef={inputRucRef}
+                autoFocus
                 label='Ruc'
                 name="ruc"
                 type="number"
@@ -233,17 +199,30 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                 minLength={11}
                 placeholder="20610555536"
               />
+              <div className="flex gap-x-2">
+                <Input
+                  label='Teléfono'
+                  name="phone"
+                  type="tel"
+                  onChange={event => setPhone(event.target.value)}
+                  maxLength={9}
+                  minLength={9}
+                  value={phone}
+                  placeholder="971 531 018"
+                />
+                <label>
+                  <select
+                    required
+                    className="bg-transparent"
+                    value={'danger'}
+                  >
+                    <option value='success'>Seguro</option>
+                    <option value='warning'>Probable</option>
+                    <option value='danger'>Difícil</option>
+                  </select>
+                </label>
+              </div>
 
-              <Input
-                label='Teléfono'
-                name="phone"
-                type="tel"
-                onChange={event => setPhone(event.target.value)}
-                maxLength={9}
-                minLength={9}
-                value={phone}
-                placeholder="971 531 018"
-              />
 
             </div>
             <ItemsList items={items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />

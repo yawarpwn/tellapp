@@ -1,4 +1,4 @@
-import { getIgv } from '../utils/numbers'
+import { getIgv } from '../../utils/numbers'
 import { Text, View, StyleSheet } from '@react-pdf/renderer'
 const styles = StyleSheet.create({
   container: {

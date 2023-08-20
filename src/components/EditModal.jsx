@@ -4,26 +4,26 @@ import { getRuc } from "../services/sunat"
 import ItemsList from "./ItemsList"
 import EditQuotationItem from "./EditQuotationItem"
 import { updateQuotation, createQuotation } from "../services/supabase"
-import { useRef } from "react"
 import Input from "../atoms/Input"
 import { XIcon } from "../icons"
 import { getCurrentDate, getQuoNumber, formatDate } from "../utils"
 
 function CreateQuotation({ quotations, quoToEdit, onClose }) {
-
-  const initialDate = quoToEdit?.date ? formatDate(quoToEdit.date) : getCurrentDate();
-  const [company, setCompany] = useState(quoToEdit?.company || 'SIN RUC PROPORCIONADO')
-  const [phone, setPhone] = useState(quoToEdit?.phone ?? '')
-  const [date, setDate] = useState(initialDate)
-  const [ruc, setRuc] = useState(quoToEdit?.ruc ?? '')
-  const [address, setAddress] = useState(quoToEdit?.address ?? '')
-  const [quoNumber, setQuoNumber] = useState(quoToEdit?.quo_number ?? getQuoNumber(quotations))
-  const [deadline, setDeadline] = useState(quoToEdit?.deadline ?? 1)
-  const [items, setItems] = useState(quoToEdit?.quotation_items ?? [])
-
-  //Editing logic
   const [editingItem, setEditingItem] = useState(null)
   const [openModal, setOpenModal] = useState(false)
+
+  const initialQuo = quoToEdit || {
+    company: 'SIN RUC PROPORCIONADO',
+    phone: '',
+    date: getCurrentDate(),
+    ruc: '',
+    address: '',
+    quo_number: getQuoNumber(quotations),
+    deadline: 1,
+    quotation_items: [],
+    viability: 'Difficult'
+  }
+  const [quoState, setQuoState] = useState(initialQuo);
 
   const handleEditingItem = (item) => {
     setOpenModal(true)
@@ -41,10 +41,10 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
   }
 
   const handleSaveEdit = (editedProduct) => {
-    const updatedItems = items.map((item) =>
+    const updatedItems = quoState.quotation_items.map((item) =>
       item.id === editingItem.id ? { ...item, ...editedProduct } : item
     );
-    setItems(updatedItems);
+    setQuoState(prev => ({ ...prev, quotation_items: updatedItems }));
     setEditingItem(null);
 
   }
@@ -52,58 +52,45 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const quoData = {
-      company,
-      address,
-      quo_number: quoNumber,
-      date,
-      ruc,
-      phone,
-      deadline,
-      quotation_items: items,
-    }
     if (quoToEdit) {
       const quo = {
-        company,
-        address,
-        quo_number: quoNumber,
-        phone,
-        deadline,
-        quotation_items: items
+        ...quoState
       }
       await updateQuotation(quo, quoToEdit.id)
       handleClose()
     } else {
-      await createQuotation(quoData)
+      await createQuotation(quoState)
       handleClose()
     }
   }
 
 
   const addProduct = (product) => {
-    setItems(prev => ([
-      ...prev, {
-        id: crypto.randomUUID(),
-        ...product
-      }
-    ]))
+    setQuoState(prev => ({
+      ...prev,
+      quotation_items: [
+        ...prev.quotation_items,
+        product
+      ]
+    }))
   }
 
   const removeProduct = (id) => {
-    setItems(items.filter((item) => item.id !== id))
+    setQuoState(prev => ({
+      ...prev,
+      quotation_items: quoState.quotation_items.filter(x => x.id !== id)
+    }))
   }
 
 
   const handleBlur = () => {
-    if (ruc.length === 11) {
-      getRuc(ruc)
-        .then(data => {
-          setCompany(data.razonSocial)
-          setAddress(data.direccion)
-        })
+    if (quoState?.ruc.length === 11) {
+      getRuc(quoState?.ruc)
+        .then(data => setQuoState(prev => ({ ...prev, company: data.razonSocial, address: data.direccion })))
     }
 
   }
+
 
   useEffect(() => {
     document.body.style.overflowY = 'hidden'
@@ -116,16 +103,18 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
 
 
   return (
-    <aside
-      onMouseDown={e => {
-        if (e.target === e.currentTarget) {
-          handleClose()
-        }
-      }}
-      className="fixed z-50 top-0 left-0 right-0 flex items-center justify-center bottom-0 bg-[#000005be] p-2 ">
-      <section className="m-1 shadow-lg bg-content1 relative">
-        <form className="relative" onSubmit={handleSubmit}>
-          <div className="wrapper overflow-y-auto p-4 ">
+    <div tabIndex={-1} className="border">
+      <div className="fixed w-screen h-screen inset-0 bg-[rgba(0,0,0,.5)] backdrop-blur-sm z-50">
+      </div>
+      <div
+        onMouseDown={e => {
+          if (e.target === e.currentTarget) {
+            handleClose()
+          }
+        }}
+        className="fixed w-screen h-[100dvh] z-50 inset-0 flex items-center justify-center overflow-x-auto p-1">
+        <section className="relative max-w-md w-full h-full rounded-lg shadow-lg bg-content1  overflow-y-auto">
+          <form className="px-2 flex flex-col gap-4" onSubmit={handleSubmit}>
             {/* Child */}
             <button
               onClick={handleClose}
@@ -146,15 +135,15 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                   name="quoNumber"
                   type="number"
                   required
-                  onChange={event => setQuoNumber(Number(event.target.value))}
-                  value={quoNumber}
+                  onChange={event => setQuoState(prev => ({ ...prev, quo_number: Number(event.target.value) }))}
+                  value={quoState.quo_number}
                   placeholder="3099" />
 
                 <Input
                   label='Entrega'
                   type="number"
-                  onChange={event => setDeadline(Number(event.target.value))}
-                  value={deadline}
+                  onChange={event => setQuoState(prev => ({ ...prev, deadline: Number(event.target.value) }))}
+                  value={quoState.deadline}
                   placeholder="5"
                 />
 
@@ -163,8 +152,8 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                   name="date"
                   type="date"
                   required
-                  onChange={event => setDate(event.target.value)}
-                  value={date}
+                  onChange={event => setQuoState(prev => ({ ...prev, date: event.target.value }))}
+                  value={formatDate(quoState.date)}
                   placeholder="20/08/2023" />
               </div>
 
@@ -172,15 +161,16 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                 name="company"
                 required
                 label={'Cliente'}
-                value={company}
-                onChange={ev => setCompany(ev.target.value)}
+                value={quoState.company}
+                onChange={event => setQuoState(prev => ({ ...prev, company: event.target.value }))}
                 placeholder="Proquinsa Quimicos Industriales S.A.C."
               />
 
               <Input
                 label='Dirección'
                 name="address"
-                value={address}
+                value={quoState.address}
+                onChange={event => setQuoState(prev => ({ ...prev, address: event.target.value }))}
                 disabled
                 type="text"
                 placeholder="Av. El Santuario 323 - SJL"
@@ -192,9 +182,9 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                 label='Ruc'
                 name="ruc"
                 type="number"
-                onChange={event => setRuc(event.target.value)}
+                onChange={event => setQuoState(prev => ({ ...prev, ruc: event.target.value }))}
                 onBlur={handleBlur}
-                value={ruc}
+                value={quoState.ruc}
                 maxLength={11}
                 minLength={11}
                 placeholder="20610555536"
@@ -204,28 +194,29 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
                   label='Teléfono'
                   name="phone"
                   type="tel"
-                  onChange={event => setPhone(event.target.value)}
+                  onChange={event => setQuoState(prev => ({ ...prev, phone: event.target.value }))}
                   maxLength={9}
                   minLength={9}
-                  value={phone}
+                  value={quoState.phone}
                   placeholder="971 531 018"
                 />
                 <label>
                   <select
                     required
                     className="bg-transparent"
-                    value={'danger'}
+                    value={quoState.viability}
+                    onChange={event => setQuoState(prev => ({ ...prev, viability: event.target.value }))}
                   >
-                    <option value='success'>Seguro</option>
-                    <option value='warning'>Probable</option>
-                    <option value='danger'>Difícil</option>
+                    <option value='Safe'>Seguro</option>
+                    <option value='Possible'>Probable</option>
+                    <option value='Difficult'>Difícil</option>
                   </select>
                 </label>
               </div>
 
 
             </div>
-            <ItemsList items={items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />
+            <ItemsList items={quoState.quotation_items} onRemove={removeProduct} onClose={handleCloseItemModal} onOpen={handleEditingItem} />
             <footer className="flex gap-2 px-6 py-4 justify-between">
               <Button color='danger' type="button" onClick={handleClose}>cancel</Button>
               <Button
@@ -238,19 +229,19 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
               <Button type="submit" >{quoToEdit === null ? 'Guardar' : 'Actualizar'}</Button>
             </footer>
 
-          </div>
-        </form>
-        {openModal && (
-          <EditQuotationItem
-            onClose={handleCloseItemModal}
-            addProduct={addProduct}
-            editingItem={editingItem}
-            onSaveEdit={handleSaveEdit}
-          />
-        )
-        }
-      </section>
-    </aside>
+          </form>
+          {openModal && (
+            <EditQuotationItem
+              onClose={handleCloseItemModal}
+              addProduct={addProduct}
+              editingItem={editingItem}
+              onSaveEdit={handleSaveEdit}
+            />
+          )
+          }
+        </section>
+      </div>
+    </div>
   )
 }
 

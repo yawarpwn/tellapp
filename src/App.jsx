@@ -7,23 +7,33 @@ import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useMemo } from 'react'
 import { useRealTime } from './hooks/use-real-time'
+import { VIABILITY, ROWS_PER_PAGE } from './contants'
 
 function App() {
   const [quoToEdit, setQuoToEdit] = useState(null)
   const [openCreateQuo, setOpenCreateQuo] = useState(false)
   const [filterValue, setFilterValue] = useState('')
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE[0])
+  const [viabilityFilter, setViabilityFilter] = useState(VIABILITY.All)
   const [page, setPage] = useState(1)
   const { quotations } = useRealTime()
 
   const hasFilterValue = Boolean(filterValue)
 
-  const filteredQuotations = useMemo(() => {
+  const filteredItems = useMemo(() => {
+    let filteredQuotations = [...quotations]
     if (hasFilterValue) {
-      return quotations.filter(x => x.company.toLowerCase().includes(filterValue.toLowerCase()))
+      return filteredQuotations.filter(x => x.company.toLowerCase().includes(filterValue.toLowerCase()))
     }
-    return quotations
-  }, [filterValue, quotations])
+
+    if (viabilityFilter !== VIABILITY.All) {
+      filteredQuotations = filteredQuotations.filter(quo => quo.viability === viabilityFilter)
+      setPage(1)
+    }
+
+    return filteredQuotations
+  }, [filterValue, quotations, viabilityFilter, rowsPerPage])
+
 
   // Paginacion
   const pages = Math.ceil(quotations.length / rowsPerPage)
@@ -32,9 +42,10 @@ function App() {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
 
-    return filteredQuotations.slice(start, end)
+    return filteredItems.slice(start, end)
 
-  }, [page, filteredQuotations, rowsPerPage])
+  }, [page, filteredItems, rowsPerPage])
+
 
   const onNextPage = () => {
     if (page < pages) {
@@ -43,7 +54,7 @@ function App() {
   }
 
   const onPrevPage = () => {
-    if (page < 0) {
+    if (page > 0) {
       setPage(page - 1)
     }
   }
@@ -73,6 +84,9 @@ function App() {
     setOpenCreateQuo(true)
   }
 
+  const onFilterViability = (event) => {
+    setViabilityFilter(event.target.value)
+  }
 
   return (
     <div className='max-w-3xl p-2 md:p-4 my-2 shadow-xl rounded-lg mx-auto w-full bg-[hsl(var(--theme-background))] text-[hsl(var(--theme-foreground))]'>
@@ -81,7 +95,21 @@ function App() {
         <div className='flex flex-col gap-4 w-full relative'>
           <header className='flex justify-between items-end gap-3'>
             <InputSearch onSearchValue={onSearchValue} />
-            <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
+            <div className='flex gap-3'>
+              <select className='bg-transparent'
+                onChange={onFilterViability}
+                value={viabilityFilter}
+              >
+                {Object.keys(VIABILITY).map((value) => {
+                  return (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  )
+                })}
+              </select>
+              <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
+            </div>
           </header>
           <div className='flex justify-between items-center'>
             <span className='text-xs text-zinc-500'>
@@ -92,9 +120,11 @@ function App() {
               <select className='bg-transparent outline-none'
                 onChange={onRowsPerPageChange}
               >
-                <option>5</option>
-                <option>10</option>
-                <option>15</option>
+                {ROWS_PER_PAGE.map(row => {
+                  return (
+                    <option key={row}>{row}</option>
+                  )
+                })}
               </select>
             </label>
           </div>

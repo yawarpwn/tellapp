@@ -1,68 +1,70 @@
-import { useState, useEffect, memo, useRef } from "react"
-import { searchProduct } from "../services/search"
-import { getProducts } from "../services/supabase"
-import Input from "../atoms/Input"
-import Button from "../atoms/Button"
-import { XIcon } from "../icons"
+import { useState, useEffect, memo, useRef } from "react";
+import { searchProduct } from "../services/search";
+import { getProducts } from "../services/supabase";
+import Input from "../atoms/Input";
+import Button from "../atoms/Button";
+import { XIcon } from "../icons";
 
 function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
-  const [desc, setDesc] = useState(editingItem?.description ?? '')
-  const [qty, setQty] = useState(editingItem?.qty ?? 0)
-  const [size, setSize] = useState(editingItem?.unit_size ?? '')
-  const [rate, setRate] = useState(editingItem?.price ?? 0)
-  const [results, setResults] = useState([])
-  const cacheResult = useRef([])
-  const qtyInput = useRef(null)
+  const initialProduct = editingItem || {
+    description: '',
+    qty: 0,
+    unit_size: '',
+    price: 0
+  };
+
+  const [product, setProduct] = useState(initialProduct);
+  const [results, setResults] = useState([]);
+  const cacheResult = useRef([]);
+  const qtyInput = useRef(null);
 
   const handleSubmit = (ev) => {
-    ev.preventDefault()
-    const item = {
-      description: desc,
-      qty,
-      unit_size: size,
-      price: rate
-    }
+    ev.preventDefault();
 
     if (editingItem) {
-      onSaveEdit(item)
+      onSaveEdit(product);
     } else {
-
-      addProduct(item)
+      addProduct(
+        {
+          ...product,
+          id: crypto.randomUUID()
+        }
+      );
     }
 
-    onClose()
+    onClose();
   }
 
   useEffect(() => {
-
     if (cacheResult.current.length === 0) {
       getProducts()
         .then(data => {
-          cacheResult.current = data
-          const resultProducts = searchProduct(desc, data)
-          setResults(resultProducts)
-        })
+          cacheResult.current = data;
+          const resultProducts = searchProduct(product.description, data);
+          setResults(resultProducts);
+        });
     } else {
-      const resultProducts = searchProduct(desc, cacheResult.current);
+      const resultProducts = searchProduct(product.description, cacheResult.current);
       setResults(resultProducts);
     }
-  }, [desc])
+  }, [product.description]);
 
   const handleChange = (event) => {
-    const { value } = event.target
-    setDesc(value)
+    const { name, value } = event.target;
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      [name]: value
+    }));
   }
 
-
   return (
-
     <div className="fixed h-screen top-0 left-0 right-0 z-50 bg-black/80 flex items-center justify-center"
       onMouseDown={event => {
         if (event.target === event.currentTarget) {
-          onClose()
+          onClose();
         }
       }}>
-      <div className="relative bg-foreground-100 m-1  text-zinc-500 w-full max-w-lg rounded-lg shadow-lg ">
+      <div className="relative bg-foreground-100 m-1 text-zinc-500 w-full max-w-lg rounded-lg shadow-lg ">
         <form className="p-4 flex flex-col gap-4" onSubmit={handleSubmit}>
           <button
             onClick={onClose}
@@ -76,11 +78,12 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
           <Input
             autoFocus
             label='Producto'
-            name='product'
+            name='description'
             type="search"
-            value={desc}
+            value={product.description}
             onChange={handleChange}
-            placeholder="Senal fotoluminiscente con base celtex 3mm" />
+            placeholder="Senal fotoluminiscente con base celtex 3mm"
+          />
           <div className="col-span-2">
             <h2 className="font-bold text-lg">Sugerencias:</h2>
           </div>
@@ -91,11 +94,14 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
                   <li key={id}
                     className="text-foreground-900 bg-foreground-200 hover:bg-foreground-300 cursor-pointer p-2 rounded-lg text-xs"
                     onClick={() => {
-                      setDesc(description)
-                      setRate(price)
-                      setSize(unit_size)
-                      setQty(1)
-                      qtyInput.current.focus()
+                      setProduct(prevProduct => ({
+                        ...prevProduct,
+                        description: description,
+                        price: price,
+                        unit_size: unit_size,
+                        qty: 1
+                      }));
+                      qtyInput.current.focus();
                     }}
                   >
                     {description}
@@ -106,11 +112,11 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
           </div>
           <Input
             label='Medida'
-            name='size'
+            name='unit_size'
             type="text"
             placeholder="60x60cm"
-            value={size}
-            onChange={ev => setSize(ev.target.value)}
+            value={product.unit_size}
+            onChange={handleChange}
           />
           <div className="flex gap-x-4">
             <Input
@@ -118,17 +124,19 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               inputRef={qtyInput}
               type="number"
               placeholder="10"
-              value={qty}
-              onChange={ev => setQty(Number(ev.target.value))}
+              value={product.qty}
+              onChange={handleChange}
+              name='qty'
             />
 
             <Input
               label={'Precio'}
-              value={rate}
-              onChange={ev => setRate(Number(ev.target.value))}
+              value={product.price}
+              onChange={handleChange}
               name='price'
               type="number"
-              placeholder="100.00" />
+              placeholder="100.00"
+            />
           </div>
 
           <footer className="flex justify-end items-center py-2">
@@ -139,8 +147,8 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
         </form>
       </div>
     </div>
-
   )
 }
 
-export default memo(ModalCreateItem)
+export default memo(ModalCreateItem);
+

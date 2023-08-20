@@ -11,7 +11,7 @@ export default function QuotationRow({
   index,
   updateQuo
 }) {
-  const { company, quo_number: quoNumber, ruc, date } = quotation
+  const { company, quo_number, ruc, viability } = quotation
   const { total } = getIgv(quotation.quotation_items)
   const [isPDFGenerated, setIsPDFGenerated] = useState(false)
 
@@ -21,12 +21,12 @@ export default function QuotationRow({
       className={`${index % 2 ? 'bg-foreground-50' : ''}`}>
       <td className='px-3 font-normal whitespace-normal py-2 text-sm'>
         <span className='text-purple-500'>#</span>
-        <span className='font-semi-bold'>{quoNumber}</span>
+        <span className='font-semi-bold'>{quo_number}</span>
       </td>
 
       <td className='table-td'>
-        <div className='flex flex-col'>
-          <p className=''>
+        <div className='flex flex-col w-[200px] md:w-[400px]'>
+          <p className=' w-full '>
             {company}
           </p>
           <p className='text-foreground-100'>
@@ -35,7 +35,7 @@ export default function QuotationRow({
         </div>
       </td>
       <td className='table-td'>
-        <Chip />
+        <Chip type={viability} />
       </td>
       <td className='table-td'>
         {total}

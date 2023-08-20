@@ -1,6 +1,6 @@
-import EditIcon from "../icons/EditIcon"
-import DeleteIcon from "../icons/DeleteIcon"
-import { getIgv } from "../utils/numbers"
+import DeleteIcon from '../icons/DeleteIcon'
+import EditIcon from '../icons/EditIcon'
+import { getIgv } from '../utils/numbers'
 export default function ItemsList({ items, onRemove, onOpen }) {
   const { total } = getIgv(items)
   return (
@@ -32,30 +32,33 @@ export default function ItemsList({ items, onRemove, onOpen }) {
           <tbody>
             {items.map((item, index) => {
               return (
-                <tr key={item.id} className={`${index % 2 ? 'bg-foreground-200' : ''}`}>
+                <tr
+                  key={item.id}
+                  className={`${index % 2 ? 'bg-foreground-200' : ''}`}
+                >
                   <td scope="row" className="table-td">
-                    <p className="max-w-[300px] truncate">
-                      {item.description}
-                    </p>
+                    <p className="max-w-[300px] truncate">{item.description}</p>
                   </td>
-                  <td className="table-td">
-                    {item.unit_size}
-                  </td>
-                  <td className="table-td">
-                    {(item.price).toFixed(2)}
-                  </td>
-                  <td className="table-td">
-                    {item.qty}
-                  </td>
+                  <td className="table-td">{item.unit_size}</td>
+                  <td className="table-td">{item.price.toFixed(2)}</td>
+                  <td className="table-td">{item.qty}</td>
                   <td className="table-td">
                     {(item.qty * item.price).toFixed(2)}
                   </td>
                   <td>
                     <div className="flex gap-x-2 items-center">
-                      <button type="button" aria-label="edit button" onClick={() => onOpen(item)}>
+                      <button
+                        type="button"
+                        aria-label="edit button"
+                        onClick={() => onOpen(item)}
+                      >
                         <EditIcon />
                       </button>
-                      <button type='button' aria-label="close modal button" onClick={() => onRemove(item.id)}>
+                      <button
+                        type="button"
+                        aria-label="close modal button"
+                        onClick={() => onRemove(item.id)}
+                      >
                         <DeleteIcon />
                       </button>
                     </div>
@@ -67,16 +70,12 @@ export default function ItemsList({ items, onRemove, onOpen }) {
               <td></td>
               <td></td>
               <td></td>
-              <td className="px-4 py-2 bg-black text-white ">
-                Total
-              </td>
+              <td className="px-4 py-2 bg-black text-white ">Total</td>
               <td className="px-4 py-2 bg-black text-white">{total}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </>
-
   )
 }
-

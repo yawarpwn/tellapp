@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet } from '@react-pdf/renderer'
+import { StyleSheet, Text, View } from '@react-pdf/renderer'
 
 const styles = StyleSheet.create({
   footer: {
     marginTop: 20,
-    fontSize:8 
+    fontSize: 8,
   },
   title: {
     padding: 5,
@@ -11,39 +11,40 @@ const styles = StyleSheet.create({
     borderBottom: '2px solid black',
     display: 'flex',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   row: {
     display: 'flex',
     flexDirection: 'row',
     height: 24,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   bank: {
     width: '35%',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   coin: {
     textAlign: 'center',
-    width: '15%'
+    width: '15%',
   },
   acount: {
-
     textAlign: 'center',
-    width: '25%'
+    width: '25%',
   },
   cci: {
     textAlign: 'center',
-    width: '25%'
-  }
-
+    width: '25%',
+  },
 })
 
 export default function QuoBAnkInfo() {
   return (
     <View style={styles.footer}>
       <View style={styles.title}>
-        <Text >&quot;SIRVASE A ABONAR EN NUESTRAS CUENTAS: TELL SENALES SOCIENDAD ANONIMA CERRADA&quot;</Text>
+        <Text>
+          &quot;SIRVASE A ABONAR EN NUESTRAS CUENTAS: TELL SENALES SOCIENDAD
+          ANONIMA CERRADA&quot;
+        </Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.bank}>BANCO</Text>

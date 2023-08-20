@@ -1,31 +1,31 @@
-:root  {
+:root {
   color-scheme: light;
-    --nextui-background: 0 0% 100%;
-    --nextui-foreground-50: 0 0% 98%;
-    --nextui-foreground-100: 240 5% 96%;
-    --nextui-foreground-200: 240 6% 90%;
-    --nextui-foreground-300: 240 5% 84%;
-    --nextui-foreground-400: 240 5% 65%;
-    --nextui-foreground-500: 240 4% 46%;
-    --nextui-foreground-600: 240 5% 34%;
-    --nextui-foreground-700: 240 5% 26%;
-    --nextui-foreground-800: 240 4% 16%;
-    --nextui-foreground-900: 240 6% 10%;
-    --nextui-foreground: 202 24% 9%;
+  --nextui-background: 0 0% 100%;
+  --nextui-foreground-50: 0 0% 98%;
+  --nextui-foreground-100: 240 5% 96%;
+  --nextui-foreground-200: 240 6% 90%;
+  --nextui-foreground-300: 240 5% 84%;
+  --nextui-foreground-400: 240 5% 65%;
+  --nextui-foreground-500: 240 4% 46%;
+  --nextui-foreground-600: 240 5% 34%;
+  --nextui-foreground-700: 240 5% 26%;
+  --nextui-foreground-800: 240 4% 16%;
+  --nextui-foreground-900: 240 6% 10%;
+  --nextui-foreground: 202 24% 9%;
 }
 
 :root {
   color-scheme: dark;
-    --nextui-background: 0 0% 0%;
-    --nextui-foreground-50: 240 6% 10%;
-    --nextui-foreground-100: 240 4% 16%;
-    --nextui-foreground-200: 240 5% 26%;
-    --nextui-foreground-300: 240 5% 34%;
-    --nextui-foreground-400: 240 4% 46%;
-    --nextui-foreground-500: 240 5% 65%;
-    --nextui-foreground-600: 240 5% 84%;
-    --nextui-foreground-700: 240 6% 90%;
-    --nextui-foreground-800: 240 5% 96%;
-    --nextui-foreground-900: 0 0% 98%;
-    --nextui-foreground: 210 6% 93%;
+  --nextui-background: 0 0% 0%;
+  --nextui-foreground-50: 240 6% 10%;
+  --nextui-foreground-100: 240 4% 16%;
+  --nextui-foreground-200: 240 5% 26%;
+  --nextui-foreground-300: 240 5% 34%;
+  --nextui-foreground-400: 240 4% 46%;
+  --nextui-foreground-500: 240 5% 65%;
+  --nextui-foreground-600: 240 5% 84%;
+  --nextui-foreground-700: 240 6% 90%;
+  --nextui-foreground-800: 240 5% 96%;
+  --nextui-foreground-900: 0 0% 98%;
+  --nextui-foreground: 210 6% 93%;
 }

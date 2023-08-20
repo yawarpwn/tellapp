@@ -1,14 +1,14 @@
 export function getIgv(items) {
-  if(!items) {
+  if (!items) {
     return {
-    total :  0,
-    subTotal: 0,
-    igv: 0 
+      total: 0,
+      subTotal: 0,
+      igv: 0,
     }
   }
 
   const calcTotal = items.reduce((acc, curr) => {
-    const result = acc += (curr.price * curr.qty)
+    const result = (acc += curr.price * curr.qty)
     return result
   }, 0)
 
@@ -20,14 +20,13 @@ export function getIgv(items) {
     return {
       total: 0,
       subTotal: 0,
-      igv: 0
+      igv: 0,
     }
   }
 
   return {
     total,
-    subTotal ,
-    igv
+    subTotal,
+    igv,
   }
 }
-

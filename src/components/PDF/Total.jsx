@@ -1,5 +1,5 @@
+import { StyleSheet, Text, View } from '@react-pdf/renderer'
 import { getIgv } from '../../utils/numbers'
-import { Text, View, StyleSheet } from '@react-pdf/renderer'
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 5,
-    gap: 10
+    gap: 10,
   },
   total: {
     padding: 5,
@@ -22,17 +22,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     backgroundColor: 'black',
-    color: 'white'
+    color: 'white',
   },
   textWrap: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '80%'
-  }
+    width: '80%',
+  },
 })
-export default function QuoTotal({ items}) {
-  const {total, subTotal, igv} = getIgv(items)
+export default function QuoTotal({ items }) {
+  const { total, subTotal, igv } = getIgv(items)
   return (
     <View style={styles.container}>
       <View style={styles.content}>

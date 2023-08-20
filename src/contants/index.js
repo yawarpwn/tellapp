@@ -4,4 +4,4 @@ export const VIABILITY = {
   Safe: 'Seguro',
 }
 
-export const ROWS_PER_PAGE = [8, 16, 24]
+export const ROWS_PER_PAGE = [5, 10, 15]

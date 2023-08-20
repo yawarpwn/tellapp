@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react"
-import { SunIcon, MoonIcon } from "../icons"
+import { useEffect, useState } from 'react'
+import { MoonIcon, SunIcon } from '../icons'
 export default function ToggleTheme() {
-
   const getTheme = () => {
     if (document.documentElement.classList.contains('dark')) {
       return 'dark'
@@ -20,7 +19,6 @@ export default function ToggleTheme() {
       root.classList.remove('dark')
       localStorage.theme = 'light'
     }
-
   }, [theme])
 
   const toggleTheme = () => {
@@ -29,7 +27,10 @@ export default function ToggleTheme() {
 
   return (
     <div>
-      <button className="p-2 hover:bg-foreground-100 rounded-full outline-none" onClick={toggleTheme}>
+      <button
+        className="p-2 hover:bg-foreground-100 rounded-full outline-none"
+        onClick={toggleTheme}
+      >
         {theme === 'light' ? <MoonIcon /> : <SunIcon />}
       </button>
     </div>

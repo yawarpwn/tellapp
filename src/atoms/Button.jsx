@@ -2,7 +2,7 @@ export default function Button({ children, color = 'primary', ...props }) {
   const COLORS = {
     primary: 'bg-blue-500 text-white',
     secondary: 'border border-foreground-500 text-foreground-900',
-    danger: 'bg-red-500 text-white'
+    danger: 'bg-red-500 text-white',
   }
   return (
     <button

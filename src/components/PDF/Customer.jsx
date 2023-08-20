@@ -1,15 +1,15 @@
-import { View, Text, StyleSheet } from '@react-pdf/renderer'
+import { StyleSheet, Text, View } from '@react-pdf/renderer'
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
     fontSize: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   rowLeft: {
     width: '80%',
-    paddingRight: '80px'
+    paddingRight: '80px',
   },
 
   rowRight: {
@@ -20,38 +20,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
-
   },
   left: {
-    width: '12%'
+    width: '12%',
   },
   center: {
-    width: '1%'
+    width: '1%',
   },
   right: {
-    width: '87%'
+    width: '87%',
   },
   l: {
-    width: '50%'
-  }, 
+    width: '50%',
+  },
   c: {
-    width: '1%'
-  }, 
+    width: '1%',
+  },
   r: {
     width: '49%',
-    textAlign: 'right'
-  }
+    textAlign: 'right',
+  },
 })
-export default function QuoCustomer({quotation}) {
-  const { company, ruc, phone, quo_number: quoNumber, date, address } = quotation
+export default function QuoCustomer({ quotation }) {
+  const {
+    company,
+    ruc,
+    phone,
+    quo_number: quoNumber,
+    date,
+    address,
+  } = quotation
   return (
-
     <View style={styles.container}>
       <View style={styles.rowLeft}>
         <View style={styles.row}>
           <Text style={styles.left}>Cliente</Text>
           <Text style={styles.center}>:</Text>
-          <Text style={{...styles.right}}>{company}</Text>
+          <Text style={{ ...styles.right }}>{company}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.left}>Ruc</Text>
@@ -61,7 +66,7 @@ export default function QuoCustomer({quotation}) {
         <View style={styles.row}>
           <Text style={styles.left}>Dirección</Text>
           <Text style={styles.center}>:</Text>
-          <Text style={{...styles.right, fontSize:7}}>{address}</Text>
+          <Text style={{ ...styles.right, fontSize: 7 }}>{address}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.left}>Tel</Text>
@@ -79,9 +84,10 @@ export default function QuoCustomer({quotation}) {
         <View style={styles.row}>
           <Text style={styles.l}>Fecha</Text>
           <Text style={styles.c}>:</Text>
-          <Text style={styles.r}>{Intl.DateTimeFormat('es-ES').format(new Date(date))}</Text>
+          <Text style={styles.r}>
+            {Intl.DateTimeFormat('es-ES').format(new Date(date))}
+          </Text>
         </View>
-
       </View>
     </View>
   )

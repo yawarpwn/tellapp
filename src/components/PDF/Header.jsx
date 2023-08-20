@@ -1,21 +1,21 @@
-import SvgLogo from "./SvgLogo"
-import { View, Text, StyleSheet } from "@react-pdf/renderer"
+import { StyleSheet, Text, View } from '@react-pdf/renderer'
+import SvgLogo from './SvgLogo'
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
-    fontSize: 8
+    fontSize: 8,
   },
   logoContainer: {
     width: '65%',
     display: 'flex',
     flexDirection: 'column',
-    gap: 5
+    gap: 5,
   },
   logoText: {
     fontSize: 30,
-    fontWeight: 'extrabold'
+    fontWeight: 'extrabold',
   },
   info: {
     width: '35%',
@@ -29,30 +29,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
-
   },
 
   left: {
-    width: '10%'
+    width: '10%',
   },
   center: {
-    width: '2%'
+    width: '2%',
   },
   right: {
     width: '88%',
-    textAlign: 'right'
+    textAlign: 'right',
   },
 })
 export default function QuoHeader() {
   return (
-
     <View style={styles.header}>
       <View style={styles.logoContainer}>
-        <View >
+        <View>
           <SvgLogo />
         </View>
-        <View >
-          <Text style={{ textAlign: 'left', marginLeft: 50 }}>Av. Argentina 538 - Lima - Lima</Text>
+        <View>
+          <Text style={{ textAlign: 'left', marginLeft: 50 }}>
+            Av. Argentina 538 - Lima - Lima
+          </Text>
         </View>
       </View>
       <View style={styles.info}>

@@ -1,95 +1,85 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-// Create a single supabase client for interacting with your database
-const supabase = createClient(
-  "https://dnvhsncsgfkaqhspppqv.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRudmhzbmNzZ2ZrYXFoc3BwcHF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTA5MTg0ODksImV4cCI6MjAwNjQ5NDQ4OX0.fZBY9uT0N4sKiG9qplto1KdJarxDsQy4hgMFHv9WHMk",
-);
+// import { SUPABASE_URL, SUPABASE_PUBLIC_KEY } from "@/constants";
+import { createClient } from "@supabase/supabase-js";
+const SUPABASE_URL = 'https://dnvhsncsgfkaqhspppqv.supabase.co'
+const SUPABASE_PUBLIC_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRudmhzbmNzZ2ZrYXFoc3BwcHF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTA5MTg0ODksImV4cCI6MjAwNjQ5NDQ4OX0.fZBY9uT0N4sKiG9qplto1KdJarxDsQy4hgMFHv9WHMk'
 
+const client = createClient(SUPABASE_URL,SUPABASE_PUBLIC_KEY)
 
-export async function deleteRow({ table, id }) {
-  try {
-    const { error } = await supabase
-      .from(table)
-      .delete()
-      .eq("id", id);
-    if (!error) {
-      console.log("[SUCCESS]: ", ` Row  with id: ${id} deleted `);
-    }
-  } catch (err) {
-    console.log("[ERROR]: ", err.message);
-  }
-}
-
-async function insertRows({ rows, table }) {
-  console.log({ rows, table })
-  const { data, error } = await supabase
-    .from(table)
-    .insert(rows)
-    .select();
-
-  if (data) {
-    return data;
-  } else {
-    throw new Error(error.message);
-  }
-}
-
-export async function updateRow({ rowToUpdate, table, id }) {
-  const { data, error } = await supabase
-    .from(table)
-    .update(rowToUpdate)
-    .eq("id", id)
-    .select();
-  if (data) {
-    console.log('actualizado')
-    return data;
-  } else {
-    throw new Error('error al actualizar', error.message);
-  }
-}
-
-export async function getTableContent(table) {
-  if (table === 'cotizaciones') {
-    const { data, error } = await supabase
-      .from(table)
-      .select("*")
-      .order('quo_number', { ascending: false })
-    if (error) {
-      throw new Error("[SupabaseError:] " + error.message);
-    }
-    return data;
-  }
-
-  const { data, error } = await supabase
-    .from(table)
-    .select("*")
+export async function getProducts() {
+  const { data, error } = await client
+    .from('products')
+    .select('*')
   if (error) {
-    throw new Error("[SupabaseError:] " + error.message);
+    throw error
   }
-  return data;
+  return data
 }
 
-export const deleteQuotation = (id) => deleteRow({ id, table: "cotizaciones" });
-export const updateQuotation = (quoToUpdate, id) => updateRow({ id, table: "cotizaciones", rowToUpdate: quoToUpdate })
-export const createQuotation = (quoToCreate) => insertRows({ rows: quoToCreate, table: "cotizaciones" });
-export const getQuotations = () => getTableContent("cotizaciones")
-export const getProducts = () => {
-  console.log('fetch')
-  return getTableContent("products")
+export async function getQuotations() {
+  const { data, error } = await client
+    .from('cotizaciones')
+    .select('*')
+    .order('quo_number', { ascending: false })
+  if (error) {
+    throw error
+  }
+  return data
+
 }
-export const client = supabase;
 
-// const row ={
-//     "company": "probando",
-//     "address": "",
-//     "quo_number": 5000,
-//     "date": "2023-08-09",
-//     "ruc": "",
-//     "phone": "",
-//     "deadline": 1,
-//     "quotations_items": []
-// }
+export async function getQuotation ({ quo_number}) {
+  const { data, error } = await client
+    .from('cotizaciones')
+    .select('*')
+    .eq('quo_number', quo_number)
+  if (error) {
+    throw error
+  }
+  return data[0]
 
-// insertRows({rows: row, table: 'cotizaciones'})
-// console.log(await getTableContent('products'))
+}
+
+export async function insertQuotation({quoToInsert}) {
+  const { data, error } = await client
+    .from('cotizaciones')
+    .insert(quoToInsert)
+    .select()
+  if (error) {
+    throw error
+  }
+  return data[0]
+
+}
+
+export async function updateQuotation({quoToUpdate, id}) {
+  const { data, error } = await client
+    .from('cotizaciones')
+    .update(quoToUpdate)
+    .eq('id', id)
+    .select()
+
+  if (error) {
+    throw error
+  }
+
+  return data[0]
+
+}
+
+export const deleteQuotation = async ({id}) => {
+  const { data, error } = await client
+    .from('cotizaciones')
+    .delete()
+    .eq('id', id)
+    .select()
+
+  if (error) {
+    throw error
+  }
+  return data[0]
+
+}
+
+export { client }
+
 

@@ -1,4 +1,4 @@
-import Fuse from "fuse.js";
+import Fuse from 'fuse.js'
 export function searchProduct(valueToSearch, data) {
   console.log('fuse')
   const fuse = new Fuse(data, {
@@ -15,11 +15,10 @@ export function searchProduct(valueToSearch, data) {
     // ignoreLocation: false,
     // ignoreFieldNorm: false,
     // fieldNormWeight: 1,
-    keys: ['name', 'code']
+    keys: ['name', 'code'],
   })
 
   const results = fuse.search(valueToSearch)
   const resulMapped = results.map(({ item }) => item)
   return resulMapped
 }
-

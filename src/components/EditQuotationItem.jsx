@@ -58,13 +58,13 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   }
 
   return (
-    <div className="fixed h-screen top-0 left-0 right-0 z-50 bg-black/80 flex items-center justify-center"
+    <div className="fixed h-screen top-0 left-0 right-0 z-50 bg-black/20 flex items-center justify-center"
       onMouseDown={event => {
         if (event.target === event.currentTarget) {
           onClose();
         }
       }}>
-      <div className="relative bg-foreground-100 m-1 text-zinc-500 w-full max-w-lg rounded-lg shadow-lg ">
+      <div className="relative bg-content2 m-1  w-full max-w-lg rounded-lg shadow-lg ">
         <form className="p-4 flex flex-col gap-4" onSubmit={handleSubmit}>
           <button
             onClick={onClose}

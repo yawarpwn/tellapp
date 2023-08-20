@@ -14,7 +14,7 @@ function App() {
   const [openCreateQuo, setOpenCreateQuo] = useState(false)
   const [filterValue, setFilterValue] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE[0])
-  const [viabilityFilter, setViabilityFilter] = useState(VIABILITY.All)
+  const [viabilityFilter, setViabilityFilter] = useState('Todos')
   const [page, setPage] = useState(1)
   const { quotations } = useRealTime()
 
@@ -26,7 +26,7 @@ function App() {
       return filteredQuotations.filter(x => x.company.toLowerCase().includes(filterValue.toLowerCase()))
     }
 
-    if (viabilityFilter !== VIABILITY.All) {
+    if (viabilityFilter !== 'Todos' ) {
       filteredQuotations = filteredQuotations.filter(quo => quo.viability === viabilityFilter)
       setPage(1)
     }
@@ -87,6 +87,7 @@ function App() {
   const onFilterViability = (event) => {
     setViabilityFilter(event.target.value)
   }
+  console.log(viabilityFilter, VIABILITY.All)
 
   return (
     <div className='max-w-3xl p-2 md:p-4 my-2 shadow-xl rounded-lg mx-auto w-full bg-[hsl(var(--theme-background))] text-[hsl(var(--theme-foreground))]'>
@@ -100,6 +101,10 @@ function App() {
                 onChange={onFilterViability}
                 value={viabilityFilter}
               >
+
+                <option value={'Todos'}>
+                  Todos
+                </option>
                 {Object.keys(VIABILITY).map((value) => {
                   return (
                     <option key={value} value={value}>

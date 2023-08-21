@@ -29,7 +29,10 @@ export default function ViewPDF() {
   }
   return (
     <div className="absolute top-0 left-0">
-      <PDFViewer height={'1200px'} width={'1000px'}>
+      <PDFViewer
+        height={'1200px'}
+        width={'1000px'}
+      >
         <PDFGenerator quotation={defaultQuo} />
       </PDFViewer>
     </div>

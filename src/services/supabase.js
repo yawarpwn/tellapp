@@ -1,14 +1,13 @@
 // import { SUPABASE_URL, SUPABASE_PUBLIC_KEY } from "@/constants";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js'
 const SUPABASE_URL = 'https://dnvhsncsgfkaqhspppqv.supabase.co'
-const SUPABASE_PUBLIC_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRudmhzbmNzZ2ZrYXFoc3BwcHF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTA5MTg0ODksImV4cCI6MjAwNjQ5NDQ4OX0.fZBY9uT0N4sKiG9qplto1KdJarxDsQy4hgMFHv9WHMk'
+const SUPABASE_PUBLIC_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRudmhzbmNzZ2ZrYXFoc3BwcHF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTA5MTg0ODksImV4cCI6MjAwNjQ5NDQ4OX0.fZBY9uT0N4sKiG9qplto1KdJarxDsQy4hgMFHv9WHMk'
 
-const client = createClient(SUPABASE_URL,SUPABASE_PUBLIC_KEY)
+const client = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY)
 
 export async function getProducts() {
-  const { data, error } = await client
-    .from('products')
-    .select('*')
+  const { data, error } = await client.from('products').select('*')
   if (error) {
     throw error
   }
@@ -24,10 +23,9 @@ export async function getQuotations() {
     throw error
   }
   return data
-
 }
 
-export async function getQuotation ({ quo_number}) {
+export async function getQuotation({ quo_number }) {
   const { data, error } = await client
     .from('cotizaciones')
     .select('*')
@@ -36,10 +34,9 @@ export async function getQuotation ({ quo_number}) {
     throw error
   }
   return data[0]
-
 }
 
-export async function insertQuotation({quoToInsert}) {
+export async function insertQuotation({ quoToInsert }) {
   const { data, error } = await client
     .from('cotizaciones')
     .insert(quoToInsert)
@@ -48,10 +45,9 @@ export async function insertQuotation({quoToInsert}) {
     throw error
   }
   return data[0]
-
 }
 
-export async function updateQuotation({quoToUpdate, id}) {
+export async function updateQuotation({ quoToUpdate, id }) {
   const { data, error } = await client
     .from('cotizaciones')
     .update(quoToUpdate)
@@ -63,10 +59,9 @@ export async function updateQuotation({quoToUpdate, id}) {
   }
 
   return data[0]
-
 }
 
-export const deleteQuotation = async ({id}) => {
+export const deleteQuotation = async ({ id }) => {
   const { data, error } = await client
     .from('cotizaciones')
     .delete()
@@ -77,9 +72,6 @@ export const deleteQuotation = async ({id}) => {
     throw error
   }
   return data[0]
-
 }
 
 export { client }
-
-

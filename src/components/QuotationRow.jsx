@@ -28,7 +28,8 @@ export default function QuotationRow({ quotation, index, updateQuo }) {
       <td className="table-td">{total}</td>
       <td className="table-td">
         <button
-          onClick={() => updateQuo(quotation)} type="button"
+          onClick={() => updateQuo(quotation)}
+          type="button"
         >
           <EditIcon />
         </button>

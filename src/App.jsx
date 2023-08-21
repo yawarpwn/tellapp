@@ -84,58 +84,60 @@ function App() {
   const onFilterViability = (event) => {
     setViabilityFilter(event.target.value)
   }
-  console.log(viabilityFilter, VIABILITY.All)
 
   return (
-    <div className="max-w-3xl p-2 md:p-4 my-2 shadow-xl rounded-lg mx-auto w-full bg-[hsl(var(--theme-background))] text-[hsl(var(--theme-foreground))]">
-      <Header />
-      <main>
-        <div className="flex flex-col gap-4 w-full relative">
-          <header className="flex justify-between items-end gap-3">
-            <InputSearch onSearchValue={onSearchValue} />
-            <div className="flex gap-3">
-              <select
-                className="bg-transparent"
-                onChange={onFilterViability}
-                value={viabilityFilter}
-              >
-                <option value={'Todos'}>Todos</option>
-                {Object.keys(VIABILITY).map((value) => {
-                  return (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  )
-                })}
-              </select>
-              <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
-            </div>
-          </header>
-          <div className="flex justify-between items-center">
-            <span className="text-xs text-zinc-500">
-              Hay {quotations.length} cotizaciones
-            </span>
-            <label className="flex text-zinc-500 text-xs">
-              Filas por pagina:
-              <select
-                className="bg-transparent outline-none"
-                onChange={onRowsPerPageChange}
-              >
-                {ROWS_PER_PAGE.map((row) => {
-                  return <option key={row}>{row}</option>
-                })}
-              </select>
-            </label>
+    <main>
+      <div className="flex flex-col gap-4 w-full relative">
+        <header className="flex justify-between items-end gap-3">
+          <InputSearch onSearchValue={onSearchValue} />
+          <div className="flex gap-3">
+            <select
+              className="bg-transparent"
+              onChange={onFilterViability}
+              value={viabilityFilter}
+            >
+              <option value={'Todos'}>Todos</option>
+              {Object.keys(VIABILITY).map((value) => {
+                return (
+                  <option
+                    key={value}
+                    value={value}
+                  >
+                    {value}
+                  </option>
+                )
+              })}
+            </select>
+            <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
           </div>
-          <div className="w-full overflow-x-auto">
-            <QuotationsTable quotations={items} updateQuo={handleupdateQuo} />
-          </div>
-          <header className="flex items-center justify-between">
-            <button onClick={onPrevPage}>prev</button>
-            <button onClick={onNextPage}>next</button>
-          </header>
+        </header>
+        <div className="flex justify-between items-center">
+          <span className="text-xs text-zinc-500">
+            Hay {quotations.length} cotizaciones
+          </span>
+          <label className="flex text-zinc-500 text-xs">
+            Filas por pagina:
+            <select
+              className="bg-transparent outline-none"
+              onChange={onRowsPerPageChange}
+            >
+              {ROWS_PER_PAGE.map((row) => {
+                return <option key={row}>{row}</option>
+              })}
+            </select>
+          </label>
         </div>
-      </main>
+        <div className="w-full overflow-x-auto">
+          <QuotationsTable
+            quotations={items}
+            updateQuo={handleupdateQuo}
+          />
+        </div>
+        <header className="flex items-center justify-between">
+          <button onClick={onPrevPage}>prev</button>
+          <button onClick={onNextPage}>next</button>
+        </header>
+      </div>
       {openCreateQuo &&
         createPortal(
           <EditModal
@@ -145,7 +147,7 @@ function App() {
           />,
           document.body,
         )}
-    </div>
+    </main>
   )
 }
 

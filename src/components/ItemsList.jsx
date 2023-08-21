@@ -9,22 +9,40 @@ export default function ItemsList({ items, onRemove, onOpen }) {
         <table className="w-full h-auto text-sm text-left  ">
           <thead className="text-xs  uppercase ">
             <tr>
-              <th scope="col" className="table-th">
+              <th
+                scope="col"
+                className="table-th"
+              >
                 Producto
               </th>
-              <th scope="col" className="table-th">
+              <th
+                scope="col"
+                className="table-th"
+              >
                 U/M
               </th>
-              <th scope="col" className="table-th">
+              <th
+                scope="col"
+                className="table-th"
+              >
                 P.Unit
               </th>
-              <th scope="col" className="table-th">
+              <th
+                scope="col"
+                className="table-th"
+              >
                 Cant
               </th>
-              <th scope="col" className="table-th">
+              <th
+                scope="col"
+                className="table-th"
+              >
                 Monto
               </th>
-              <th scope="col" className="table-th">
+              <th
+                scope="col"
+                className="table-th"
+              >
                 Action
               </th>
             </tr>
@@ -36,7 +54,10 @@ export default function ItemsList({ items, onRemove, onOpen }) {
                   key={item.id}
                   className={`${index % 2 ? 'bg-foreground-200' : ''}`}
                 >
-                  <td scope="row" className="table-td">
+                  <td
+                    scope="row"
+                    className="table-td"
+                  >
                     <p className="max-w-[300px] truncate">{item.description}</p>
                   </td>
                   <td className="table-td">{item.unit_size}</td>

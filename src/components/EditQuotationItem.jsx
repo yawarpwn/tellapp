@@ -49,14 +49,6 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
     }
   }, [product.description])
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }))
-  }
-
   return (
     <div
       className="fixed h-screen top-0 left-0 right-0 z-50 bg-black/20 flex items-center justify-center"
@@ -67,7 +59,10 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
       }}
     >
       <div className="relative bg-content2 m-1  w-full max-w-lg rounded-lg shadow-lg ">
-        <form className="p-4 flex flex-col gap-4" onSubmit={handleSubmit}>
+        <form
+          className="p-4 flex flex-col gap-4"
+          onSubmit={handleSubmit}
+        >
           <button
             onClick={onClose}
             className="absolute top-1 right-1 hover:bg-foreground-200 p-2 rounded-full "
@@ -84,7 +79,12 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
             name="description"
             type="search"
             value={product.description}
-            onChange={handleChange}
+            onChange={(event) =>
+              setProduct((prev) => ({
+                ...prev,
+                description: event.target.value,
+              }))
+            }
             placeholder="Senal fotoluminiscente con base celtex 3mm"
           />
           <div className="col-span-2">
@@ -120,7 +120,9 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
             type="text"
             placeholder="60x60cm"
             value={product.unit_size}
-            onChange={handleChange}
+            onChange={(event) =>
+              setProduct((prev) => ({ ...prev, unit_size: event.target.value }))
+            }
           />
           <div className="flex gap-x-4">
             <Input
@@ -129,14 +131,24 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
               type="number"
               placeholder="10"
               value={product.qty}
-              onChange={handleChange}
+              onChange={(event) =>
+                setProduct((prev) => ({
+                  ...prev,
+                  qty: Number(event.target.value),
+                }))
+              }
               name="qty"
             />
 
             <Input
               label={'Precio'}
               value={product.price}
-              onChange={handleChange}
+              onChange={(event) =>
+                setProduct((prev) => ({
+                  ...prev,
+                  price: Number(event.target.value),
+                }))
+              }
               name="price"
               type="number"
               placeholder="100.00"

@@ -46,7 +46,10 @@ export default function QuoTerms({ deadline }) {
       </View>
       <View style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <View>
-          <Image src="/sign.png" style={{ width: 70, height: 35 }} />
+          <Image
+            src="/sign.png"
+            style={{ width: 70, height: 35 }}
+          />
           <Text style={{ fontWeight: 'bold' }}>Raquel Maldonado R.</Text>
           <Text
             style={{ fontSize: 6, fontStyle: 'italic', textAlign: 'center' }}

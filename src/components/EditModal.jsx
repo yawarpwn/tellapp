@@ -97,7 +97,10 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
   }, [])
 
   return (
-    <div tabIndex={-1} className="border">
+    <div
+      tabIndex={-1}
+      className="border"
+    >
       <div className="fixed w-screen h-screen inset-0 bg-[rgba(0,0,0,.5)] backdrop-blur-sm z-50"></div>
       <div
         onMouseDown={(e) => {
@@ -108,7 +111,10 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
         className=" w-screen h-[100dvh] z-50 inset-0 flex items-center justify-center overflow-x-auto p-1 fixed"
       >
         <section className="relative max-w-md w-full h-full rounded-lg shadow-lg bg-content1  overflow-y-auto">
-          <form className="px-2 flex flex-col gap-4" onSubmit={handleSubmit}>
+          <form
+            className="px-2 flex flex-col gap-4"
+            onSubmit={handleSubmit}
+          >
             {/* Child */}
             <button
               onClick={handleClose}
@@ -252,7 +258,11 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
               onOpen={handleEditingItem}
             />
             <footer className="flex gap-2 px-6 py-4 justify-between">
-              <Button color="danger" type="button" onClick={handleClose}>
+              <Button
+                color="danger"
+                type="button"
+                onClick={handleClose}
+              >
                 cancel
               </Button>
               <Button

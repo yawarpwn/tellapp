@@ -3,6 +3,7 @@ import App from './App.jsx'
 import './index.css'
 import { Route } from 'wouter'
 import Header from './components/Header.jsx'
+import ProductPage from './pages/Productos.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
@@ -11,7 +12,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/">
         <App />
       </Route>
-      <Route path="/productos"></Route>
+      <Route
+        path="/productos"
+        component={ProductPage}
+      ></Route>
     </div>
   </>,
 )

@@ -61,6 +61,20 @@ export async function updateQuotation({ quoToUpdate, id }) {
   return data[0]
 }
 
+export async function updateProduct({  productToUpdate, id }) {
+  const { data, error } = await client
+    .from('products')
+    .update(productToUpdate)
+    .eq('id', id)
+    .select()
+
+  if (error) {
+    throw error
+  }
+
+  return data[0]
+}
+
 export const deleteQuotation = async ({ id }) => {
   const { data, error } = await client
     .from('cotizaciones')

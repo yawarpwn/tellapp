@@ -5,6 +5,8 @@ import {
   insertProduct,
   deleteProduct,
 } from '../services/supabase'
+import { searchProduct } from '../services/search'
+import { SORTBY } from '../contants'
 import { ChevronDownIcon } from '../icons'
 import InputSearch from '../components/InputSearch.jsx'
 import AddButton from '../components/AddButton.jsx'
@@ -16,6 +18,7 @@ export default function ProductPage() {
   const [filterValue, setFilterValue] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
+  const [sortBy, setSortBy] = useState(null)
 
   const handleEditProduct = (editProduct) => {
     setEditingProduct(editProduct)
@@ -34,7 +37,6 @@ export default function ProductPage() {
   }
 
   const handleSaveProduct = async (productToSave) => {
-    console.log('guardar - save', productToSave)
     const insertedProduct = await insertProduct({
       productToInsert: productToSave,
     })
@@ -42,7 +44,6 @@ export default function ProductPage() {
   }
 
   const handleDeleteProduct = async (id) => {
-    console.log('delete product', id)
     const deletedProduct = await deleteProduct({ id })
     setProducts((prev) => prev.filter((p) => p.id !== deletedProduct.id))
   }
@@ -69,14 +70,37 @@ export default function ProductPage() {
   }
 
   const hasFilterValue = Boolean(filterValue)
+
   const filteredItems = useMemo(() => {
     if (hasFilterValue) {
-      return products.filter((p) =>
-        p.description.toLowerCase().includes(filterValue.toLowerCase()),
-      )
+      return searchProduct(filterValue, products)
     }
     return products
   }, [filterValue, products])
+
+  const handleSortBy = (value) => {
+    setSortBy(value)
+  }
+
+  const sortedItems = useMemo(() => {
+    if (sortBy === SORTBY.DESCRIPTION) {
+      return [
+        ...filteredItems.sort((a, b) =>
+          a.description.localeCompare(b.description),
+        ),
+      ]
+    }
+
+    if (sortBy === SORTBY.CODE) {
+      return [...filteredItems.sort((a, b) => a.code.localeCompare(b.code))]
+    }
+
+    if (sortBy === SORTBY.CATEGORY) {
+      return [...filteredItems.sort((a, b) => a.category.localeCompare(b.category))]
+    }
+
+      return filteredItems
+  }, [sortBy, products, filteredItems])
 
   const handleSearchValue = (event) => {
     setFilterValue(event.target.value)
@@ -110,47 +134,51 @@ export default function ProductPage() {
               role="row"
               className="outline-none"
             >
-              <th className="table-th">
+              <th
+                onClick={() => handleSortBy(SORTBY.DESCRIPTION)}
+                className="table-th"
+              >
                 Descripcion
                 <ChevronDownIcon
                   size={16}
-                  className="inline-block ml-1 mb-px"
+                  className={`inline-block ml-1 mb-px  transition ${
+                    sortBy === SORTBY.DESCRIPTION ? 'rotate-180' : 'rotate-0'
+                  }`}
                 />
               </th>
 
-              <th className="table-th">
+              <th
+                onClick={() => handleSortBy(SORTBY.CODE)}
+                className="table-th"
+              >
                 Codigo
                 <ChevronDownIcon
                   size={16}
-                  className="inline-block ml-1 mb-px"
+                  className={`inline-block ml-1 mb-px  transition ${
+                    sortBy === SORTBY.CODE ? 'rotate-180' : 'rotate-0'
+                  }`}
                 />
               </th>
-              <th className="table-th">
-                U/M
+              <th
+                onClick={() => handleSortBy(SORTBY.CATEGORY)}
+                className="table-th"
+              >
+                Categoria
                 <ChevronDownIcon
                   size={16}
-                  className="inline-block ml-1 mb-px"
+                  className={`inline-block ml-1 mb-px  transition ${
+                    sortBy === SORTBY.CATEGORY ? 'rotate-180' : 'rotate-0'
+                  }`}
                 />
               </th>
-
-              <th className="table-th">
-                Precio
-                <ChevronDownIcon
-                  size={16}
-                  className="inline-block ml-1 mb-px"
-                />
-              </th>
-              <th className="table-th">
-                Acciones
-                <ChevronDownIcon
-                  size={16}
-                  className="inline-block ml-1 mb-px"
-                />
-              </th>
+              <th className="table-th">U/M</th>
+              <th className="table-th">Costo</th>
+              <th className="table-th">Precio</th>
+              <th className="table-th">Acciones</th>
             </tr>
           </thead>
           <tbody role="rowgroup">
-            {filteredItems.map((product, index) => {
+            {sortedItems.map((product, index) => {
               return (
                 <ProductTableRow
                   product={product}

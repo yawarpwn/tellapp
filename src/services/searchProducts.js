@@ -8,13 +8,13 @@ export function searchProduct(valueToSearch, data) {
     // findAllMatches: false,
     minMatchCharLength: 2,
     // location: 0,
-    threshold: 0.3,
+    threshold: 0.6,
     // distance: 100,
     // useExtendedSearch: false,
     // ignoreLocation: false,
     // ignoreFieldNorm: false,
     // fieldNormWeight: 1,
-    keys: ['name', 'code', 'description'],
+    keys: ['name', 'code'],
   })
 
   const results = fuse.search(valueToSearch)

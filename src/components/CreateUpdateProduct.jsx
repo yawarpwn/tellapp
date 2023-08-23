@@ -101,6 +101,7 @@ export default function CreateUpdateProduct({
             placeholder="30x30cm"
           />
           <select
+            value={product.category}
             onChange={(e) =>
               setProduct((prev) => ({ ...prev, category: e.target.value }))
             }

@@ -10,7 +10,7 @@ export default function ProductTableRow({
   onEditProduct,
   onDeleteProduct,
 }) {
-  const { description, code, unit_size, price, id } = product
+  const { description, code, unit_size, price, id, category, cost } = product
   const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false)
 
   const handleDeleteProduct = () => {
@@ -26,20 +26,30 @@ export default function ProductTableRow({
     <>
       <tr className={`${index % 2 ? 'bg-foreground-100' : ''}`}>
         <td className="px-3 font-normal py-2 text-sm">
-          <p className='w-[200px] md:w-full'>
-          {description}
-          </p>
+          <p className="w-[200px] md:w-full">{description}</p>
         </td>
         <td>
-          <span className='inline-block border border-secondary text-[0.7rem] px-1 py-1 text-center w-[90px] h-[30px] rounded-lg font-semibold'>{code}</span>
+          <span className="inline-block text-[0.7rem] px-1 py-1 text-center w-[90px] h-[30px]">
+            {code}
+          </span>
         </td>
 
-        <td className='table-td'>
-          <p className='text-center'>{unit_size}</p>
+        <td>
+          <span className="inline-block text-[0.7rem] px-1 py-1 text-center w-[80px]">
+            {category}
+          </span>
         </td>
 
-        <td className='table-td'>
-          <p>{price}</p>
+        <td className="table-td">
+          <p className="text-center">{unit_size}</p>
+        </td>
+
+        <td className="table-td">
+          <p>{cost.toFixed(2)}</p>
+        </td>
+
+        <td className="table-td">
+          <p>{price.toFixed(2)}</p>
         </td>
         <td>
           <button onClick={() => onEditProduct(product)}>

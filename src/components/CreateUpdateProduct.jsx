@@ -14,7 +14,7 @@ export default function CreateUpdateProduct({
     unit_size: '',
     price: '',
     code: '',
-    category: CATEGORIES.SEGURIDAD,
+    category: CATEGORIES.SEGURIDAD.title,
     cost: 0,
   }
 
@@ -106,12 +106,12 @@ export default function CreateUpdateProduct({
               setProduct((prev) => ({ ...prev, category: e.target.value }))
             }
           >
-            {Object.values(CATEGORIES).map((value) => (
+            {Object.values(CATEGORIES).map(({ title }) => (
               <option
-                value={value}
-                key={value}
+                value={title}
+                key={title}
               >
-                {value}
+                {title}
               </option>
             ))}
           </select>

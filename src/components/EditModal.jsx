@@ -49,6 +49,9 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    if(quoState.quotation_items.length === 0) {
+      return
+    }
 
     if (quoToEdit) {
       const quo = {

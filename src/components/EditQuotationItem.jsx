@@ -8,9 +8,9 @@ import { getProducts } from '../services/supabase'
 function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   const initialProduct = editingItem || {
     description: '',
-    qty: 0,
+    qty: '',
     unit_size: '',
-    price: 0,
+    price: '',
   }
 
   const [product, setProduct] = useState(initialProduct)
@@ -98,13 +98,25 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
                     key={id}
                     className="text-foreground-900 bg-foreground-200 hover:bg-foreground-300 cursor-pointer p-2 rounded-lg text-xs"
                     onClick={() => {
+                      if (
+                        !product.unit_size ||
+                        !product.qty ||
+                        !product.price
+                      ) {
+                        setProduct((prevProduct) => ({
+                          ...prevProduct,
+                          description: description,
+                          price: price,
+                          unit_size: unit_size,
+                          qty: 1,
+                        }))
+                      }
+
                       setProduct((prevProduct) => ({
                         ...prevProduct,
                         description: description,
-                        price: price,
-                        unit_size: unit_size,
-                        qty: 1,
                       }))
+
                       qtyInput.current.focus()
                     }}
                   >

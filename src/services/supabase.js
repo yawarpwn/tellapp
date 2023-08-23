@@ -6,13 +6,6 @@ const SUPABASE_PUBLIC_KEY =
 
 const client = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY)
 
-export async function getProducts() {
-  const { data, error } = await client.from('products').select('*')
-  if (error) {
-    throw error
-  }
-  return data
-}
 
 export async function getQuotations() {
   const { data, error } = await client
@@ -61,6 +54,16 @@ export async function updateQuotation({ quoToUpdate, id }) {
   return data[0]
 }
 
+// Productos
+
+export async function getProducts() {
+  const { data, error } = await client.from('products').select('*')
+  if (error) {
+    throw error
+  }
+  return data
+}
+
 export async function updateProduct({  productToUpdate, id }) {
   const { data, error } = await client
     .from('products')
@@ -74,6 +77,32 @@ export async function updateProduct({  productToUpdate, id }) {
 
   return data[0]
 }
+
+export async function insertProduct({ productToInsert }) {
+  const { data, error } = await client
+    .from('products')
+    .insert(productToInsert)
+    .select()
+  if (error) {
+    throw error
+  }
+  return data[0]
+}
+
+export const deleteProduct = async ({ id }) => {
+  const { data, error } = await client
+    .from('products')
+    .delete()
+    .eq('id', id)
+    .select()
+
+  if (error) {
+    throw error
+  }
+  return data[0]
+}
+
+// Cotizaciones
 
 export const deleteQuotation = async ({ id }) => {
   const { data, error } = await client

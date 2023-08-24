@@ -4,6 +4,7 @@ import './index.css'
 import { Route } from 'wouter'
 import Header from './components/Header.jsx'
 import ProductPage from './pages/Productos.jsx'
+import CustomersPage from './pages/Clientes.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
@@ -15,7 +16,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route
         path="/productos"
         component={ProductPage}
-      ></Route>
+      />
+
+      <Route
+        path="/clientes"
+        component={CustomersPage}
+      />
     </div>
   </>,
 )

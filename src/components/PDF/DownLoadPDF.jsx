@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import DownloadIcon from '../../icons/DownloadIcon'
 import ShareIcon from '../../icons/ShareIcon'
 import PDFGenerator from './PDFGenerator'
+import Button from '../../atoms/Button'
 
 export default function DownloadPDF({ quotation }) {
   const [instance, setInstance] = usePDF()
@@ -41,20 +42,23 @@ export default function DownloadPDF({ quotation }) {
   }
 
   return (
-    <div className="flex gap-x-1">
+    <div className="flex items-center justify-between">
       {instance.loading ? (
         '...'
       ) : (
         <>
-          <button onClick={handleShare}>
+          <Button onClick={handleShare}>
             <ShareIcon />
-          </button>
-          <a
+            <span className='ml-2'>Compatir</span>
+          </Button>
+          <Button
+            as="a"
             href={instance.url}
             download={`COT-2023-00${quotation.quo_number}.pdf`}
           >
             <DownloadIcon />
-          </a>
+            <span className='ml-2'>Descargar</span>
+          </Button>
         </>
       )}
     </div>

@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react'
+import {  useEffect, useRef, useState } from 'react'
 import Button from '../atoms/Button'
 import Input from '../atoms/Input'
 import { XIcon } from '../icons'
@@ -178,4 +178,4 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   )
 }
 
-export default memo(ModalCreateItem)
+export default ModalCreateItem

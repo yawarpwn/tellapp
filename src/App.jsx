@@ -1,10 +1,9 @@
 import { useMemo, useState } from 'react'
-import { createPortal } from 'react-dom'
 import AddButton from './components/AddButton'
 import EditModal from './components/EditModal'
-import Header from './components/Header'
 import InputSearch from './components/InputSearch'
 import QuotationsTable from './components/QuotationsTable'
+import Modal from './atoms/Modal'
 import { ROWS_PER_PAGE, VIABILITY } from './contants'
 import { useRealTime } from './hooks/use-real-time'
 function App() {
@@ -138,15 +137,18 @@ function App() {
           <button onClick={onNextPage}>next</button>
         </header>
       </div>
-      {openCreateQuo &&
-        createPortal(
+      {openCreateQuo && (
+        <Modal
+          isOpen={openCreateQuo}
+          onClose={closeCreateQuo}
+        >
           <EditModal
             quotations={quotations}
             quoToEdit={quoToEdit}
             onClose={closeCreateQuo}
-          />,
-          document.body,
-        )}
+          />
+        </Modal>
+      )}
     </main>
   )
 }

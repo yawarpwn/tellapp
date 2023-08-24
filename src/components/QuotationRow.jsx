@@ -3,11 +3,16 @@ import Chip from '../atoms/Chip'
 import EditIcon from '../icons/EditIcon'
 import EyeIcon from '../icons/EyeIcon'
 import { getIgv } from '../utils/numbers'
+import Modal from '../atoms/Modal'
 const LazyDownloadPDF = lazy(() => import('./PDF/DownLoadPDF'))
 export default function QuotationRow({ quotation, index, updateQuo }) {
   const { company, quo_number, ruc, viability } = quotation
   const { total } = getIgv(quotation.quotation_items)
   const [isPDFGenerated, setIsPDFGenerated] = useState(false)
+
+  const handleCloseModalPdf = () => {
+    setIsPDFGenerated(false)
+  }
 
   return (
     <tr className={`${index % 2 ? 'bg-content2' : ''}`}>
@@ -33,19 +38,21 @@ export default function QuotationRow({ quotation, index, updateQuo }) {
         >
           <EditIcon />
         </button>
-        {isPDFGenerated ? (
-          <Suspense fallback={'Cargando...'}>
+        <button onClick={() => setIsPDFGenerated(true)}>
+          <EyeIcon />
+        </button>
+      </td>
+      {isPDFGenerated && (
+        <Modal
+          isOpen={isPDFGenerated}
+          onClose={handleCloseModalPdf}
+          size="xs"
+        >
+          <Suspense fallback='cargando...'>
             <LazyDownloadPDF quotation={quotation} />
           </Suspense>
-        ) : (
-          <button onClick={() => setIsPDFGenerated(true)}>
-            <EyeIcon />
-          </button>
-        )}
-        {/* <a href={instance.url} download={`COT-2023-00${quotation.quo_number}.pdf`} > */}
-        {/*   <PrinterIcon /> */}
-        {/* </a> */}
-      </td>
+        </Modal>
+      )}
     </tr>
   )
 }

@@ -1,6 +1,6 @@
 import ToggleTheme from './ToggleTheme'
 import { Link } from 'wouter'
-import { ProductsIcon,  PrinterIcon, QuotationIcon } from '../icons'
+import { ProductsIcon,  PrinterIcon, QuotationIcon, CustomersIcon } from '../icons'
 import Avatar from '../atoms/Avatar'
 function Header() {
   const navs = [
@@ -13,6 +13,12 @@ function Header() {
       title: 'Productos',
       href: '/productos',
       icon: ProductsIcon,
+    },
+
+    {
+      title: 'Clientes',
+      href: '/clientes',
+      icon: CustomersIcon,
     },
     {
       title: 'Rotulos',

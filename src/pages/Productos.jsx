@@ -6,7 +6,7 @@ import {
   deleteProduct,
 } from '../services/supabase'
 import { searchProduct } from '../services/search'
-import { SORTBY } from '../contants'
+import { SORTBY } from '../constants'
 import { ChevronDownIcon } from '../icons'
 import InputSearch from '../components/InputSearch.jsx'
 import AddButton from '../components/AddButton.jsx'
@@ -96,10 +96,12 @@ export default function ProductPage() {
     }
 
     if (sortBy === SORTBY.CATEGORY) {
-      return [...filteredItems.sort((a, b) => a.category.localeCompare(b.category))]
+      return [
+        ...filteredItems.sort((a, b) => a.category.localeCompare(b.category)),
+      ]
     }
 
-      return filteredItems
+    return filteredItems
   }, [sortBy, products, filteredItems])
 
   const handleSearchValue = (event) => {
@@ -194,6 +196,7 @@ export default function ProductPage() {
         </table>
       </div>
       <Modal
+        title={editingProduct ? 'Editar Producto' : 'Crear Producto'}
         isOpen={modalOpen}
         onClose={onCloseModal}
       >

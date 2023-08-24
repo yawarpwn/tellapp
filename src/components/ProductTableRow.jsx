@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { DeleteIcon, EditIcon } from '../icons'
 import Button from '../atoms/Button'
 import Modal from '../atoms/Modal'
-import { CATEGORIES } from '../contants'
 import clsx from 'clsx'
 
 export default function ProductTableRow({
@@ -80,14 +79,13 @@ export default function ProductTableRow({
       </tr>
       {isModalConfirmOpen && (
         <Modal
+          title="¿Eliminar Producto?"
           isOpen={isModalConfirmOpen}
           onClose={handleCloseConfirm}
+          maxHeight={180}
           size="xs"
         >
-          <div className="flex flex-col gap-2 justify-center">
-            <p className='text-center text-danger font-medium'>Confirmar Eliminar Producto:</p>
-            <p className='text-center'>{description}</p>
-            <div className='flex items-center p-4 gap-4 justify-between'>
+          <div className="flex items-center p-4 gap-4 justify-between">
             <Button onClick={handleDeleteProduct}>Ok</Button>
             <Button
               color="danger"
@@ -95,7 +93,6 @@ export default function ProductTableRow({
             >
               cancel
             </Button>
-            </div>
           </div>
         </Modal>
       )}

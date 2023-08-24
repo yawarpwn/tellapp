@@ -1,16 +1,28 @@
-import { useEffect, useState } from 'react'
+import { useState, useMemo } from 'react'
 import Button from '../atoms/Button'
 import Input from '../atoms/Input'
-import { XIcon } from '../icons'
+import { SearchIcon } from '../icons'
 import { getRuc } from '../services/sunat'
 import { insertQuotation, updateQuotation } from '../services/supabase'
 import { formatDate, getCurrentDate, getQuoNumber } from '../utils'
 import EditQuotationItem from './EditQuotationItem'
 import ItemsList from './ItemsList'
+import Modal from '../atoms/Modal'
+import { VIABILITY } from '../constants'
+import { filterUniqueCompany } from '../utils'
 
 function CreateQuotation({ quotations, quoToEdit, onClose }) {
   const [editingItem, setEditingItem] = useState(null)
   const [openModal, setOpenModal] = useState(false)
+  const [openCustomers, setOpenCustomers] = useState(false)
+
+  const handleCloseCustomers = () => {
+    setOpenCustomers(false)
+  }
+
+  const handleOpenCustomers = () => {
+    setOpenCustomers(true)
+  }
 
   const initialQuo = quoToEdit || {
     company: 'SIN RUC PROPORCIONADO',
@@ -21,7 +33,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     quo_number: getQuoNumber(quotations),
     deadline: 1,
     quotation_items: [],
-    viability: 'Difficult',
+    viability: VIABILITY.Possible,
   }
   const [quoState, setQuoState] = useState(initialQuo)
 
@@ -65,7 +77,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     }
   }
 
-  const addProduct = (product) => {
+  const handleAddProduct = (product) => {
     setQuoState((prev) => ({
       ...prev,
       quotation_items: [...prev.quotation_items, product],
@@ -91,32 +103,17 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     }
   }
 
-  useEffect(() => {
-    document.body.style.overflowY = 'hidden'
-
-    return () => {
-      document.body.style.overflowY = 'auto'
-    }
-  }, [])
+  const customers = useMemo(() => {
+    const filteredCustomers = quotations.filter((x) => x.viability === 'Safe')
+    return filterUniqueCompany(filteredCustomers)
+  }, [quotations])
 
   return (
     <>
       <form
-        className="px-2 flex flex-col gap-4"
+        className="flex flex-col gap-4"
         onSubmit={handleSubmit}
       >
-        {/* Child */}
-        <button
-          onClick={handleClose}
-          className="absolute top-1 rounded-full p-2 appearance-none right-1 hover:bg-foreground-200"
-        >
-          <XIcon />
-        </button>
-        <header className="flex flex-initial font-bold">
-          <h2>{editingItem ? 'Editar' : 'Crear'}</h2>
-        </header>
-
-        {/* Child */}
         <div className="flex w-full flex-col gap-3">
           <div className="grid grid-cols-3 gap-2">
             <Input
@@ -162,7 +159,6 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
               placeholder="20/08/2023"
             />
           </div>
-
           <Input
             name="company"
             required
@@ -181,31 +177,65 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
             label="Dirección"
             name="address"
             value={quoState.address}
-            onChange={(event) =>
-              setQuoState((prev) => ({
-                ...prev,
-                address: event.target.value,
-              }))
-            }
-            disabled
+            readOnly
             type="text"
             placeholder="Av. El Santuario 323 - SJL"
           />
 
-          <Input
-            autoFocus
-            label="Ruc"
-            name="ruc"
-            type="number"
-            onChange={(event) =>
-              setQuoState((prev) => ({ ...prev, ruc: event.target.value }))
-            }
-            onBlur={handleBlur}
-            value={quoState.ruc}
-            maxLength={11}
-            minLength={11}
-            placeholder="20610555536"
-          />
+          <div className="flex gap-2 items-center">
+            <Input
+              autoFocus
+              label="Ruc"
+              name="ruc"
+              type="number"
+              onChange={(event) =>
+                setQuoState((prev) => ({ ...prev, ruc: event.target.value }))
+              }
+              onBlur={handleBlur}
+              value={quoState.ruc}
+              maxLength={11}
+              minLength={11}
+              placeholder="20610555536"
+            />
+
+            <Button onClick={handleOpenCustomers}>
+              <SearchIcon />
+            </Button>
+
+            {openCustomers && (
+              <Modal
+                isOpen={openCustomers}
+                onClose={handleCloseCustomers}
+                size="xs"
+                title="Sugerencias"
+              >
+                <div className="overflow-y-auto">
+                  <ul className="flex flex-col gap-3">
+                    {customers.map(({ ruc, company, address }) => {
+                      return (
+                        <li
+                          onClick={() => {
+                            setQuoState((prev) => ({
+                              ...prev,
+                              company,
+                              ruc,
+                              address,
+                            }))
+
+                            handleCloseCustomers()
+                          }}
+                          className="bg-content2 p-2 rounded text-xs cursor-pointer hover:bg-content4 "
+                          key={ruc}
+                        >
+                          {company}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              </Modal>
+            )}
+          </div>
           <div className="flex gap-x-2">
             <Input
               label="Teléfono"
@@ -247,13 +277,13 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
           onClose={handleCloseItemModal}
           onOpen={handleEditingItem}
         />
-        <footer className="flex gap-2 px-6 py-4 justify-between">
+        <footer className="flex gap-2 py-4 justify-between">
           <Button
-            color="danger"
             type="button"
-            onClick={handleClose}
+            color="danger"
+            onClick={onClose}
           >
-            cancel
+            Cancelar
           </Button>
           <Button
             type="button"
@@ -263,17 +293,24 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
             + Agregar
           </Button>
           <Button type="submit">
-            {quoToEdit === null ? 'Guardar' : 'Actualizar'}
+            {quoToEdit === null ? 'Crear' : 'Actualizar'}
           </Button>
         </footer>
       </form>
       {openModal && (
-        <EditQuotationItem
+        <Modal
+          title={editingItem ? 'Editar Producto' : 'Agregar Producto'}
+          size="md"
+          isOpen={openModal}
           onClose={handleCloseItemModal}
-          addProduct={addProduct}
-          editingItem={editingItem}
-          onSaveEdit={handleSaveEdit}
-        />
+        >
+          <EditQuotationItem
+            onClose={handleCloseItemModal}
+            addProduct={handleAddProduct}
+            editingItem={editingItem}
+            onSaveEdit={handleSaveEdit}
+          />
+        </Modal>
       )}
     </>
   )

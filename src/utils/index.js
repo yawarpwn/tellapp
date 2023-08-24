@@ -30,3 +30,20 @@ export const getQuoNumber = (quotations) => {
   const numbers = quotations.map((quo) => quo.quo_number)
   return Math.max(...numbers) + 1
 }
+
+
+export const filterUniqueCompany = (arr) => {
+  const objArr = arr.reduce((acc, obj) => {
+    const ruc = obj.ruc
+    if (ruc) {
+      acc[ruc] = {
+        company: obj.company,
+        ruc,
+        address: obj.address
+      } 
+    }
+    return acc
+  }, {})
+
+  return Object.values(objArr)
+}

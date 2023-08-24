@@ -57,7 +57,9 @@ export async function updateQuotation({ quoToUpdate, id }) {
 // Productos
 
 export async function getProducts() {
-  const { data, error } = await client.from('products').select('*')
+  const { data, error } = await client.from('products')
+    .select('*')
+  .order('description')
   if (error) {
     throw error
   }

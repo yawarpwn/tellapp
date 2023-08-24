@@ -4,7 +4,7 @@ import EditModal from './components/EditModal'
 import InputSearch from './components/InputSearch'
 import QuotationsTable from './components/QuotationsTable'
 import Modal from './atoms/Modal'
-import { ROWS_PER_PAGE, VIABILITY } from './contants'
+import { ROWS_PER_PAGE, VIABILITY } from './constants'
 import { useRealTime } from './hooks/use-real-time'
 function App() {
   const [quoToEdit, setQuoToEdit] = useState(null)
@@ -139,6 +139,7 @@ function App() {
       </div>
       {openCreateQuo && (
         <Modal
+          title={quoToEdit ? 'Actualizar Cotización' : 'Crear Cotización'}
           isOpen={openCreateQuo}
           onClose={closeCreateQuo}
         >

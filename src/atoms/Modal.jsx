@@ -1,8 +1,16 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import clsx from 'clsx'
+import { XIcon } from '../icons'
 
-export default function Modal({ isOpen, onClose, children, size = 'xl' }) {
+export default function Modal({
+  isOpen,
+  onClose,
+  children,
+  size = 'xl',
+  title = 'Default title',
+  maxHeight,
+}) {
   useEffect(() => {
     console.log('modal Effect')
     if (isOpen) {
@@ -30,12 +38,28 @@ export default function Modal({ isOpen, onClose, children, size = 'xl' }) {
           className="z-50 fixed inset-0 flex items-center justify-center p-2"
         >
           <section
+            style={{
+              maxHeight,
+            }}
             className={clsx(
-              'max-w-xl bg-content1 w-full rounded-lg shadow-md p-4',
-              size === 'lg' && 'max-w-xl',
-              size === 'xs' && 'max-w-xs',
+              'max-w-xl bg-content1 w-full rounded-lg shadow-md p-4 flex flex-col gap-4 h-full  overflow-y-auto',
+              {
+                [size === 'lg']: 'max-w-xl',
+                [size === 'md']: 'max-w-md',
+                [size === 'lg']: 'max-w-lg',
+                [size === 'xs']: 'max-w-xs',
+              },
             )}
           >
+            <header className="flex items-center justify-between">
+              <h2 className="font-bold text-xl">{title}</h2>
+              <button
+                onClick={onClose}
+                className="p-2 hover:bg-content4 rounded-full"
+              >
+                <XIcon />
+              </button>
+            </header>
             {children}
           </section>
         </div>

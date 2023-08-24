@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Button from '../atoms/Button'
 import { XIcon } from '../icons'
 import Input from '../atoms/Input'
-import { CATEGORIES } from '../contants'
+import { CATEGORIES } from '../constants'
 export default function CreateUpdateProduct({
   editingProduct,
   onCloseModal,
@@ -35,14 +35,6 @@ export default function CreateUpdateProduct({
       onSubmit={handleSubmit}
       className="flex flex-col gap-4"
     >
-      <header className="flex items-center justify-between">
-        <h2 className="font-bold text-xl">
-          {editingProduct ? 'Editar Producto' : 'Agregar Producto'}
-        </h2>
-        <button className="p-2 hover:bg-content4 rounded-full">
-          <XIcon />
-        </button>
-      </header>
       <div className="flex flex-col gap-4">
         <Input
           required

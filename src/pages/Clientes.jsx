@@ -1,17 +1,14 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useRealTime } from '../hooks/use-real-time'
+import { filterUniqueCompany } from '../utils'
+
 
 export default function CustomersPage() {
   const { quotations } = useRealTime()
 
   const customers = useMemo(() => {
     const customersFiltered = quotations.filter((x) => x.viability === 'Safe')
-    const customersSet = new Set(customersFiltered)
-    return [...customersSet].map((x) => ({
-      company: x.company,
-      ruc: x.ruc,
-      address: x.address,
-    }))
+    return filterUniqueCompany(customersFiltered, 'ruc')
   }, [quotations])
 
   return (
@@ -43,11 +40,11 @@ export default function CustomersPage() {
                 key={index}
                 className={`${index % 2 ? 'bg-content2' : ''}`}
               >
-                <td className='table-td'>{customer.company}</td>
+                <td className="table-td">{customer.company}</td>
 
-                <td className='table-td'>{customer.ruc}</td>
+                <td className="table-td">{customer.ruc}</td>
 
-                <td className='table-td'>{customer.address}</td>
+                <td className="table-td">{customer.address}</td>
               </tr>
             )
           })}

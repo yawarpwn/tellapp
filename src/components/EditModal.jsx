@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import confetti from 'canvas-confetti'
 import Button from '../atoms/Button'
 import Input from '../atoms/Input'
 import { SearchIcon } from '../icons'
@@ -33,7 +34,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
     quo_number: getQuoNumber(quotations),
     deadline: 1,
     quotation_items: [],
-    viability: VIABILITY.Possible,
+    viability: 'Possible',
   }
   const [quoState, setQuoState] = useState(initialQuo)
 
@@ -73,6 +74,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
       handleClose()
     } else {
       await insertQuotation({ quoToInsert: quoState })
+      confetti()
       handleClose()
     }
   }

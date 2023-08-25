@@ -1,10 +1,12 @@
 import clsx from 'clsx'
+
 export default function Button({
   children,
   as = 'button',
   color = 'primary',
   ...props
 }) {
+  console.log('a')
   const Component = as === 'a' ? 'a' : 'button'
   return (
     <Component

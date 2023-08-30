@@ -11,8 +11,9 @@ export default function Modal({
   title = 'Default title',
   maxHeight,
 }) {
+
+  console.log('modal')
   useEffect(() => {
-    console.log('modal Effect')
     if (isOpen) {
       document.body.style.overflowY = 'hidden'
     } else {
@@ -44,10 +45,10 @@ export default function Modal({
             className={clsx(
               'max-w-xl bg-content1 w-full rounded-lg shadow-md p-4 flex flex-col gap-4 h-full  overflow-y-auto',
               {
-                [size === 'lg']: 'max-w-xl',
-                [size === 'md']: 'max-w-md',
-                [size === 'lg']: 'max-w-lg',
-                [size === 'xs']: 'max-w-xs',
+                'max-w-xl': size === 'xl',
+                'max-w-md': size === 'md',
+                'max-w-lg': size === 'lg',
+                'max-w-xs': size === 'xs',
               },
             )}
           >

@@ -6,7 +6,6 @@ export default function Button({
   color = 'primary',
   ...props
 }) {
-  console.log('a')
   const Component = as === 'a' ? 'a' : 'button'
   return (
     <Component

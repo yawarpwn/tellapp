@@ -4,6 +4,7 @@ import EditIcon from '../icons/EditIcon'
 import EyeIcon from '../icons/EyeIcon'
 import { getIgv } from '../utils/numbers'
 import Modal from '../atoms/Modal'
+import ViewPDF from './ViewPDF'
 const LazyDownloadPDF = lazy(() => import('./PDF/DownLoadPDF'))
 export default function QuotationRow({ quotation, index, updateQuo }) {
   const { company, quo_number, ruc, viability } = quotation

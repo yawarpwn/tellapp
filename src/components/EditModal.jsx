@@ -66,6 +66,10 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
       return
     }
 
+    if(quoState.quo_number < 4000) {
+      return
+    }
+
     if (quoToEdit) {
       const quo = {
         ...quoState,

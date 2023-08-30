@@ -8,13 +8,10 @@ import Button from '../../atoms/Button'
 export default function DownloadPDF({ quotation }) {
   const [instance, setInstance] = usePDF()
 
-  // useEffect(() => {
-  //   setInstance(<PDFGenerator quotation={quotation} />)
-  // }, [quotation])
-
   useEffect(() => {
     setInstance(<PDFGenerator quotation={quotation} />)
   }, [quotation])
+
 
   const handleShare = async () => {
     try {
@@ -44,7 +41,7 @@ export default function DownloadPDF({ quotation }) {
   return (
     <div className="flex items-center justify-between">
       {instance.loading ? (
-        '...'
+        'cargando'
       ) : (
         <>
           <Button onClick={handleShare}>

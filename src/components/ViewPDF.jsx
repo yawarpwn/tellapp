@@ -1,5 +1,5 @@
 import { PDFViewer } from '@react-pdf/renderer'
-import PDFGenerator from './PDFGenerator'
+import PDFGenerator from './PDF/PDFGenerator'
 export default function ViewPDF() {
   const defaultQuo = {
     id: '5df3180a09ea16dc4b95f910',
@@ -28,10 +28,10 @@ export default function ViewPDF() {
     ],
   }
   return (
-    <div className="absolute top-0 left-0">
+    <div className="w-full h-full">
       <PDFViewer
-        height={'1200px'}
-        width={'1000px'}
+        height={'100%'}
+        width={'100%'}
       >
         <PDFGenerator quotation={defaultQuo} />
       </PDFViewer>

@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
+import Pagination from '../components/Pagination'
 import {
   getProducts,
   updateProduct,
@@ -19,6 +20,9 @@ export default function ProductPage() {
   const [modalOpen, setModalOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const [sortBy, setSortBy] = useState(null)
+  const [page, setPage] = useState(1)
+
+  const rowPerPage = 10
 
   const handleEditProduct = (editProduct) => {
     setEditingProduct(editProduct)
@@ -82,6 +86,9 @@ export default function ProductPage() {
     setSortBy(value)
   }
 
+
+
+
   const sortedItems = useMemo(() => {
     if (sortBy === SORTBY.DESCRIPTION) {
       return [
@@ -103,6 +110,23 @@ export default function ProductPage() {
 
     return filteredItems
   }, [sortBy, products, filteredItems])
+
+
+
+  const totalPages = useMemo(() => {
+    return Math.floor(sortedItems.length / rowPerPage)
+  }, [sortedItems])
+
+  const items = useMemo(() => {
+    const start = (page - 1) * rowPerPage
+    const end =  start  + rowPerPage  
+
+    return  sortedItems.slice(start, end) 
+
+
+  }, [sortedItems, page])
+
+  console.log({items})
 
   const handleSearchValue = (event) => {
     setFilterValue(event.target.value)
@@ -180,7 +204,7 @@ export default function ProductPage() {
             </tr>
           </thead>
           <tbody role="rowgroup">
-            {sortedItems.map((product, index) => {
+            {items.map((product, index) => {
               return (
                 <ProductTableRow
                   product={product}
@@ -195,6 +219,18 @@ export default function ProductPage() {
           </tbody>
         </table>
       </div>
+      <Pagination 
+        totalPages={totalPages}
+        onNextPage={() =>{
+          if(page === totalPages) {
+            return
+          }
+
+          setPage(page + 1)
+        }}
+        currentPage={page}
+        updatePage={(page) => {setPage(page)}}
+      />
       <Modal
         title={editingProduct ? 'Editar Producto' : 'Crear Producto'}
         isOpen={modalOpen}

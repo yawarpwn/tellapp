@@ -25,13 +25,13 @@ export default function ItemsList({ items, onRemove, onOpen }) {
                 scope="col"
                 className="table-th"
               >
-                P.Unit
+                Cant
               </th>
               <th
                 scope="col"
                 className="table-th"
               >
-                Cant
+                P.Unit
               </th>
               <th
                 scope="col"
@@ -49,6 +49,7 @@ export default function ItemsList({ items, onRemove, onOpen }) {
           </thead>
           <tbody>
             {items.map((item, index) => {
+              console.log(item)
               return (
                 <tr
                   key={item.id}
@@ -61,8 +62,8 @@ export default function ItemsList({ items, onRemove, onOpen }) {
                     <p className="max-w-[300px] truncate">{item.description}</p>
                   </td>
                   <td className="table-td">{item.unit_size}</td>
-                  <td className="table-td">{item.price.toFixed(2)}</td>
                   <td className="table-td">{item.qty}</td>
+                  <td className="table-td">{item.price.toFixed(2)}</td>
                   <td className="table-td">
                     {(item.qty * item.price).toFixed(2)}
                   </td>

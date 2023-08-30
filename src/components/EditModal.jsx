@@ -118,9 +118,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
       >
         <div className="flex w-full flex-col gap-3">
           <div className="grid grid-cols-3 gap-2">
-            <Input
-              label="No"
-              name="quoNumber"
+            <Input label="No" name="quoNumber"
               type="number"
               required
               onChange={(event) =>

@@ -3,6 +3,7 @@ import AddButton from './components/AddButton'
 import EditModal from './components/EditModal'
 import InputSearch from './components/InputSearch'
 import QuotationsTable from './components/QuotationsTable'
+import Pagination from './components/Pagination'
 import Modal from './atoms/Modal'
 import { ROWS_PER_PAGE, VIABILITY } from './constants'
 import { useRealTime } from './hooks/use-real-time'
@@ -20,8 +21,8 @@ function App() {
   const filteredItems = useMemo(() => {
     let filteredQuotations = [...quotations]
     if (hasFilterValue) {
-      return filteredQuotations.filter((x) =>
-        x.company.toLowerCase().includes(filterValue.toLowerCase()),
+      return filteredQuotations.filter(x =>
+        x?.company?.toLowerCase().includes(filterValue.toLowerCase()),
       )
     }
 
@@ -35,8 +36,9 @@ function App() {
     return filteredQuotations
   }, [filterValue, quotations, viabilityFilter, rowsPerPage])
 
-  // Paginacion
-  const pages = Math.ceil(quotations.length / rowsPerPage)
+  const pages = useMemo(() => {
+    return Math.ceil(filteredItems.length / rowsPerPage)
+  }, [filteredItems])
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage
@@ -46,15 +48,23 @@ function App() {
   }, [page, filteredItems, rowsPerPage])
 
   const onNextPage = () => {
-    if (page < pages) {
-      setPage(page + 1)
+    if (page === pages) {
+      return
     }
+    setPage(page + 1)
   }
 
+
   const onPrevPage = () => {
-    if (page > 0) {
-      setPage(page - 1)
+    if (page === 1) {
+      console.log('no mas pages')
+      return
     }
+    setPage(page => page - 1)
+  }
+
+  const updatePage = (page) => {
+    setPage(page)
   }
 
   const onRowsPerPageChange = (event) => {
@@ -64,6 +74,7 @@ function App() {
 
   const onSearchValue = (event) => {
     setFilterValue(event.target.value)
+    setPage(1)
   }
 
   const closeCreateQuo = () => {
@@ -132,10 +143,7 @@ function App() {
             updateQuo={handleupdateQuo}
           />
         </div>
-        <header className="flex items-center justify-between">
-          <button onClick={onPrevPage}>prev</button>
-          <button onClick={onNextPage}>next</button>
-        </header>
+        <Pagination currentPage={page} totalPages={pages} onNextPage={onNextPage} updatePage={updatePage} />
       </div>
       {openCreateQuo && (
         <Modal

@@ -26,12 +26,12 @@
     justify-content: center;
     border-color: transparent;
     text-align: center;
-    transition-duration: .2s;
+    transition-duration: 0.2s;
     border-radius: 1rem;
     /* height: 3rem; */
     padding-left: 1rem;
     padding-right: 1rem;
-    font-size: .875rem;
+    font-size: 0.875rem;
     line-height: 1.25rem;
     line-height: 1em;
     min-height: 3rem;
@@ -55,6 +55,17 @@
     --theme-foreground-700: 240 5% 26%;
     --theme-foreground-800: 240 4% 16%;
     --theme-foreground-900: 240 6% 10%;
+    --theme-default-50: 0 0% 98%;
+    --theme-default-100: 240 5% 96%;
+    --theme-default-200: 240 6% 90%;
+    --theme-default-300: 240 5% 84%;
+    --theme-default-400: 240 5% 65%;
+    --theme-default-500: 240 4% 46%;
+    --theme-default-600: 240 5% 34%;
+    --theme-default-700: 240 5% 26%;
+    --theme-default-800: 240 4% 16%;
+    --theme-default-900: 240 6% 10%;
+    --theme-default-foreground: 0 0% 0%;
     --theme-content1: 0 0% 100%;
     --theme-content1-foreground: 202 24% 9%;
     --theme-content2: 240 5% 96%;
@@ -139,6 +150,18 @@
     --theme-foreground-700: 240 6% 90%;
     --theme-foreground-800: 240 5% 96%;
     --theme-foreground-900: 0 0% 98%;
+    --theme-default-50: 240 6% 10%;
+    --theme-default-100: 240 4% 16%;
+    --theme-default-200: 240 5% 26%;
+    --theme-default-300: 240 5% 34%;
+    --theme-default-400: 240 4% 46%;
+    --theme-default-500: 240 5% 65%;
+    --theme-default-600: 240 5% 84%;
+    --theme-default-700: 240 6% 90%;
+    --theme-default-800: 240 5% 96%;
+    --theme-default-900: 0 0% 98%;
+    --theme-default-foreground: 0 0% 100%;
+
     --theme-content1: 240 6% 10%;
     --theme-content1-foreground: 0 0% 98%;
     --theme-content2: 240 4% 16%;

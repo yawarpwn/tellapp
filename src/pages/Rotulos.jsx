@@ -1,7 +1,7 @@
 import { useState, useRef } from "react"
 import Modal from "../atoms/Modal"
 import AddButton from "../components/AddButton"
-import { PDFViewer } from '@react-pdf/renderer'
+import ReactPDF, { PDFViewer, BlobProvider, PDFDownloadLink } from '@react-pdf/renderer'
 import ShippingLabels from "../components/PDF/ShippingLabels"
 import Input from '../atoms/Input'
 import Button from "../atoms/Button"
@@ -23,7 +23,7 @@ export default function Rotulos() {
   const [labelList, setLabelList] = useState([])
   const [currentLabel, setCurrentLabel] = useState(null)
   const destinationRef = useRef(null)
-  console.log(currentLabel)
+  console.log({ currentLabel })
 
   const handleCloseModal = () => setOpen(false)
   const handleOpenModal = (label) => {
@@ -90,6 +90,7 @@ export default function Rotulos() {
     event.preventDefault()
     handleCreateClose()
     setLabelList([...labelList, label])
+    setCurrentLabel(label)
     setLabel(initialLabel)
   }
 
@@ -138,11 +139,14 @@ export default function Rotulos() {
 
                 <td className="table-td">{label?.destination}</td>
                 <td>
-                  {
-                    <button onClick={() => handleOpenModal(label)}>
-                      <EyeIcon />
-                    </button>
-                  }
+                  {currentLabel && (
+
+                    <PDFDownloadLink document={<ShippingLabels currentLabel={currentLabel} />} fileName={`${currentLabel.recipient}-ENVIO.pdf`}>
+                      {({ blob, url, loading, error }) =>
+                        loading ? 'Loading document...' : <Button>Descargar</Button>
+                      }
+                    </PDFDownloadLink>
+                  )}
                 </td>
               </tr>
             )
@@ -231,16 +235,6 @@ export default function Rotulos() {
               <Button type='submit'>Agregar</Button>
             </header>
           </form>
-        </Modal>}
-      {open &&
-        <Modal
-          isOpen={open}
-          onClose={handleCloseModal}
-          title="MOdal de rotulos"
-        >
-          <PDFViewer width={'100%'} height={'100%'}>
-            <ShippingLabels currentLabel={currentLabel} />
-          </PDFViewer>
         </Modal>}
     </div>
   )

@@ -54,7 +54,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
 
   const handleSaveEdit = (editedProduct) => {
     const updatedItems = quoState.quotation_items.map((item) =>
-      item.id === editingItem.id ? { ...item, ...editedProduct } : item,
+      item.id === editingItem.id ? { ...item, ...editedProduct } : item
     )
     setQuoState((prev) => ({ ...prev, quotation_items: updatedItems }))
     setEditingItem(null)
@@ -66,7 +66,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
       return
     }
 
-    if(quoState.quo_number < 4000) {
+    if (quoState.quo_number < 4000) {
       return
     }
 
@@ -104,7 +104,7 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
           ...prev,
           company: data.razonSocial,
           address: data.direccion,
-        })),
+        }))
       )
     }
   }
@@ -122,7 +122,9 @@ function CreateQuotation({ quotations, quoToEdit, onClose }) {
       >
         <div className="flex w-full flex-col gap-3">
           <div className="grid grid-cols-3 gap-2">
-            <Input label="No" name="quoNumber"
+            <Input
+              label="No"
+              name="quoNumber"
               type="number"
               required
               onChange={(event) =>

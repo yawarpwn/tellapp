@@ -15,7 +15,7 @@ export default function Button({
         color === 'primary' && 'bg-primary text-white',
         color === 'secondary' &&
           'border border-foreground-500 text-foreground-900',
-        color === 'danger' && 'bg-danger text-white',
+        color === 'danger' && 'bg-danger text-white'
       )}
       {...props}
     >

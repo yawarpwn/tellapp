@@ -36,7 +36,7 @@ export default function ProductPage() {
     })
 
     setProducts((prev) =>
-      prev.map((p) => (p.id === productUpdated.id ? productUpdated : p)),
+      prev.map((p) => (p.id === productUpdated.id ? productUpdated : p))
     )
   }
 
@@ -68,7 +68,7 @@ export default function ProductPage() {
       return prev.map((product) =>
         product.id === productId
           ? { ...product, [field]: editedContent }
-          : product,
+          : product
       )
     })
   }
@@ -86,14 +86,11 @@ export default function ProductPage() {
     setSortBy(value)
   }
 
-
-
-
   const sortedItems = useMemo(() => {
     if (sortBy === SORTBY.DESCRIPTION) {
       return [
         ...filteredItems.sort((a, b) =>
-          a.description.localeCompare(b.description),
+          a.description.localeCompare(b.description)
         ),
       ]
     }
@@ -111,22 +108,18 @@ export default function ProductPage() {
     return filteredItems
   }, [sortBy, products, filteredItems])
 
-
-
   const totalPages = useMemo(() => {
     return Math.floor(sortedItems.length / rowPerPage)
   }, [sortedItems])
 
   const items = useMemo(() => {
     const start = (page - 1) * rowPerPage
-    const end =  start  + rowPerPage  
+    const end = start + rowPerPage
 
-    return  sortedItems.slice(start, end) 
-
-
+    return sortedItems.slice(start, end)
   }, [sortedItems, page])
 
-  console.log({items})
+  console.log({ items })
 
   const handleSearchValue = (event) => {
     setFilterValue(event.target.value)
@@ -219,17 +212,19 @@ export default function ProductPage() {
           </tbody>
         </table>
       </div>
-      <Pagination 
+      <Pagination
         totalPages={totalPages}
-        onNextPage={() =>{
-          if(page === totalPages) {
+        onNextPage={() => {
+          if (page === totalPages) {
             return
           }
 
           setPage(page + 1)
         }}
         currentPage={page}
-        updatePage={(page) => {setPage(page)}}
+        updatePage={(page) => {
+          setPage(page)
+        }}
       />
       <Modal
         title={editingProduct ? 'Editar Producto' : 'Crear Producto'}

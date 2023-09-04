@@ -30,13 +30,13 @@ export function useRealTime() {
   const handleSubscription = (payload) => {
     if (payload.eventType === TYPE.INSERT) {
       setQuotations((prev) =>
-        [...prev, payload.new].sort((a, b) => b.quo_number - a.quo_number),
+        [...prev, payload.new].sort((a, b) => b.quo_number - a.quo_number)
       )
     }
 
     if (payload.eventType === TYPE.UPDATE) {
       setQuotations((prev) =>
-        prev.map((item) => (item.id === payload.new.id ? payload.new : item)),
+        prev.map((item) => (item.id === payload.new.id ? payload.new : item))
       )
     }
 
@@ -53,7 +53,7 @@ export function useRealTime() {
         .on(
           'postgres_changes',
           { event: '*', schema: 'public', table: 'cotizaciones' },
-          (payload) => handleSubscription(payload),
+          (payload) => handleSubscription(payload)
         )
         .subscribe()
 

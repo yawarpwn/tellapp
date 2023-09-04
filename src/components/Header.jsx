@@ -1,6 +1,11 @@
 import ToggleTheme from './ToggleTheme'
 import { Link } from 'wouter'
-import { ProductsIcon,  PrinterIcon, QuotationIcon, CustomersIcon } from '../icons'
+import {
+  ProductsIcon,
+  PrinterIcon,
+  QuotationIcon,
+  CustomersIcon,
+} from '../icons'
 import Avatar from '../atoms/Avatar'
 function Header() {
   const navs = [
@@ -45,7 +50,7 @@ function Header() {
             ))}
           </ul>
         </nav>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-center ">
           <Avatar />
           <ToggleTheme />
         </div>

@@ -1,5 +1,3 @@
-const Nuevo  = () => [
-]
+const Nuevo = () => []
 
 export default Nuevo
-

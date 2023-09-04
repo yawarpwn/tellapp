@@ -6,7 +6,6 @@ const SUPABASE_PUBLIC_KEY =
 
 const client = createClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY)
 
-
 export async function getQuotations() {
   const { data, error } = await client
     .from('cotizaciones')
@@ -57,16 +56,17 @@ export async function updateQuotation({ quoToUpdate, id }) {
 // Productos
 
 export async function getProducts() {
-  const { data, error } = await client.from('products')
+  const { data, error } = await client
+    .from('products')
     .select('*')
-  .order('description')
+    .order('description')
   if (error) {
     throw error
   }
   return data
 }
 
-export async function updateProduct({  productToUpdate, id }) {
+export async function updateProduct({ productToUpdate, id }) {
   const { data, error } = await client
     .from('products')
     .update(productToUpdate)

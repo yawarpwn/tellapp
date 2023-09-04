@@ -1,4 +1,4 @@
-export default function Icon({ size = 24}) {
+export default function Icon({ size = 24 }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

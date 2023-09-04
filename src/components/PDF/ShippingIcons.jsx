@@ -1,4 +1,4 @@
-import { Svg, Path } from '@react-pdf/renderer';
+import { Svg, Path } from '@react-pdf/renderer'
 export default function Icons() {
   return (
     <Svg
@@ -31,5 +31,3 @@ export default function Icons() {
     </Svg>
   )
 }
-
-

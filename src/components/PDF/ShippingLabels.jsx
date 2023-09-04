@@ -8,7 +8,7 @@ const data = {
   ruc: '20610555536',
   dni: '4622642910',
   phone: '999 999 999',
-  address: 'AV. jiron de algo some body' 
+  address: 'AV. jiron de algo some body',
 }
 
 export function Label({ label = data }) {
@@ -26,34 +26,51 @@ export function Label({ label = data }) {
       flexDirection: 'row',
       gap: '5px',
       height: '20px',
-      marginBottom: '5px'
+      marginBottom: '5px',
     },
     iconsContainer: {
       display: 'flex',
       justifyContent: 'space-between',
       flexDirection: 'row',
       marginTop: '5px',
-      gap: '10px'
+      gap: '10px',
     },
     borderDashed: {
-      borderBottom: '1px  dashed orange'
+      borderBottom: '1px  dashed orange',
     },
     textDashed: {
       fontStyle: 'italic',
       fontWeight: 'thin',
-      borderBottom: '1px dashed #aaa', width: '100%'
-    }
+      borderBottom: '1px dashed #aaa',
+      width: '100%',
+    },
   })
   return (
     <View style={styles.label}>
       <View>
-        <Text style={{ fontSize: '12px', fontWeight: 'extrabold', textTransform: 'uppercase' }}>Destino: </Text>
+        <Text
+          style={{
+            fontSize: '12px',
+            fontWeight: 'extrabold',
+            textTransform: 'uppercase',
+          }}
+        >
+          Destino:{' '}
+        </Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.textDashed}>{destination}</Text>
       </View>
       <View>
-        <Text style={{ fontSize: '12px', fontWeight: 'extrabold', textTransform: 'uppercase' }}>Destinatario: </Text>
+        <Text
+          style={{
+            fontSize: '12px',
+            fontWeight: 'extrabold',
+            textTransform: 'uppercase',
+          }}
+        >
+          Destinatario:{' '}
+        </Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.textDashed}>{recipient}</Text>
@@ -76,7 +93,7 @@ export function Label({ label = data }) {
 
       <View>
         <Text>ENTREGA A DOMICILIO:</Text>
-        <Text style={styles.textDashed}>{address && address }</Text>
+        <Text style={styles.textDashed}>{address && address}</Text>
       </View>
       <View style={styles.iconsContainer}>
         <SvgLogo />
@@ -84,11 +101,9 @@ export function Label({ label = data }) {
       </View>
     </View>
   )
-
 }
 
-
-export default function ShippingLabels({ currentLabel}) {
+export default function ShippingLabels({ currentLabel }) {
   const styles = StyleSheet.create({
     page: {
       fontFamily: 'Helvetica',
@@ -104,19 +119,16 @@ export default function ShippingLabels({ currentLabel}) {
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'wrap',
-    }
+    },
   })
   return (
-
     <Document title={`Rotulos`}>
       <Page
         size="a4"
         style={styles.page}
-        orientation='landscape'
+        orientation="landscape"
       >
-        <View
-          style={styles.labelContainer}
-        >
+        <View style={styles.labelContainer}>
           <Label label={currentLabel} />
           <Label label={currentLabel} />
           <Label label={currentLabel} />

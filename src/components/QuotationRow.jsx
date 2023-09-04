@@ -45,13 +45,13 @@ export default function QuotationRow({ quotation, index, updateQuo }) {
       </td>
       {isPDFGenerated && (
         <Modal
-          title='¿Qué hacemos ?'
+          title="¿Qué hacemos ?"
           isOpen={isPDFGenerated}
           onClose={handleCloseModalPdf}
           maxHeight={150}
           size="xs"
         >
-          <Suspense fallback='cargando...'>
+          <Suspense fallback="cargando...">
             <LazyDownloadPDF quotation={quotation} />
           </Suspense>
         </Modal>

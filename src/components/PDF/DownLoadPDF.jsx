@@ -12,7 +12,6 @@ export default function DownloadPDF({ quotation }) {
     setInstance(<PDFGenerator quotation={quotation} />)
   }, [quotation])
 
-
   const handleShare = async () => {
     try {
       // Generar el Blob desde el PDF generado
@@ -46,7 +45,7 @@ export default function DownloadPDF({ quotation }) {
         <>
           <Button onClick={handleShare}>
             <ShareIcon />
-            <span className='ml-2'>Compatir</span>
+            <span className="ml-2">Compatir</span>
           </Button>
           <Button
             as="a"
@@ -54,7 +53,7 @@ export default function DownloadPDF({ quotation }) {
             download={`COT-2023-00${quotation.quo_number}.pdf`}
           >
             <DownloadIcon />
-            <span className='ml-2'>Descargar</span>
+            <span className="ml-2">Descargar</span>
           </Button>
         </>
       )}

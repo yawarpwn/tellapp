@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from 'react'
 import { useRealTime } from '../hooks/use-real-time'
 import { filterUniqueCompany } from '../utils'
 
-
 export default function CustomersPage() {
   const { quotations } = useRealTime()
 

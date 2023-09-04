@@ -6,7 +6,7 @@ export const formatDate = (date) => {
   let day = currentDate.getDate()
 
   const formatedDate = `${year}-${String(month).padStart(2, '0')}-${String(
-    day,
+    day
   ).padStart(2, '0')}`
   return formatedDate
 }
@@ -17,7 +17,7 @@ export const getCurrentDate = () => {
   let day = currentDate.getDate()
 
   const formatedDate = `${year}-${String(month).padStart(2, '0')}-${String(
-    day,
+    day
   ).padStart(2, '0')}`
   return formatedDate
 }
@@ -31,7 +31,6 @@ export const getQuoNumber = (quotations) => {
   return Math.max(...numbers) + 1
 }
 
-
 export const filterUniqueCompany = (arr) => {
   const objArr = arr.reduce((acc, obj) => {
     const ruc = obj.ruc
@@ -39,8 +38,8 @@ export const filterUniqueCompany = (arr) => {
       acc[ruc] = {
         company: obj.company,
         ruc,
-        address: obj.address
-      } 
+        address: obj.address,
+      }
     }
     return acc
   }, {})

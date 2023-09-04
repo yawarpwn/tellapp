@@ -43,7 +43,7 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
     } else {
       const resultProducts = searchProduct(
         product.description,
-        cacheResult.current,
+        cacheResult.current
       )
       setResults(resultProducts)
     }

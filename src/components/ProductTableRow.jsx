@@ -50,7 +50,7 @@ export default function ProductTableRow({
                 'bg-fuchsia-200 text-fuchsia-800',
               category === 'epp' && 'bg-indigo-200 text-indigo-800',
               category === 'viniles' && 'bg-violet-200 text-violet-800',
-              category === 'ropa seguridad' && 'bg-rose-200 text-rose-800',
+              category === 'ropa seguridad' && 'bg-rose-200 text-rose-800'
             )}
           >
             {category}

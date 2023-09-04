@@ -11,7 +11,6 @@ export default function Modal({
   title = 'Default title',
   maxHeight,
 }) {
-
   console.log('modal')
   useEffect(() => {
     if (isOpen) {
@@ -49,7 +48,7 @@ export default function Modal({
                 'max-w-md': size === 'md',
                 'max-w-lg': size === 'lg',
                 'max-w-xs': size === 'xs',
-              },
+              }
             )}
           >
             <header className="flex items-center justify-between">
@@ -65,7 +64,7 @@ export default function Modal({
           </section>
         </div>
       </div>,
-      document.body,
+      document.body
     )
   )
 }

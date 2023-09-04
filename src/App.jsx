@@ -21,14 +21,14 @@ function App() {
   const filteredItems = useMemo(() => {
     let filteredQuotations = [...quotations]
     if (hasFilterValue) {
-      return filteredQuotations.filter(x =>
-        x?.company?.toLowerCase().includes(filterValue.toLowerCase()),
+      return filteredQuotations.filter((x) =>
+        x?.company?.toLowerCase().includes(filterValue.toLowerCase())
       )
     }
 
     if (viabilityFilter !== 'Todos') {
       filteredQuotations = filteredQuotations.filter(
-        (quo) => quo.viability === viabilityFilter,
+        (quo) => quo.viability === viabilityFilter
       )
       setPage(1)
     }
@@ -54,13 +54,12 @@ function App() {
     setPage(page + 1)
   }
 
-
   const onPrevPage = () => {
     if (page === 1) {
       console.log('no mas pages')
       return
     }
-    setPage(page => page - 1)
+    setPage((page) => page - 1)
   }
 
   const updatePage = (page) => {
@@ -143,7 +142,12 @@ function App() {
             updateQuo={handleupdateQuo}
           />
         </div>
-        <Pagination currentPage={page} totalPages={pages} onNextPage={onNextPage} updatePage={updatePage} />
+        <Pagination
+          currentPage={page}
+          totalPages={pages}
+          onNextPage={onNextPage}
+          updatePage={updatePage}
+        />
       </div>
       {openCreateQuo && (
         <Modal

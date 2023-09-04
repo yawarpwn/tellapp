@@ -1,12 +1,16 @@
-import { useState, useRef } from "react"
-import Modal from "../atoms/Modal"
-import AddButton from "../components/AddButton"
-import ReactPDF, { PDFViewer, BlobProvider, PDFDownloadLink } from '@react-pdf/renderer'
-import ShippingLabels from "../components/PDF/ShippingLabels"
+import { useState, useRef } from 'react'
+import Modal from '../atoms/Modal'
+import AddButton from '../components/AddButton'
+import ReactPDF, {
+  PDFViewer,
+  BlobProvider,
+  PDFDownloadLink,
+} from '@react-pdf/renderer'
+import ShippingLabels from '../components/PDF/ShippingLabels'
 import Input from '../atoms/Input'
-import Button from "../atoms/Button"
-import { EyeIcon, SearchIcon } from "../icons"
-import { getDni, getRuc } from "../services/sunat"
+import Button from '../atoms/Button'
+import { EyeIcon, SearchIcon } from '../icons'
+import { getDni, getRuc } from '../services/sunat'
 
 const initialLabel = {
   destination: '',
@@ -14,7 +18,7 @@ const initialLabel = {
   ruc: '',
   dni: '',
   phone: '',
-  address: ''
+  address: '',
 }
 export default function Rotulos() {
   const [open, setOpen] = useState(false)
@@ -37,7 +41,7 @@ export default function Rotulos() {
     const { name, value } = event.target
     setLabel({
       ...label,
-      [name]: value
+      [name]: value,
     })
   }
 
@@ -50,23 +54,19 @@ export default function Rotulos() {
       return
     }
 
-    const {
-      nombres,
-      apellidoPaterno,
-      apellidoMaterno
-    } = await getDni(label.dni)
+    const { nombres, apellidoPaterno, apellidoMaterno } = await getDni(
+      label.dni
+    )
 
     setLabel({
       ...label,
       ruc: '',
-      recipient: `${nombres} ${apellidoPaterno} ${apellidoMaterno}`
+      recipient: `${nombres} ${apellidoPaterno} ${apellidoMaterno}`,
     })
     destinationRef.current.focus()
-
   }
 
   const handleSearchRuc = async () => {
-
     if (
       !label.ruc ||
       label.ruc.length !== 11 ||
@@ -80,7 +80,7 @@ export default function Rotulos() {
     setLabel({
       ...label,
       dni: '',
-      recipient: razonSocial
+      recipient: razonSocial,
     })
 
     destinationRef.current.focus()
@@ -93,8 +93,6 @@ export default function Rotulos() {
     setCurrentLabel(label)
     setLabel(initialLabel)
   }
-
-
 
   return (
     <div>
@@ -113,10 +111,7 @@ export default function Rotulos() {
           className="sticky top-0 left-0 z-10 bg-foreground-100"
           role="rowgroup"
         >
-          <tr
-            role="row"
-          >
-
+          <tr role="row">
             <th className="table-th">Destinatario</th>
 
             <th className="table-th">Dni / Ruc</th>
@@ -132,7 +127,6 @@ export default function Rotulos() {
                 key={index}
                 className={`${index % 2 ? 'bg-content2' : ''}`}
               >
-
                 <td className="table-td">{label?.recipient}</td>
 
                 <td className="table-td">{label?.ruc || label?.dni}</td>
@@ -140,10 +134,16 @@ export default function Rotulos() {
                 <td className="table-td">{label?.destination}</td>
                 <td>
                   {currentLabel && (
-
-                    <PDFDownloadLink document={<ShippingLabels currentLabel={currentLabel} />} fileName={`${currentLabel.recipient}-ENVIO.pdf`}>
+                    <PDFDownloadLink
+                      document={<ShippingLabels currentLabel={currentLabel} />}
+                      fileName={`${currentLabel.recipient}-ENVIO.pdf`}
+                    >
                       {({ blob, url, loading, error }) =>
-                        loading ? 'Loading document...' : <Button>Descargar</Button>
+                        loading ? (
+                          'Loading document...'
+                        ) : (
+                          <Button>Descargar</Button>
+                        )
                       }
                     </PDFDownloadLink>
                   )}
@@ -154,8 +154,7 @@ export default function Rotulos() {
         </tbody>
       </table>
 
-
-      {create &&
+      {create && (
         <Modal
           maxHeight={620}
           isOpen={create}
@@ -168,74 +167,76 @@ export default function Rotulos() {
           >
             <div className="relative w-full">
               <Input
-                name='dni'
+                name="dni"
                 required
                 onChange={handleChange}
                 value={label.dni}
-                label='Dni'
-                type='search'
+                label="Dni"
+                type="search"
               />
               <button
-                type='button'
+                type="button"
                 onClick={handleSearchDni}
-                className="absolute top-1/2 -translate-y-1/2 right-3 bg-default-100 p-2 rounded-md">
+                className="absolute top-1/2 -translate-y-1/2 right-3 bg-default-100 p-2 rounded-md"
+              >
                 <SearchIcon />
               </button>
             </div>
             <div className="relative w-full">
               <Input
-                name='ruc'
+                name="ruc"
                 onChange={handleChange}
                 value={label.ruc}
-                label='Ruc'
-                type='search'
+                label="Ruc"
+                type="search"
               />
               <button
-                type='button'
+                type="button"
                 onClick={handleSearchRuc}
-                className="absolute top-1/2 -translate-y-1/2 right-3 bg-default-100 p-2 rounded-md">
+                className="absolute top-1/2 -translate-y-1/2 right-3 bg-default-100 p-2 rounded-md"
+              >
                 <SearchIcon />
               </button>
             </div>
 
             <Input
-              name='recipient'
+              name="recipient"
               onChange={handleChange}
               value={label.recipient}
-              label='Destinatario'
+              label="Destinatario"
               inputRef={destinationRef}
-              type='text'
+              type="text"
             />
             <Input
-              name='destination'
+              name="destination"
               required
               onChange={handleChange}
               value={label.destination}
-              label='Destino'
-              type='text'
+              label="Destino"
+              type="text"
             />
 
-
             <Input
-              name='phone'
+              name="phone"
               onChange={handleChange}
               value={label.phone}
-              label='Télefono'
-              type='number'
+              label="Télefono"
+              type="number"
             />
 
             <Input
-              name='address'
+              name="address"
               onChange={handleChange}
               value={label.address}
-              label='Dirección'
-              type='text'
+              label="Dirección"
+              type="text"
             />
             <header className="flex justify-end">
-              <Button type='submit'>Agregar</Button>
+              <Button type="submit">Agregar</Button>
             </header>
           </form>
-        </Modal>}
+        </Modal>
+      )}
     </div>
   )
 }

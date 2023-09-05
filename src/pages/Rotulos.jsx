@@ -168,7 +168,6 @@ export default function Rotulos() {
             <div className="relative w-full">
               <Input
                 name="dni"
-                required
                 onChange={handleChange}
                 value={label.dni}
                 label="Dni"

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Button from '../atoms/Button'
 import Input from '../atoms/Input'
-import { XIcon } from '../icons'
 import { searchProduct } from '../services/search'
 import { getProducts } from '../services/supabase'
 
@@ -18,8 +17,18 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
   const cacheResult = useRef([])
   const qtyInput = useRef(null)
 
+  const isEmpety = (obj) => {
+    const arrValues = Object.values(obj)
+    return arrValues.some(value => !value)
+  }
+
+
   const handleSubmit = (ev) => {
     ev.preventDefault()
+
+    if(isEmpety(product)) {
+      return
+    }
 
     if (editingItem) {
       onSaveEdit(product)

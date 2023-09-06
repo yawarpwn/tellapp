@@ -11,7 +11,6 @@ export default function Modal({
   title = 'Default title',
   maxHeight,
 }) {
-  console.log('modal')
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflowY = 'hidden'

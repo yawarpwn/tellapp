@@ -4,6 +4,8 @@ import EditModal from './components/EditModal'
 import InputSearch from './components/InputSearch'
 import QuotationsTable from './components/QuotationsTable'
 import Pagination from './components/Pagination'
+import TableEmpety from './components/TableEmpety'
+
 import Modal from './atoms/Modal'
 import { ROWS_PER_PAGE, VIABILITY } from './constants'
 import { useRealTime } from './hooks/use-real-time'
@@ -52,14 +54,6 @@ function App() {
       return
     }
     setPage(page + 1)
-  }
-
-  const onPrevPage = () => {
-    if (page === 1) {
-      console.log('no mas pages')
-      return
-    }
-    setPage((page) => page - 1)
   }
 
   const updatePage = (page) => {
@@ -137,10 +131,14 @@ function App() {
           </label>
         </div>
         <div className="w-full overflow-x-auto">
-          <QuotationsTable
-            quotations={items}
-            updateQuo={handleupdateQuo}
-          />
+          {quotations.length > 0 ? (
+            <QuotationsTable
+              quotations={items}
+              updateQuo={handleupdateQuo}
+            />
+          ) : (
+            <TableEmpety />
+          )}
         </div>
         <Pagination
           currentPage={page}

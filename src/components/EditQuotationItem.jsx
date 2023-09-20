@@ -45,7 +45,8 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
 
   useEffect(() => {
     if (cacheResult.current.length === 0) {
-      getProducts().then((data) => {
+      getProducts()
+        .then((data) => {
         cacheResult.current = data
         const resultProducts = searchProduct(product.description, data)
         setResults(resultProducts)

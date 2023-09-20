@@ -29,3 +29,8 @@
   --nextui-foreground-900: 0 0% 98%;
   --nextui-foreground: 210 6% 93%;
 }
+
+body {
+  background: rgba(0, 0, 0, .1);
+}
+

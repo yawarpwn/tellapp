@@ -9,6 +9,7 @@ import TableEmpety from './components/TableEmpety'
 import Modal from './atoms/Modal'
 import { ROWS_PER_PAGE, VIABILITY } from './constants'
 import { useRealTime } from './hooks/use-real-time'
+import { searchProduct } from './services/search'
 function App() {
   const [quoToEdit, setQuoToEdit] = useState(null)
   const [openCreateQuo, setOpenCreateQuo] = useState(false)
@@ -23,9 +24,8 @@ function App() {
   const filteredItems = useMemo(() => {
     let filteredQuotations = [...quotations]
     if (hasFilterValue) {
-      return filteredQuotations.filter((x) =>
-        x?.company?.toLowerCase().includes(filterValue.toLowerCase())
-      )
+      const result = searchProduct(filterValue, quotations, { keys : ['company', 'quo_number', 'ruc']})
+      return result
     }
 
     if (viabilityFilter !== 'Todos') {
@@ -111,7 +111,7 @@ function App() {
                 )
               })}
             </select>
-            <AddButton onClick={handleQuotationToggle}>Agregar</AddButton>
+            <AddButton disabled={quotations.length === 0} onClick={handleQuotationToggle}>Agregar</AddButton>
           </div>
         </header>
         <div className="flex justify-between items-center">

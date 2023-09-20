@@ -28,3 +28,8 @@ export function getDni(dni) {
     .then((data) => data)
     .catch((err) => console.error(err))
 }
+
+
+
+
+

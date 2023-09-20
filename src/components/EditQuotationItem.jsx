@@ -14,6 +14,7 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
 
   const [product, setProduct] = useState(initialProduct)
   const [results, setResults] = useState([])
+  const [code, setCode] = useState('FHIP-P')
   const cacheResult = useRef([])
   const qtyInput = useRef(null)
 
@@ -82,7 +83,7 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
       </div>
       <div className="col-span-2 h-40 overflow-y-auto">
         <ul className="result flex flex-col gap-1">
-          {results.map(({ description, id, unit_size, price }) => {
+          {results.map(({ description, id, unit_size, price, code }) => {
             return (
               <li
                 key={id}
@@ -98,6 +99,8 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
                     }))
                   }
 
+                  setCode(code)
+
                   setProduct((prevProduct) => ({
                     ...prevProduct,
                     description: description,
@@ -112,16 +115,29 @@ function ModalCreateItem({ onClose, addProduct, onSaveEdit, editingItem }) {
           })}
         </ul>
       </div>
-      <Input
-        label="Medida"
-        name="unit_size"
-        type="text"
-        placeholder="60x60cm"
-        value={product.unit_size}
-        onChange={(event) =>
-          setProduct((prev) => ({ ...prev, unit_size: event.target.value }))
-        }
-      />
+      <div className='flex gap-x-4'>
+        <Input
+          label="Medida"
+          name="unit_size"
+          type="text"
+          placeholder="60x60cm"
+          value={product.unit_size}
+          onChange={(event) =>
+            setProduct((prev) => ({ ...prev, unit_size: event.target.value }))
+          }
+        />
+
+        <Input
+          label="Codigo"
+          name="code"
+          type="text"
+          placeholder="FHIP-P"
+          value={code}
+          onChange={(event) =>
+            setProduct(() => setCode(event.target.value))
+          }
+        />
+      </div>
       <div className="flex gap-x-4">
         <Input
           label="Cantidad"

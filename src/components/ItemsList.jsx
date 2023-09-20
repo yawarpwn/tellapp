@@ -49,7 +49,6 @@ export default function ItemsList({ items, onRemove, onOpen }) {
           </thead>
           <tbody>
             {items.map((item, index) => {
-              console.log(item)
               return (
                 <tr
                   key={item.id}

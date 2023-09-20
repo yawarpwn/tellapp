@@ -119,7 +119,6 @@ export default function ProductPage() {
     return sortedItems.slice(start, end)
   }, [sortedItems, page])
 
-  console.log({ items })
 
   const handleSearchValue = (event) => {
     setFilterValue(event.target.value)

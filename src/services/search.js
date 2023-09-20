@@ -1,5 +1,6 @@
 import Fuse from 'fuse.js'
-export function searchProduct(valueToSearch, data) {
+export function searchProduct(valueToSearch, data, opts) {
+  const { keys = ['description', 'code'] } = opts
   const fuse = new Fuse(data, {
     // isCaseSensitive: false,
     includeScore: true,
@@ -14,7 +15,7 @@ export function searchProduct(valueToSearch, data) {
     // ignoreLocation: false,
     // ignoreFieldNorm: false,
     // fieldNormWeight: 1,
-    keys: ['description', 'code'],
+    keys,
   })
 
   const results = fuse.search(valueToSearch)

@@ -6,7 +6,7 @@ import {
   insertProduct,
   deleteProduct,
 } from '../services/supabase'
-import { searchProduct } from '../services/search'
+import { createSearchInstance } from '../services/search'
 import { SORTBY } from '../constants'
 import { ChevronDownIcon } from '../icons'
 import InputSearch from '../components/InputSearch.jsx'
@@ -21,6 +21,16 @@ export default function ProductPage() {
   const [editingProduct, setEditingProduct] = useState(null)
   const [sortBy, setSortBy] = useState(null)
   const [page, setPage] = useState(1)
+
+  // Buscar Products por nombre o codigo
+  const searchInstance = createSearchInstance(products, {
+    keys: ['description', 'code'],
+  })
+
+  const onSearchValue = (event) => {
+    setFilterValue(event.target.value)
+    setPage(1)
+  }
 
   const rowPerPage = 10
 
@@ -77,7 +87,9 @@ export default function ProductPage() {
 
   const filteredItems = useMemo(() => {
     if (hasFilterValue) {
-      return searchProduct(filterValue, products)
+      const results = searchInstance.search(filterValue)
+      const items = results.map((r) => r.item)
+      return items
     }
     return products
   }, [filterValue, products])
@@ -119,15 +131,13 @@ export default function ProductPage() {
     return sortedItems.slice(start, end)
   }, [sortedItems, page])
 
-
-  const handleSearchValue = (event) => {
-    setFilterValue(event.target.value)
-  }
-
   return (
     <div className="flex flex-col gap-2">
       <header className="flex justify-between items-end gap-3">
-        <InputSearch onSearchValue={handleSearchValue} />
+        <InputSearch
+          onSearchValue={onSearchValue}
+          value={filterValue}
+        />
         <div className="flex gap-3">
           <AddButton onClick={() => setModalOpen(true)}>Agregar</AddButton>
         </div>

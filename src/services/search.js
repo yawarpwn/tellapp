@@ -1,5 +1,9 @@
 import Fuse from 'fuse.js'
-export function searchProduct(valueToSearch, data, opts) {
+
+export function createSearchInstance(data, opts) {
+  if (!data) {
+    throw new Error('Missing data')
+  }
 
   const defaultOpts = {
     // isCaseSensitive: false,
@@ -15,13 +19,8 @@ export function searchProduct(valueToSearch, data, opts) {
     // ignoreLocation: false,
     // ignoreFieldNorm: false,
     // fieldNormWeight: 1,
-    keys: ['description', 'code']
+    keys: ['description', 'code'],
   }
 
-
-  const fuse = new Fuse(data, {...defaultOpts, ...opts})
-
-  const results = fuse.search(valueToSearch)
-  const resulMapped = results.map(({ item }) => item)
-  return resulMapped
+  return new Fuse(data, { ...defaultOpts, ...opts })
 }

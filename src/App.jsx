@@ -5,11 +5,12 @@ import InputSearch from './components/InputSearch'
 import QuotationsTable from './components/QuotationsTable'
 import Pagination from './components/Pagination'
 import TableEmpety from './components/TableEmpety'
+import { createSearchInstance } from './services/search'
 
 import Modal from './atoms/Modal'
 import { ROWS_PER_PAGE, VIABILITY } from './constants'
 import { useRealTime } from './hooks/use-real-time'
-import { searchProduct } from './services/search'
+
 function App() {
   const [quoToEdit, setQuoToEdit] = useState(null)
   const [openCreateQuo, setOpenCreateQuo] = useState(false)
@@ -17,15 +18,18 @@ function App() {
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE[1])
   const [viabilityFilter, setViabilityFilter] = useState('Todos')
   const [page, setPage] = useState(1)
-  const { quotations } = useRealTime()
+  const { quotations  } = useRealTime()
+
+  const instanceSearch = createSearchInstance(quotations, { keys: ['company', 'quo_number', 'ruc']})
 
   const hasFilterValue = Boolean(filterValue)
 
   const filteredItems = useMemo(() => {
     let filteredQuotations = [...quotations]
     if (hasFilterValue) {
-      const result = searchProduct(filterValue, quotations, { keys : ['company', 'quo_number', 'ruc']})
-      return result
+      const results = instanceSearch.search(filterValue) 
+      const items = results.map(result => result.item)
+      return items 
     }
 
     if (viabilityFilter !== 'Todos') {
@@ -92,7 +96,7 @@ function App() {
     <main>
       <div className="flex flex-col gap-4 w-full relative">
         <header className="flex justify-between items-end gap-3">
-          <InputSearch onSearchValue={onSearchValue} />
+          <InputSearch  onSearchValue={onSearchValue} />
           <div className="flex gap-3">
             <select
               className="bg-transparent"
@@ -111,7 +115,12 @@ function App() {
                 )
               })}
             </select>
-            <AddButton disabled={quotations.length === 0} onClick={handleQuotationToggle}>Agregar</AddButton>
+            <AddButton
+              disabled={quotations.length === 0}
+              onClick={handleQuotationToggle}
+            >
+              Agregar
+            </AddButton>
           </div>
         </header>
         <div className="flex justify-between items-center">

@@ -64,7 +64,12 @@ export function useRealTime() {
     }
   }, [])
 
+  const updateQuotations = (newQuos) => {
+    setQuotations(newQuos)
+  }
+
   return {
     quotations,
+    updateQuotations 
   }
 }

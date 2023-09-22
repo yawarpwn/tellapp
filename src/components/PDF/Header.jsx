@@ -59,7 +59,7 @@ export default function QuoHeader() {
         <View style={styles.row}>
           <Text style={styles.left}>Ruc</Text>
           <Text style={styles.center}>:</Text>
-          <Text style={styles.right}>2061055553610</Text>
+          <Text style={styles.right}>20610555536</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.left}>Email</Text>

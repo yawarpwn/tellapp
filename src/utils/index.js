@@ -10,8 +10,8 @@ export const formatDate = (date) => {
   ).padStart(2, '0')}`
   return formatedDate
 }
-export const getCurrentDate = () => {
-  const currentDate = new Date()
+export const getCurrentDate = (date) => {
+  const currentDate = date ? new Date(date) : new Date()
   const year = currentDate.getFullYear()
   let month = currentDate.getMonth() + 1
   let day = currentDate.getDate()

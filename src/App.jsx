@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react'
 import AddButton from './components/AddButton'
 import EditModal from './components/EditModal'
 import InputSearch from './components/InputSearch'
-import QuotationsTable from './components/QuotationsTable'
 import Pagination from './components/Pagination'
+import QuotationsTable from './components/QuotationsTable'
 import TableEmpety from './components/TableEmpety'
 import { createSearchInstance } from './services/search'
 
@@ -18,18 +18,20 @@ function App() {
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE[1])
   const [viabilityFilter, setViabilityFilter] = useState('Todos')
   const [page, setPage] = useState(1)
-  const { quotations  } = useRealTime()
+  const { quotations } = useRealTime()
 
-  const instanceSearch = createSearchInstance(quotations, { keys: ['company', 'quo_number', 'ruc']})
+  const instanceSearch = createSearchInstance(quotations, {
+    keys: ['company', 'quo_number', 'ruc'],
+  })
 
   const hasFilterValue = Boolean(filterValue)
 
   const filteredItems = useMemo(() => {
     let filteredQuotations = [...quotations]
     if (hasFilterValue) {
-      const results = instanceSearch.search(filterValue) 
-      const items = results.map(result => result.item)
-      return items 
+      const results = instanceSearch.search(filterValue)
+      const items = results.map((result) => result.item)
+      return items
     }
 
     if (viabilityFilter !== 'Todos') {
@@ -96,7 +98,7 @@ function App() {
     <main>
       <div className="flex flex-col gap-4 w-full relative">
         <header className="flex justify-between items-end gap-3">
-          <InputSearch  onSearchValue={onSearchValue} />
+          <InputSearch onSearchValue={onSearchValue} />
           <div className="flex gap-3">
             <select
               className="bg-transparent"
